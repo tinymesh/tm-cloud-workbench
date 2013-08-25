@@ -1,0 +1,130 @@
+<!doctype html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" lang="en" ng-app="workbench">
+<head>
+  <meta charset="utf-8">
+  <title>Workbench // Tiny Solution</title>
+  <link rel="stylesheet" href="dist/style.css">
+</head>
+<body>
+
+	<div id="nav" ng-controller="User.Auth.Login">
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">TinySolution</a>
+				</div>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown" ng-show="authenticated">
+						<a href="#">{{user.email}} &ndash; ({{user.client}})</a>
+
+						<ul class="dropdown-menu">
+							<li class="client" ng-class="{active: user.client == key}" ng-repeat="(key, item) in user.clients">
+								<a ng-click="selectClient(key)" class="client-selector">
+									<span class="avatar"><img /></span>
+									<span class="client-wrap">
+										<span class="client-name">{{ key }}</span>
+										<span class="client-meta">
+											<span>N containers</span> &ndash; <span>Policies</span>
+										</span>
+									</span>
+								</a>
+							</li>
+
+							<li><a ng-click="logout()" href="#">Logout</a></li>
+						</ul>
+					</li>
+
+					<li ng-hide="authenticated" class="submenu-item">
+						<a ng-click="loginPage()" class="top-menu profile"><label>Sign In</label></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+<!--			<div id="upper-menu-container">
+						<li><a href="#/" class="top-menu home"><span aria-hidden="true" class="icn_logo">TinySolution</span></a></li>
+
+						<li ng-show="authenticated" class="submenu-item">
+							<a class="top-menu containers"><label>Containers</label></a>
+						</li>
+
+					</ul>
+-->
+	</div>
+
+	<div ng-view></div>
+
+	<footer>
+		<div class="container">
+			<div class="footer-meta">
+				<a href="#">Back to top</a>
+			</div>
+			<div class="col-sm-3">
+				<h5>What we do</h5>
+
+				<ul class="nav">
+					<li><a href="#">Overview</a></li>
+					<li><a href="#">Case studies</a></li>
+					<li><a href="#">Pricing</a></li>
+					<li><a href="#">The TinySolution Network</a></li>
+				</ul>
+			</div>
+
+			<div class="col-sm-3">
+				<h5>Support</h5>
+
+				<ul class="nav">
+					<li><a href="#">Getting Started</a></li>
+					<li><a href="#">Documentation</a></li>
+					<li><a href="#">Hardware integration</a></li>
+					<li><a href="#">TinyMesh protocol</a></li>
+				</ul>
+			</div>
+
+			<div class="col-sm-3">
+				<h5>About Us</h5>
+
+				<ul class="nav">
+					<li><a href="#">Company</a></li>
+					<li><a href="#">Contact us</a></li>
+				</ul>
+
+				<br />
+
+				<h5>Security & Privacy</h5>
+
+				<ul class="nav">
+					<li><a href="#">Information Security</a></li>
+					<li><a href="#">Terms of service</a></li>
+					<li><a href="#">Privacy Policy</a></li>
+				</ul>
+			</div>
+
+			<div class="col-md-3">
+				<h5>Secure, real-time communication</h5>
+
+				<p>
+					Extending the <b>TinyMesh</b> protocol, <b>TinySolution</b>
+					ensures secure and fault-tolerant communication over a real-time
+					network backbone; creating a robust platform tailored for
+					automating industry, office and homes.
+				</p>
+
+				<hr />
+
+				<p>
+					&copy; 2012-2013 <a href="https://tiny-mesh.com">Tiny Mesh AS</a>.
+				</p>
+			</div>
+			
+		</div>
+	</footer>
+
+  <script src="dist/underscore.js"></script>
+  <script src="dist/json3.js"></script>
+  <script src="dist/angular.js"></script>
+  <script src="dist/workbench.js"></script>
+</body>
+</html>
+
+
