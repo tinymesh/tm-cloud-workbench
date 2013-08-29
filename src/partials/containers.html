@@ -1,2 +1,61 @@
-<div class="containers">
+<div class="controller-containers container">
+	<div class="page-header">
+			<h1>Containers</h1>
+	</div>
+
+	<div ng-show="containers.length == 0">
+		<div class="bs-callout bs-callout-warning">
+			<h4>You have no containers</h4>
+			<p>
+				It seems you don't have any containers, do you want to create one?
+			</p>
+
+			<form ng-submit="createContainer(new.container)" class="form-horizontal" role="form">
+				<div class="form-group">
+					<label for="io-container-name" class="col-lg-1 control-label">Name</label>
+					<div class="col-lg-5">
+						<input ng-model="new.container" type="text" class="form-control" id="io-container-name" placeholder="Container Name" />
+					</div>
+					<button type="submit" class="btn btn-primary">Create</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div ng-show="containers.length > 0">
+		<div class="bs-callout bs-callout-warning">
+			<h4>Create new contianer</h4>
+
+			<form ng-submit="createContainer(new.container)" class="form-horizontal" role="form">
+				<div class="form-group">
+					<label for="io-container-name" class="col-lg-1 control-label">Name</label>
+					<div class="col-lg-5">
+						<input ng-model="new.container" type="text" class="form-control" id="io-container-name" placeholder="Container Name" />
+					</div>
+					<button type="submit" class="btn btn-primary">Create</button>
+				</div>
+			</form>
+		</div>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Location</th>
+					<th># devices</th>
+					<th>Last Update</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in containers">
+					<td><a ng-click="openContainer(item.key)">{{item.name}} ({{item.key}})</a></td>
+					<td>
+						<a data-type="city" data-val="{{item.location.city}}">{{item.location.city}}</a>
+						//
+						<a data-type="country" data-val="{{item.location.country}}">{{item.location.country}}</a></td>
+					<td>{{(item.devices || []).length}}</td>
+					<td>{{item.last_update || "unknown"}}</td>
+				</tr>
+			</tbody>
+		<table>
+	</div>
 </div>

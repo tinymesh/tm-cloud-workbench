@@ -8,6 +8,7 @@ angular.module('workbench', ['ngRoute',
                              'workbench.directives',
                              'workbench.controllers',
 
-                             'user.auth'])
+                             'user.auth',
+                             'workbench.container'])
 	.config(['$routeProvider', function($routeProvider) {
 	}]);

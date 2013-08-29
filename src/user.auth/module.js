@@ -11,7 +11,4 @@ angular.module('user.auth', [
 			.when('/user/login',
 				{templateUrl: 'partials/login.html', controller: 'User.Auth.Login'});
 
-		$routeProvider.otherwise(
-			{templateUrl: 'partials/login.html', controller: 'User.Auth.Login'});
-
 	}]);

@@ -18,8 +18,6 @@ angular.module('user.auth.service', ['ngResource'])
 
 			$scope.authenticated = true;
 			$scope.authError     = "";
-
-			_ = $location.$$path !== "/containers" || $location.path("/containers");
 		};
 
 		Res.prototype.onLogout = function($scope, obj) {
