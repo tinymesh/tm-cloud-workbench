@@ -18,15 +18,15 @@ angular.module('workbench.container', [
 			.when('/container/:container',
 				{templateUrl: 'partials/container.html', controller: 'Workbench.Container'});
 	}])
-	.factory('Containers', function($resource, $location) {
-		var Res = $resource('http://' + $location.$$host + '\\:8080/container', {}, {
+	.factory('Containers', function($resource, $location, Cfg) {
+		var Res = $resource('http://' + Cfg.api.host + '\\:' + Cfg.api.port + '/container', {}, {
 			list: {method: "GET", isArray: true}
 		});
 
 		return Res;
 	})
-	.factory('Container', function($resource, $location) {
-		var Res = $resource('http://' + $location.$$host + '\\:8080/container/:key', {}, {
+	.factory('Container', function($resource, $location, Cfg) {
+		var Res = $resource('http://' + Cfg.api.host + '\\:' + Cfg.api.port + '/container/:key', {}, {
 			read: {method: "GET"}
 		});
 

@@ -2,8 +2,8 @@
 
 angular.module('user.auth.service', ['ngResource'])
 	.value('version', '0.1.0')
-	.factory('AuthService', function($resource, $location) {
-		var Res = $resource('http://' + $location.$$host + '\\:8080/auth/:client', {}, {
+	.factory('AuthService', function($resource, $location, Cfg) {
+		var Res = $resource('http://' + Cfg.api.host + '\\:' + Cfg.api.port + '/auth/:client', {}, {
 			select: {method: "POST"},
 			login: {method: "POST"},
 			logout: {method: "DELETE"}

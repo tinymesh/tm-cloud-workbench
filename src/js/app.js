@@ -9,6 +9,13 @@ angular.module('workbench', ['ngRoute',
                              'workbench.controllers',
 
                              'user.auth',
-                             'workbench.container'])
-	.config(['$routeProvider', function($routeProvider) {
-	}]);
+                             'workbench.container',
+                             'workbench.device'])
+	.value('version', '0.1.0')
+	.factory('Cfg', function() {
+		return {
+			api: {
+				host: "31.169.50.42",
+				port: 8080 }
+		};
+	});
