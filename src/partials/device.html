@@ -1,0 +1,151 @@
+<div class="controller-containers row">
+	<ul class="nav nav-pills container">
+		<li ng-click="tab('overview')" ng-class="{active: tab() == 'overview'}"><a>Overview</a></li>
+		<li ng-click="tab('config')" ng-class="{active: tab() == 'config'}"><a>Configuration</a></li>
+		<li ng-click="tab('messages')" ng-class="{active: tab() == 'messages'}"><a>Messages</a></li>
+		<li ng-click="tab('lights-out')" ng-class="{active: tab() == 'lights-out'}"><a>LightsOut</a></li>
+	</ul>
+
+	<div ng-show="alertBody" class="error-container container">
+		<hr />
+		<div class="login-alert alert alert-{{alertClass}}">
+			{{alertBody}}
+		</div>
+	</div>
+
+	<div ng-show="tab() == 'overview'" class="container">
+		<form>
+		<h2>Overview</h2>
+
+		<dl class="dl-horizontal col-sm-4">
+			<dt>Name</dt>
+			<dd tm-editable="res.name" />
+
+			<dt>Address</dt>
+			<dd>{{res.address}}</dd>
+
+			<dt>Type</dt>
+			<dd tm-editable="res.type" />
+
+			<dt>Hardware Revision</dt>
+			<dd>{{res['tm/state']['proto/tm'].hardware}}</dd>
+
+			<dt>Firmware revision</dt>
+			<dd>{{res['tm/state']['proto/tm'].firmware}}</dd>
+		</dl>
+
+		<dl class="dl-horizontal col-sm-4">
+			<dt>State</dt>
+			<dd>Communicating</dd>
+
+			<dt>Encryption<dt>
+			<dd>Disabled</dd>
+
+			<dt>Current connection</dt>
+			<dd>None</dd>
+
+			<dt>Known gateways</dt>
+			<dd>...</dd>
+
+			<dt>Neighbours</dt>
+			<dd>...</dd>
+
+		</dl>
+
+		<dl class="dl-horizontal col-sm-4">
+			<dt>Last Updated</dt>
+			<dd>
+				<a ng-href="#/message/{{container}}/{{device}}/{{res['tm/state'].key}}">
+						{{res.updated | date:'short'}}
+				</a>
+			</dd>
+
+			<dt>Number Messages</dt>
+			<dd><a>0</a> / <a>0</a> <i>(in / out)</i></dd>
+
+			<dt>Message queue</dt>
+			<dd><a>0</a></dd>
+
+			<dt>Fail rate</dt>
+			<dd>0%</dd>
+		</dl>
+
+		<div class="pull-right">
+			<button ng-click="updateResource(res)"  class="btn btn-primary" ng-disabled="false == _changed">Save changes</button>
+		</div>
+		</form>
+	</div>
+
+	<div ng-show="tab() == 'config'" class="container" ng-controller="Workbench.Device.Config">
+		<form name="config" class="form-horizontal" role="form">
+			<h2>Configuration</h2>
+
+			<div ng-repeat="(key, name) in {dev: 'Device', net: 'Network', net_cluster: 'Clustering', uart:'UART', 'misc':'General'}">
+				<h3>{{res.name}}</h3>
+				<div class="form-group">
+					<div ng-repeat="(p, v) in conf[key]" class="col-lg-4 form-group">
+						<label for="cfg-{{p}}" class="col-lg-6 control-label">{{p}}</label>
+						<div class="col-lg-6">
+							<input type="text" class="form-control" id="cfg-{{p}}" value="{{v}}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div ng-show="tab() == 'messages'" class="container" ng-controller="Workbench.Device.MessageList">
+		<h2>Messages</h2>
+		<div class="row">
+			<form ng-submit="submit(date.from, date.to);" name="messageSelector" class="form-horizontal" role="form">
+
+				<div class="col-md-4 form-group" ng-class="{error: messageSelector.dateFrom.$invalid}">
+					<label for="date-from" class="col-lg-2 control-label">From</label>
+					<div class="col-lg-10">
+						<input ng-model="date.from" type="datetime-local" class="form-control" id="date-from" name="dateFrom" />
+					</div>
+				</div>
+
+				<div class="col-md-4 form-group" ng-class="{error: messageSelector.dateTo.$invalid}">
+					<label for="date-to" class="col-lg-2 control-label">To</label>
+					<div class="col-lg-10">
+						<input ng-model="date.to" type="datetime-local" class="form-control" id="date-to" name="dateTo" />
+					</div>
+				</div>
+
+				<div class="col-md-2">
+					<button type="submit" class="btn btn-primary">Fetch messages</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="container">
+			<div ng-show="messages.length == 0" class="bs-callout bs-callout-warning">
+				<p>
+					Your query returned an empty result set. Maybe out of range?
+				</p>
+			</div>
+
+			<table ng-hide="messages.length == 0" class="table">
+				<thead>
+					<tr>
+						<th>Time</th>
+						<th>Message # (packet &ndash; sequence #)</th>
+						<th>Type</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="msg in messages">
+						<td><a ng-href="#/message/{{container}}/{{device}}/{{msg.key}}">{{msg.datetime}}</a></td>
+						<td>{{msg['proto/tm'].packet_number}} &ndash; {{msg['proto/tm'].sequence || 0}}</td>
+						<td>{{msg.type}}</td>
+					</tr>
+				</tbody>
+		</div>
+	</div>
+
+	<div ng-show="tab() == 'lights-out'">
+		<h2>LightsOut </h2>
+	</div>
+
+</div>

@@ -14,10 +14,10 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="item in devices">
-				<td><a ng-click="openDevice(key, item.key)">{{item.name || "Unnamed device"}} ({{item.key}})</a></td>
+				<td><a ng-href="#/device/{{container}}/{{item.key}}">{{item.name || "Unnamed device"}} ({{item.key}})</a></td>
 				<td>{{item.address}}</td>
 				<td>{{item.msg_count || "unknown"}}</td>
-				<td><a ng-click="openMessage(key, item.key, item.last_message)">{{item.updated || "unknown"}}</a></td>
+				<td><a ng-href="#/message/{{container}}/{{item.key}}/{{item.last_message}}">{{item.updated || "unknown"}}</a></td>
 			</tr>
 		</tbody>
 	<table>

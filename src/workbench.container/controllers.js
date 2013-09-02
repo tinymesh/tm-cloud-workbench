@@ -2,17 +2,13 @@
 
 angular.module('workbench.container.controllers', [])
 	.value('version', '0.1.0')
-	.controller('Workbench.Containers', function($scope, $location, Container, Containers) {
+	.controller('Workbench.Containers', function($rootScope, $scope, $location, Container, Containers) {
 		$scope.containers = [];
 
 		Containers.list()
 			.$promise.then(function(res) {
 				$scope.containers = res;
 			});
-
-		$scope.openContainer = function(container) {
-			$location.path('/container/' + container);
-		};
 
 		$scope.createContainer = function(name) {
 			var res = new Container({name: name});
@@ -21,20 +17,19 @@ angular.module('workbench.container.controllers', [])
 					$scope.containers.push(res);
 				});
 		};
-	})
-	.controller('Workbench.Container', function($scope, $route, $location, Container) {
-		$scope.key = $route.current.params.container;
 
-		Container.read({key: $scope.key, device: "expand"})
+		$rootScope.breadcrumb = [["Containers", "/containers"]];
+	})
+	.controller('Workbench.Container', function($rootScope, $scope, $route, $location, Container) {
+		$scope.container = $route.current.params.container;
+		$rootScope.breadcrumb = [
+			["Containers", "/containers"],
+			[$scope.container, "/container/" + $scope.container]
+		];
+		$rootScope.path = $location.$$path;
+
+		Container.read({key: $scope.container, device: "expand"})
 			.$promise.then(function(res) {
 				_.extend($scope, res);
 			});
-
-		$scope.openDevice = function(cnr, dev) {
-			$location.path('/device/' + cnr + '/' + dev);
-		};
-
-		$scope.openMessage = function(cnr, dev, msg) {
-			$location.path('/message/' + cnr + '/' + dev + '/' + msg);
-		};
 	});

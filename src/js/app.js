@@ -10,9 +10,13 @@ angular.module('workbench', ['ngRoute',
 
                              'user.auth',
                              'workbench.container',
-                             'workbench.device'])
+                             'workbench.device',
+                             'workbench.message'])
 	.value('version', '0.1.0')
-	.factory('Cfg', function() {
+	.factory('Cfg', function($rootScope, $location) {
+		$rootScope.breadcrumb = [["Containers", "/containers"]];
+		$rootScope.path = $location.$$path;
+
 		return {
 			api: {
 				host: "31.169.50.42",

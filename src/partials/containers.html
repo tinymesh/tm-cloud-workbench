@@ -47,7 +47,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in containers">
-					<td><a ng-click="openContainer(item.key)">{{item.name}} ({{item.key}})</a></td>
+					<td><a ng-href="#/container/{{item.key}}">{{item.name}} ({{item.key}})</a></td>
 					<td>
 						<a data-type="city" data-val="{{item.location.city}}">{{item.location.city}}</a>
 						//

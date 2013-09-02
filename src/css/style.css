@@ -1,6 +1,11 @@
 h5 { font-weight: bold; }
 
-#view { background: #FAFAFA; padding-top: 1em; border-top: 1px solid #ffffff; border-bottom: 3px solid #eaeaea}
+#view { background: #FAFAFA;
+        border-top: 1px solid #ffffff;
+        border-bottom: 3px solid #eaeaea; }
+#view, #loading {
+        padding-top: 1em;
+        padding-bottom: 5em; }
 
 footer {
 	padding-bottom: 20px; }
@@ -143,6 +148,13 @@ footer .nav li a:hover {
   margin-top: 15px;
   text-align: center; }
 
+#nav .breadcrumb {
+	background: none;
+	margin-bottom: 0px;
+	}
+#nav .breadcrumb > li > a {
+	padding: 0px 15px;
+	line-height: 34px; }
 #nav { margin-bottom: 51px; }
 #nav a, #nav a label { cursor: pointer; }
 #nav .navbar ul.nav ul li.client a {text-transform: capitalize; }
@@ -843,3 +855,29 @@ textarea,
   .toggle .toggle-radio {
     background-image: url("../images/toggle/icon-on-2x.png");
     background-size: 30px 29px; } }
+
+
+.dl-horizontal dl, .dl-horizontal dt { margin-bottom: 0.4em; }
+
+/** inline edit **/
+.click-to-edit input {
+	padding: 0px 5px;
+	width: 70%;
+	border-radius: 0px;
+	border-size: 1px;
+}
+
+.click-to-edit a {
+	cursor: pointer; }
+.click-to-edit a i {
+	color: #777; }
+.click-to-edit a.glyphicon {
+	height: 1.8em;
+	width: 1.8em;
+	margin: 0px;
+	font-size: 0.8em;
+	padding: 0.4em; }
+.click-to-edit a.glyphicon:hover {
+	background-color: #428bca;
+	color: #fff;
+	text-decoration: none; }

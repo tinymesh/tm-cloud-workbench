@@ -14,6 +14,15 @@
 					<a class="navbar-brand" href="#">TinySolution</a>
 				</div>
 
+			  <div class="nav navbar-nav">
+					<ol class="breadcrumb">
+						<li ng-repeat="item in breadcrumb">
+							<a ng-if="item[1] != path" ng-href="#{{item[1]}}">{{item[0]}}</a>
+							<span ng-if="item[1] == path">{{item[0]}}</span>
+						</li>
+					</ol>
+				</div>
+
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown" ng-show="authenticated">
 						<a href="#">{{user.email}} &ndash; ({{user.client}})</a>
@@ -52,7 +61,10 @@
 -->
 	</div>
 
-	<div id="view" ng-view></div>
+	<div id="loading" ng-show="loading" class="container">
+		<div class="text-center"><img src="images/illustrations/time.png" /></div>
+	</div>
+	<div id="view" ng-hide="loading" ng-view></div>
 
 	<footer>
 		<div class="container">

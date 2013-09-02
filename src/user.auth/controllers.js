@@ -2,7 +2,7 @@
 
 angular.module('user.auth.controllers', [])
 	.value('version', '0.1.0')
-	.controller('User.Auth.Login', function($rootScope, $scope, $location, AuthService) {
+	.controller('User.Auth.Login', function($rootScope, $route, $scope, $location, AuthService) {
 		$scope.authError     = "";
 		$scope.authenticated = false;
 		$scope.user          = {
@@ -16,6 +16,15 @@ angular.module('user.auth.controllers', [])
 			AuthService.$get()
 				.then(function(res) {
 					AuthService.onAuthentication($scope, res);
+
+					if ($location.$$path === "/user/login") {
+						$location.path("/");
+					}
+				},
+				function() {
+					if ($location.$$path !== "/user/login") {
+						$location.path("/user/login");
+					}
 				});
 
 			AuthService.remoteCall = true;
@@ -29,6 +38,7 @@ angular.module('user.auth.controllers', [])
 			user.$login()
 				.then(function(res)  {
 					AuthService.onAuthentication($scope, res);
+					window.location = window.location.href.replace(/#.*$/, '');
 				},
 				function(req) {
 					$scope.authenticated = false;
@@ -44,12 +54,17 @@ angular.module('user.auth.controllers', [])
 		};
 
 		$scope.selectClient = function(client) {
+			$rootScope.loading = true;
+
 			AuthService.$select({client: client})
 				.then(function(res) {
 					console.log("auth-context: move -> " + client);
 					$scope.user.email    = res.email;
 					$scope.user.client   = res.client;
 					$scope.user.clients  = res.authentications;
+
+					$rootScope.loading = false;
+					window.location = window.location.href.replace(/#.*/, '');
 				});
 		};
 
