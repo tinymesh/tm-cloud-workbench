@@ -6,17 +6,23 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Address</th>
 				<th>Name</th>
+				<th>Address</th>
 				<th># messages</th>
 				<th>Last Update</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="item in devices">
-				<td><a ng-href="#/device/{{container}}/{{item.key}}">{{item.name || "Unnamed device"}} ({{item.key}})</a></td>
+				<td>
+					<a ng-href="#/device/{{container}}/{{item.key}}">{{item.name || "Unnamed device"}} ({{item.key}})</a>
+					<a ng-href="#/channel/{{container}}/{{channel[item.address][0]}}"
+					   ng-show="{{channel[item.key]}}"
+					   ng-class="{'label-success': channel[item.key][1], 'label-warning': !channel[item.key][1]}"
+					   class="label">Network connector</a>
+				</td>
 				<td>{{item.address}}</td>
-				<td>{{item.msg_count || "unknown"}}</td>
+				<td>{{item.counters.msg_event || 0}} // {{item.counters.msg_command || 0}} // {{item.counters.msg_fail || 0}}</td>
 				<td><a ng-href="#/message/{{container}}/{{item.key}}/{{item.last_message}}">{{item.updated || "unknown"}}</a></td>
 			</tr>
 		</tbody>

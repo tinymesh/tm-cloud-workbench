@@ -41,19 +41,24 @@
 				<tr>
 					<th>Name</th>
 					<th>Location</th>
+					<th>Messages (in / out / fail)</th>
 					<th># devices</th>
-					<th>Last Update</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in containers">
-					<td><a ng-href="#/container/{{item.key}}">{{item.name}} ({{item.key}})</a></td>
+					<td>
+						<a ng-href="#/container/{{item.key}}">{{item.name}} ({{item.key}})</a>
+						<a ng-href="#/channel/{{container}}"
+					   ng-class="{'label-success': item.connected[0] > 0, 'label-warning': item.connected[1] > 0, 'label-danger': item.connected[0] == 0}"
+					   class="label">{{item.connected[0]}} of {{item.connected[1]}} Gateways reachable</a>
+					</td>
 					<td>
 						<a data-type="city" data-val="{{item.location.city}}">{{item.location.city}}</a>
 						//
 						<a data-type="country" data-val="{{item.location.country}}">{{item.location.country}}</a></td>
+					<td>{{item.counters.msg_event || 0}} // {{item.counters.msg_command || 0}} // {{item.counters.msg_fail || 0}}</td>
 					<td>{{(item.devices || []).length}}</td>
-					<td>{{item.last_update || "unknown"}}</td>
 				</tr>
 			</tbody>
 		<table>

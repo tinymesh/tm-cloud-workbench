@@ -8,6 +8,17 @@ angular.module('workbench.container.controllers', [])
 		Containers.list()
 			.$promise.then(function(res) {
 				$scope.containers = res;
+				$scope.containers = _.map($scope.containers, function(i) {
+					i.connected = _.reduce(i.channel, function(acc, c) {
+						if (c[1]) {
+							acc[0]++;
+						} else {
+							acc[1]++;
+						}
+						return acc;
+					}, [0, 0]);
+					return i;
+				});
 			});
 
 		$scope.createContainer = function(name) {
@@ -28,7 +39,7 @@ angular.module('workbench.container.controllers', [])
 		];
 		$rootScope.path = $location.$$path;
 
-		Container.read({key: $scope.container, device: "expand"})
+		Container.read({container: $scope.container, device: "expand"})
 			.$promise.then(function(res) {
 				_.extend($scope, res);
 			});

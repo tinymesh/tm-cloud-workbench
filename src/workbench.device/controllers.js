@@ -2,7 +2,7 @@
 
 angular.module('workbench.device.controllers', [])
 	.value('version', '0.1.0')
-	.controller('Workbench.Device', function($route, $rootScope, $scope, $location, Device) {
+	.controller('Workbench.Device', function($route, $rootScope, $scope, $location, Device, Container) {
 		$scope.container    = $route.current.params.container;
 		$scope.device       = $route.current.params.device;
 		$scope.res = {
@@ -32,6 +32,16 @@ angular.module('workbench.device.controllers', [])
 				$scope.res = _.defaults(res, $scope.res);
 
 				$scope.$broadcast('sync:device');
+			});
+
+		Container.get({container: $scope.container})
+			.$promise.then(function(res) {
+				$scope.container_res = res;
+				$scope.connected = _.some(res.channel, function(i) {
+					return i[1];
+				});
+				$scope.know_connections = _.keys(res.channel);
+				console.log($scope);
 			});
 
 		$scope.tab = function(t) {
