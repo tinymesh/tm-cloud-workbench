@@ -67,7 +67,7 @@ angular.module('workbench.device.controllers', [])
 			});
 		};
 	})
-	.controller('Workbench.Device.MessageList', function($scope, $location, MessageList) {
+	.controller('Workbench.Device.MessageList', function($scope, $location, Message, MessageList) {
 		$scope.date = {
 			from: $location.$$search.from,
 			to:   $location.$$search.to
@@ -86,7 +86,9 @@ angular.module('workbench.device.controllers', [])
 			return b.toISOString().replace(/:..\..+Z$/, '');
 		};
 
-		$scope.submit = function(from, to) {
+		$scope.querySubmitted = false;
+		$scope.fetchMessages = function(from, to) {
+			$scope.querySubmitted = true;
 			var q = {
 				'date.to':   to,
 				'date.from': from,
@@ -106,16 +108,70 @@ angular.module('workbench.device.controllers', [])
 				});
 		};
 
+		$scope.sendMessage = function(msg) {
+			msg = $scope.filter(msg.command, msg);
+			msg.$create({container: $scope.container, device: $scope.device})
+				.then(function(res) {
+					var msgurl = '#/message/' + $scope.container + '/' + $scope.device + res.key;
+					$scope.$parent.alertClass = 'success';
+					$scope.$parent.alertBody = 'Message <i>' + res.key + '</i>was successfully sent.';
+				}, function(err) {
+					$scope.$parent.alertClass = 'danger';
+					$scope.$parent.alertBody = "Failed to publish message" + JSON.stringify(err);
+				});
+		};
+
 		$scope.$on('sync:device', function() {
 			$scope.date.from = $scope.date.from || $scope.getFromOffset(7200);
 			$scope.date.to   = $scope.date.to   || $scope.getToMsgDateTime();
+
+			$scope.message = new Message({
+				uid: $scope.res['tm/state']['proto/tm'].uid,
+				type: "command",
+				cmd_number: 1,
+				command: "serial",
+				data: "Hello World!",
+				pwm: $scope.pwm || 0,
+				output: {
+					0 : 1 === $scope.res['tm/state']['proto/tm'].digital_io_0,
+					1 : 1 === $scope.res['tm/state']['proto/tm'].digital_io_1,
+					2 : 1 === $scope.res['tm/state']['proto/tm'].digital_io_2,
+					3 : 1 === $scope.res['tm/state']['proto/tm'].digital_io_3,
+					4 : 1 === $scope.res['tm/state']['proto/tm'].digital_io_4,
+					5 : 1 === $scope.res['tm/state']['proto/tm'].digital_io_5,
+					6 : 1 === $scope.res['tm/state']['proto/tm'].digital_io_6,
+					7 : 1 === $scope.res['tm/state']['proto/tm'].digital_io_7
+				}
+			});
 		});
+
+		$scope.filter = function(cmd, msg_in) {
+			if (undefined === msg_in) {
+				return {};
+			}
+
+			var msg = new Message({
+				uid: msg_in.uid,
+				type: "command",
+				cmd_number: msg_in.cmd_number,
+				command: msg_in.command
+			});
+
+			switch (cmd) {
+				case "set_output": msg.output = msg_in.output; break;
+				case "set_pwm": msg.pwm = msg_in.pwm; break;
+				case "serial": msg.data = msg_in.data; break;
+			}
+
+			return msg;
+		};
 	})
 	.controller('Workbench.Device.Config', function($scope) {
 		$scope.$on('sync:device', function() {
 			_.defaults(
-				$scope.res['tm/config'],
+				$scope.res['tm/state']['proto/tm'].config,
 				$scope.cfgDefaults($scope.res['tm/config'].fw, $scope.res['tm/config'].hw));
+			$scope.res['tm/config'] = $scope.res['tm/state']['proto/tm'].config;
 
 			$scope.conf = $scope.groupParams();
 		});

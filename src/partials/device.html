@@ -92,7 +92,7 @@
 			<h2>Configuration</h2>
 
 			<div ng-repeat="(key, name) in {dev: 'Device', net: 'Network', net_cluster: 'Clustering', uart:'UART', 'misc':'General'}">
-				<h3>{{res.name}}</h3>
+				<h3>{{name}}</h3>
 				<div class="form-group">
 					<div ng-repeat="(p, v) in conf[key]" class="col-lg-4 form-group">
 						<label for="cfg-{{p}}" class="col-lg-6 control-label">{{p}}</label>
@@ -108,7 +108,94 @@
 	<div ng-show="tab() == 'messages'" class="container" ng-controller="Workbench.Device.MessageList">
 		<h2>Messages</h2>
 		<div class="row">
-			<form ng-submit="submit(date.from, date.to);" name="messageSelector" class="form-horizontal" role="form">
+			<form ng-submit="sendMessage(message)" class="col-md-12 bs-callout bs-callout-info">
+				<h3>Send Message</h3>
+
+				<div class="row">
+					<div class="form-group col-xs-2">
+						<label for="message-cm d">Command Type</label>
+						<select ng-model="message.command" id="message-cmd" class="form-control">
+							<option value="set_output">Set Output</option>
+							<option value="set_pwm">Set PWM</option>
+							<option value="init_gw_config">Set GW config mode</option>
+							<option value="get_cid">Get CID</option>
+							<option value="get_status">Get Status</option>
+							<option value="get_did_status">Get DID status</option>
+							<option value="get_config">Get config</option>
+							<option value="force_reset">Force reset</option>
+							<option value="get_path">Get Path</option>
+							<option value="serial" selected>Serial data</option>
+						</select>
+					</div>
+
+					<div class="form-group col-xs-2">
+						<label for="message-cmd-num">Command Number:</label>
+						<input ng-model="message.cmd_number" type="number" class="form-control" id="message-cmd-num" placeholder="Command Number">
+					</div>
+				</div>
+
+				<div ng-show="message.command === 'serial'" class="form-group">
+					<label for="message-data">ASCII String</label>
+					<input ng-model="message.data" type="text" class="form-control" id="message-data" placeholder="Enter ASCII string">
+				</div>
+
+				<div ng-show="message.command === 'set_pwm'" class="form-group">
+					<label for="message-pwm">Set PWM</label>
+					<input ng-model="message.pwm" type="number"
+class="form-control" id="message-pwm" placeholder="PWM ...">
+				</div>
+
+				<div ng-show="message.command === 'set_output'" class="form-group">
+					<h4>Set GPIO pins</h4>
+					<label>
+						GPIO 0
+						<input ng-model="message.output.0" type="checkbox" />
+					</label>
+					<label>
+						GPIO 1
+						<input ng-model="message.output.1" type="checkbox" />
+					</label>
+					<label>
+						GPIO 2
+						<input ng-model="message.output.2" type="checkbox" />
+					</label>
+					<label>
+						GPIO 3
+						<input ng-model="message.output.3" type="checkbox" />
+					</label>
+					<label>
+						GPIO 4
+						<input ng-model="message.output.4" type="checkbox" />
+					</label>
+					<label>
+						GPIO 5
+						<input ng-model="message.output.5" type="checkbox" />
+					</label>
+					<label>
+						GPIO 6
+						<input ng-model="message.output.6" type="checkbox" />
+					</label>
+					<label>
+						GPIO 7
+						<input ng-model="message.output.7" type="checkbox" />
+					</label>
+				</div>
+
+				<p>
+					<code>{{filter(message.command, message)}}</code>
+				</p>
+
+				<div class="col-md-2 pull-right">
+					<button type="submit" class="btn btn-primary">Send message</button>
+				</div>
+
+				<div class="clearfix">&nbsp;</div>
+
+			</form>
+
+			<form ng-submit="fetchMessages(date.from, date.to);"
+name="messageSelector" class="form-horizontal bs-callout bs-callout-info" role="form">
+				<h3>Fetch messages</h3>
 
 				<div class="col-md-4 form-group" ng-class="{error: messageSelector.dateFrom.$invalid}">
 					<label for="date-from" class="col-lg-2 control-label">From</label>
@@ -127,13 +214,20 @@
 				<div class="col-md-2">
 					<button type="submit" class="btn btn-primary">Fetch messages</button>
 				</div>
+				<div class="clearfix">&nbsp;</div>
 			</form>
 		</div>
 
-		<div class="container">
-			<div ng-show="messages.length == 0" class="bs-callout bs-callout-warning">
-				<p>
+		<div class="row">
+			<div
+				ng-show="messages.length == 0"
+				ng-class="{'bs-callout-warning': !querySubmitted, 'bs-callout-danger': querySubmitted}"
+				class="bs-callout" >
+				<p ng-show="querySubmitted">
 					Your query returned an empty result set. Maybe out of range?
+				</p>
+				<p ng-show="!querySubmitted">
+					Query a message time range by picking a from/to date above
 				</p>
 			</div>
 

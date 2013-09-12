@@ -1,0 +1,97 @@
+<div class="container">
+	<div class="page-header">
+		<h1>Message: {{message}}</h1>
+	</div>
+
+	<div>
+		<dl class="dl-horizontal col-sm-4">
+			<dt>Device</dt>
+			<dd>{{container}}/{{device}}</dd>
+
+			<dt>Type</dt>
+			<dd>{{type}}</dd>
+
+			<dt>Received date</dt>
+			<dd>{{datetime}}</dd>
+
+			<dt>System ID</dt>
+			<dd>{{this['proto/tm'].sid}}</dd>
+
+			<dt>Unique ID</dt>
+			<dd>{{this['proto/tm'].uid}}</dd>
+
+			<dt>Hardware Revision</dt>
+			<dd>{{this['proto/tm'].hardware}}</dd>
+
+			<dt>Firmware Revision</dt>
+			<dd>{{this['proto/tm'].firmware}}</dd>
+		</dl>
+
+		<dl class="dl-horizontal col-sm-4">
+			<dt>RSSI</dt>
+			<dd>{{this['proto/tm'].rssi}}</dd>
+
+			<dt>Network Level</dt>
+			<dd>{{this['proto/tm'].network_lvl}}</dd>
+
+			<dt>Jump Count</dt>
+			<dd>{{this['proto/tm'].jump_count}}</dd>
+
+			<dt>Packet Number</dt>
+			<dd>{{this['proto/tm'].packet_number}}</dd>
+
+			<dt>Latency</dt>
+			<dd>{{this['proto/tm'].latency}}</dd>
+
+			<dt>Message Type</dt>
+			<dd>{{this['proto/tm'].type}}</dd>
+
+			<dt>Message Detail</dt>
+			<dd>{{this['proto/tm'].detail}}</dd>
+
+			<dt>Message Data</dt>
+			<dd>{{this['proto/tm'].msg_data}}</dd>
+
+			<dt>Locator</dt>
+			<dd>{{this['proto/tm'].locator}}</dd>
+
+			<dt>Temperature</dt>
+			<dd>{{this['proto/tm'].temp}}</dd>
+
+			<dt>Voltage</dt>
+			<dd>{{this['proto/tm'].voltage}}</dd>
+		</dl>
+
+		<dl class="dl-horizontal col-sm-4">
+			<dt>Digital IO 0</dt>
+			<dd>{{this['proto/tm'].digital_io_0}}</dd>
+
+			<dt>Digital IO 1</dt>
+			<dd>{{this['proto/tm'].digital_io_1}}</dd>
+
+			<dt>Digital IO 2</dt>
+			<dd>{{this['proto/tm'].digital_io_2}}</dd>
+
+			<dt>Digital IO 3</dt>
+			<dd>{{this['proto/tm'].digital_io_3}}</dd>
+
+			<dt>Digital IO 4</dt>
+			<dd>{{this['proto/tm'].digital_io_4}}</dd>
+
+			<dt>Digital IO 5</dt>
+			<dd>{{this['proto/tm'].digital_io_5}}</dd>
+
+			<dt>Digital IO 6</dt>
+			<dd>{{this['proto/tm'].digital_io_6}}</dd>
+
+			<dt>Digital IO 7</dt>
+			<dd>{{this['proto/tm'].digital_io_7}}</dd>
+
+			<dt>Analog IO 0</dt>
+			<dd>{{this['proto/tm'].analog_io_0}}</dd>
+
+			<dt>Analog IO 1</dt>
+			<dd>{{this['proto/tm'].analog_io_1}}</dd>
+		</dl>
+	</div>
+</div>
