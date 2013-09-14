@@ -36,7 +36,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in devices">
+			<tr ng-repeat="item in res.devices">
 				<td>
 					<a ng-href="#/device/{{container}}/{{item.key}}">{{item.name || "Unnamed device"}} ({{item.key}})</a>
 					<a ng-href="#/channel/{{container}}/{{channel[item.address][0]}}"
