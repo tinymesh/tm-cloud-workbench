@@ -51,7 +51,7 @@
 						<a ng-href="#/container/{{item.key}}">{{item.name}} ({{item.key}})</a>
 						<a ng-href="#/channel/{{container}}"
 					   ng-class="{'label-success': item.connected[0] > 0, 'label-warning': item.connected[1] > 0, 'label-danger': item.connected[0] == 0}"
-					   class="label">{{item.connected[0]}} of {{item.connected[1]}} Gateways reachable</a>
+					   class="label">{{item.connected[0]}} of {{item.connected[1] + item.connected[0]}} Gateways reachable</a>
 					</td>
 					<td>
 						<a data-type="city" data-val="{{item.location.city}}">{{item.location.city}}</a>
