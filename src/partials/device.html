@@ -91,7 +91,7 @@
 		<form name="config" class="form-horizontal" role="form">
 			<h2>Configuration</h2>
 
-			<div ng-repeat="(key, name) in {dev: 'Device', net: 'Network', net_cluster: 'Clustering', uart:'UART', 'misc':'General'}">
+			<div ng-repeat="(key, name) in {dev: 'Device', 'gpio': 'IO functions', net: 'Network', net_cluster: 'Clustering', uart:'UART', 'misc':'General'}">
 				<h3>{{name}}</h3>
 				<div class="form-group">
 					<div ng-repeat="(p, v) in conf[key]" class="col-lg-4 form-group">
