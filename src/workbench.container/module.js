@@ -27,7 +27,8 @@ angular.module('workbench.container', [
 	})
 	.factory('Container', function($resource, $location, Cfg) {
 		var Res = $resource('http://' + Cfg.api.host + '\\:' + Cfg.api.port + '/container/:container', {}, {
-			read: {method: "GET"}
+			read: {method: "GET"},
+			update: {method: "PUT"}
 		});
 
 		return Res;

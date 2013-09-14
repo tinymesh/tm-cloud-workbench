@@ -1,7 +1,30 @@
 <div class="controller-containers container">
 	<div class="page-header">
-			<h1>Container: {{name}}</h1>
 	</div>
+
+	<form class="bs-callout bs-callout-info">
+		<h2>Edit container {{name}}</h2>
+
+		<dl class="dl-horizontal col-md-5">
+			<dt>Name</dt>
+			<dd tm-editable="res.name" />
+
+			<dt>Location: City</dt>
+			<dd tm-editable="res.location.city" />
+
+			<dt>Location: Country</dt>
+			<dd tm-editable="res.location.country" />
+
+			<dt />
+			<dd class="pull-right">
+				<br />
+				<button ng-click="updateResource(res)"  class="btn btn-primary btn-sm" ng-disabled="false == _changed">Save changes</button>
+			</dd>
+		</dl>
+
+		<div class="clearfix"></div>
+
+	</form>
 
 	<table class="table">
 		<thead>

@@ -33,6 +33,8 @@ angular.module('workbench.container.controllers', [])
 	})
 	.controller('Workbench.Container', function($rootScope, $scope, $route, $location, Container) {
 		$scope.container = $route.current.params.container;
+		$scope._changed  = false;
+
 		$rootScope.breadcrumb = [
 			["Containers", "/containers"],
 			[$scope.container, "/container/" + $scope.container]
@@ -41,6 +43,19 @@ angular.module('workbench.container.controllers', [])
 
 		Container.read({container: $scope.container, device: "expand"})
 			.$promise.then(function(res) {
-				_.extend($scope, res);
+				$scope.res = res;
 			});
+
+		$scope.updateResource = function(obj) {
+			obj.$update({container: $scope.container})
+				.then(function(res) {
+						$scope._changed = false;
+						$scope.alertClass = 'success';
+						$scope.alertBody= 'Device ' + $scope.device + ' was updated.';
+				},
+				function(err) {
+						$scope.alertClass = 'danger';
+						$scope.alertBody  = "<b>Error:</b> Failed to save device resource";
+			});
+		};
 	});
