@@ -1,9 +1,14 @@
 <div class="controller-containers container">
-	<div class="page-header">
+
+	<div ng-show="alertBody" class="error-container container">
+		<hr />
+		<div class="login-alert alert alert-{{alertClass}}">
+			{{alertBody}}
+		</div>
 	</div>
 
 	<form class="bs-callout bs-callout-info">
-		<h2>Edit container {{name}}</h2>
+		<h2>Edit container <i>{{res.name}}</i></h2>
 
 		<dl class="dl-horizontal col-md-5">
 			<dt>Name</dt>
@@ -30,6 +35,7 @@
 		<thead>
 			<tr>
 				<th>Name</th>
+				<th>Type</th>
 				<th>Address</th>
 				<th># messages</th>
 				<th>Last Update</th>
@@ -38,15 +44,21 @@
 		<tbody>
 			<tr ng-repeat="item in res.devices">
 				<td>
-					<a ng-href="#/device/{{container}}/{{item.key}}">{{item.name || "Unnamed device"}} ({{item.key}})</a>
-					<a ng-href="#/channel/{{container}}/{{channel[item.address][0]}}"
-					   ng-show="{{channel[item.key]}}"
-					   ng-class="{'label-success': channel[item.key][1], 'label-warning': !channel[item.key][1]}"
+					<a ng-href="#/device/{{container}}/{{item.key}}">{{item.name || "Unnamed device (" + item.key + ")"}}</a>
+					<span
+					   ng-show="{{res.channel[item.key]}}"
+					   ng-class="{'label-success': res.channel[item.key][1], 'label-danger': !res.channel[item.key][1]}"
 					   class="label">Network connector</a>
 				</td>
+				<td>{{item.type || "device"}}</td>
 				<td>{{item.address}}</td>
-				<td>{{item.counters.msg_event || 0}} // {{item.counters.msg_command || 0}} // {{item.counters.msg_fail || 0}}</td>
-				<td><a ng-href="#/message/{{container}}/{{item.key}}/{{item.last_message}}">{{item.updated || "unknown"}}</a></td>
+				<td>
+					   {{(item.counters.msg_event || 0) | number}}
+					// {{item.counters.msg_command || 0 | number}}
+					// {{item.counters.msg_fail || 0 | number}}</td>
+				<td><a ng-href="#/message/{{container}}/{{item.key}}/{{item.last_message}}">
+					{{item.updated || "0" | date:'short'}}</a>
+				</td>
 			</tr>
 		</tbody>
 	<table>

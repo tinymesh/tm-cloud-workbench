@@ -22,6 +22,7 @@
 		</div>
 	</div>
 	<div ng-show="containers.length > 0">
+	<!--
 		<div class="bs-callout bs-callout-warning">
 			<h4>Create new contianer</h4>
 
@@ -35,6 +36,7 @@
 				</div>
 			</form>
 		</div>
+	-->
 
 		<table class="table">
 			<thead>
@@ -57,8 +59,11 @@
 						<a data-type="city" data-val="{{item.location.city}}">{{item.location.city}}</a>
 						//
 						<a data-type="country" data-val="{{item.location.country}}">{{item.location.country}}</a></td>
-					<td>{{item.counters.msg_event || 0}} // {{item.counters.msg_command || 0}} // {{item.counters.msg_fail || 0}}</td>
-					<td>{{(item.devices || []).length}}</td>
+					<td>{{item.counters.msg_event || 0 | number}}
+						// {{item.counters.msg_command || 0 | number}}
+						// {{item.counters.msg_fail || 0 | number}}
+					</td>
+					<td>{{(item.devices || []).length | number}}</td>
 				</tr>
 			</tbody>
 		<table>

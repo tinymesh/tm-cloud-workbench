@@ -3,8 +3,21 @@
 		<li ng-click="tab('overview')" ng-class="{active: tab() == 'overview'}"><a>Overview</a></li>
 		<li ng-click="tab('config')" ng-class="{active: tab() == 'config'}"><a>Configuration</a></li>
 		<li ng-click="tab('messages')" ng-class="{active: tab() == 'messages'}"><a>Messages</a></li>
-		<li ng-click="tab('lights-out')" ng-class="{active: tab() == 'lights-out'}"><a>LightsOut</a></li>
 	</ul>
+
+	<div ng-show="false !== _.isEmpty(msg)" class="container">
+		<hr />
+		<a ng-repeat="i in msg" class="list-group-item"
+		   ng-href="#/message/{{container}}/{{device}}/{{i.key}}">
+			<span ng-show="'event' == i['proto/tm'].type">Received</span>
+			<span ng-show="'command' == i['proto/tm'].type">Sent</span>
+			<i>{{i.type}}</i> @ {{i.datetime | date:'HH:mm:ss.sss'}}
+			<span ng-show="'event' == i['proto/tm'].type"> with id {{i['proto/tm'].packet_num}}</span>
+			<span ng-show="'command' == i['proto/tm'].type"> with cmd number {{i['proto/tm'].cmd_number}}</span>
+			<span ng-show="'command/serial' == i.type"><b>data:</b> <i>{{i['proto/tm'].data}}</i></span>
+			<span ng-show="'event/serial' == i.type"><b>data:</b> <i>{{i['proto/tm'].serial}}</i></span>
+		</a>
+	</div>
 
 	<div ng-show="alertBody" class="error-container container">
 		<hr />
@@ -21,11 +34,11 @@
 			<dt>Name</dt>
 			<dd tm-editable="res.name" />
 
-			<dt>Address</dt>
-			<dd>{{res.address}}</dd>
-
 			<dt>Type</dt>
 			<dd tm-editable="res.type" />
+
+			<dt>Address</dt>
+			<dd>{{res.address}}</dd>
 
 			<dt>Hardware Revision</dt>
 			<dd>{{res['tm/state']['proto/tm'].hardware}}</dd>
@@ -42,24 +55,21 @@
 			</dd>
 
 			<dt>Encryption<dt>
-			<dd>Disabled</dd>
+			<dd><span class="label label-warning">Disabled</span></dd>
 
 			<dt>Current connection(s)</dt>
 			<dd>
 				<a ng-repeat="(k, i) in container_res.channel"
 				   ng-show="{{i[1]}}"
-				   ng-href="#/channel/{{container}}/{{i[0]}}">{{k}}</a>
+				   ng-href="#/device/{{container}}/{{k}}">{{k}}<span ng-show="!$last">, </span></a>
 				<span ng-show="!connected" class="label label-danger">None</span>
 			</dd>
 
 			<dt>Known gateways</dt>
 			<dd>
 				<a ng-repeat="(k, i) in container_res.channel"
-				   ng-href="#/device/{{container}}/{{k}}">{{k}}</a>
+				   ng-href="#/device/{{container}}/{{k}}">{{k}}<span ng-show="!$last">, </span></a>
 			</dd>
-
-			<dt>Neighbours</dt>
-			<dd>...</dd>
 
 		</dl>
 
@@ -67,18 +77,15 @@
 			<dt>Last Updated</dt>
 			<dd>
 				<a ng-href="#/message/{{container}}/{{device}}/{{res['tm/state'].key}}">
-						{{res.updated | date:'short'}}
+						{{(last_msg.datetime || res.updated) | date:'short'}}
 				</a>
 			</dd>
 
 			<dt>Message Count</dt>
-			<dd><a>{{res.counters.msg_event || 0}}</a> / <a>{{res.counters.msg_command || 0}}</a> <i>(in / out)</i></dd>
+			<dd>{{res.counters.msg_event || 0 | number}} / {{res.counters.msg_command || 0 | number}} <i>(in / out)</i></dd>
 
 			<dt>Message queue</dt>
-			<dd><a>{{res.counters.queue_len || 0}}</a> / <a>{{res.counters.queue_out || 0}}</a> <i>(left / sendt)</i></dd>
-
-			<dt>Fail rate</dt>
-			<dd>0%</dd>
+			<dd>{{res.counters.queue_len || 0 | number}} / {{res.counters.queue_out || 0 | number}} <i>(left / sendt)</i></dd>
 		</dl>
 
 		<div class="pull-right">
@@ -90,6 +97,13 @@
 	<div ng-show="tab() == 'config'" class="container" ng-controller="Workbench.Device.Config">
 		<form name="config" class="form-horizontal" role="form">
 			<h2>Configuration</h2>
+
+			<div class="col-sm-2 pull-right">
+				<button ng-click="sendMessage({type:'command',command:'get_config', cmd_number:41})"
+					class="btn btn-info">
+					<span class="glyphicon glyphicon-refresh"></span>
+					Get configuration</button>
+			</div>
 
 			<div ng-repeat="(key, name) in {dev: 'Device', 'gpio': 'IO functions', net: 'Network', net_cluster: 'Clustering', uart:'UART', 'misc':'General'}">
 				<h3>{{name}}</h3>
@@ -247,10 +261,6 @@ name="messageSelector" class="form-horizontal bs-callout bs-callout-info" role="
 					</tr>
 				</tbody>
 		</div>
-	</div>
-
-	<div ng-show="tab() == 'lights-out'">
-		<h2>LightsOut </h2>
 	</div>
 
 </div>

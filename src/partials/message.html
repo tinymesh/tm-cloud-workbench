@@ -1,9 +1,71 @@
 <div class="container">
 	<div class="page-header">
-		<h1>Message: {{message}}</h1>
+		<h1>View message</h1>
 	</div>
 
-	<div>
+	<div ng-show="this['proto/tm'].type == 'command'">
+		<dl class="dl-horizontal col-sm-4">
+			<dt>Device</dt>
+			<dd>{{container}}/{{device}}</dd>
+
+			<dt>Type</dt>
+			<dd>{{type}}</dd>
+
+			<dt>Sent date</dt>
+			<dd>{{datetime | date:short}}</dd>
+
+			<dt>Unique ID</dt>
+			<dd>{{this['proto/tm'].uid}}</dd>
+
+			<dt>Command Number</dt>
+			<dd>{{this['proto/tm'].cmd_number}}</dd>
+		</dl>
+
+		<div class=col-sm-8" ng-show="this['proto/tm'].command == 'serial'">
+			<h3>Data:</h3>
+
+			<code>{{this['proto/tm'].data}}</code>
+		</div>
+
+		<div class=col-sm-8" ng-show="this['proto/tm'].command == 'set_pwm'">
+			<h3>PWM:</h3>
+
+			<code>{{this['proto/tm'].pwm}}</code>
+		</div>
+
+		<div class=col-sm-8" ng-show="this['proto/tm'].command == 'set_output'">
+			<h3>Set outputs:</h3>
+
+			<dl class="dl-horizontal col-sm-4">
+					<dt ng-show="undefined != this['proto/tm'].output.0">GPIO #0</dt>
+					<dd ng-show="undefined != this['proto/tm'].output.0">{{this['proto/tm'].output.0}}</dd>
+
+					<dt ng-show="undefined != this['proto/tm'].output.1">GPIO #1</dt>
+					<dd ng-show="undefined != this['proto/tm'].output.1">{{this['proto/tm'].output.1}}</dd>
+
+					<dt ng-show="undefined != this['proto/tm'].output.2">GPIO #2</dt>
+					<dd ng-show="undefined != this['proto/tm'].output.2">{{this['proto/tm'].output.2}}</dd>
+
+					<dt ng-show="undefined != this['proto/tm'].output.3">GPIO #3</dt>
+					<dd ng-show="undefined != this['proto/tm'].output.3">{{this['proto/tm'].output.3}}</dd>
+
+					<dt ng-show="undefined != this['proto/tm'].output.4">GPIO #4</dt>
+					<dd ng-show="undefined != this['proto/tm'].output.4">{{this['proto/tm'].output.4}}</dd>
+
+					<dt ng-show="undefined != this['proto/tm'].output.5">GPIO #5</dt>
+					<dd ng-show="undefined != this['proto/tm'].output.5">{{this['proto/tm'].output.5}}</dd>
+
+					<dt ng-show="undefined != this['proto/tm'].output.6">GPIO #6</dt>
+					<dd ng-show="undefined != this['proto/tm'].output.6">{{this['proto/tm'].output.6}}</dd>
+
+					<dt ng-show="undefined != this['proto/tm'].output.7">GPIO #7</dt>
+					<dd ng-show="undefined != this['proto/tm'].output.7">{{this['proto/tm'].output.7}}</dd>
+
+			</dl>
+		</div>
+	</div>
+
+	<div ng-show="this['proto/tm'].type == 'event'">
 		<dl class="dl-horizontal col-sm-4">
 			<dt>Device</dt>
 			<dd>{{container}}/{{device}}</dd>
@@ -12,7 +74,7 @@
 			<dd>{{type}}</dd>
 
 			<dt>Received date</dt>
-			<dd>{{datetime}}</dd>
+			<dd>{{datetime | date:short}}</dd>
 
 			<dt>System ID</dt>
 			<dd>{{this['proto/tm'].sid}}</dd>
@@ -38,7 +100,7 @@
 			<dd>{{this['proto/tm'].jump_count}}</dd>
 
 			<dt>Packet Number</dt>
-			<dd>{{this['proto/tm'].packet_number}}</dd>
+			<dd>{{this['proto/tm'].packet_num}}</dd>
 
 			<dt>Latency</dt>
 			<dd>{{this['proto/tm'].latency}}</dd>
@@ -56,7 +118,7 @@
 			<dd>{{this['proto/tm'].locator}}</dd>
 
 			<dt>Temperature</dt>
-			<dd>{{this['proto/tm'].temp}}</dd>
+			<dd>{{this['proto/tm'].temp + 128}}</dd>
 
 			<dt>Voltage</dt>
 			<dd>{{this['proto/tm'].voltage}}</dd>

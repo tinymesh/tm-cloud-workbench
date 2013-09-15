@@ -2,23 +2,26 @@
 
 angular.module('workbench.device.controllers', [])
 	.value('version', '0.1.0')
-	.controller('Workbench.Device', function($route, $rootScope, $scope, $location, Device, Container) {
+	.controller('Workbench.Device', function($route, $rootScope, $scope, $location, Device, Container, Message, MessageStream) {
 		$scope.container    = $route.current.params.container;
 		$scope.device       = $route.current.params.device;
 		$scope.res = {
-			'name' : 'Unamed device',
-			'type' : "router",
+			'name' : 'Unamed device (' + $scope.device + ')',
+			'type' : "device",
 			'tm/config' : {
 				fw: '',
 				hw: ''
 			}
 		};
+
+		$scope.msg = [];
+		$scope.last_msg = false;
+
 		$scope._changed     = false;
 		$scope.alertClass   = '';
 		$scope.alertBody    = '';
 
 		$rootScope.breadcrumb = [
-			['Containers', '/containers'],
 			[$scope.container, '/container/' + $scope.container],
 			[$scope.device, '/device/' + $scope.container + '/' + $scope.device]
 		];
@@ -30,6 +33,7 @@ angular.module('workbench.device.controllers', [])
 				var fw = res.firmware, hw = res.hardware;
 
 				$scope.res = _.defaults(res, $scope.res);
+				$rootScope.breadcrumb[1][0] = res.name;
 
 				$scope.$broadcast('sync:device');
 			});
@@ -40,8 +44,10 @@ angular.module('workbench.device.controllers', [])
 				$scope.connected = _.some(res.channel, function(i) {
 					return i[1];
 				});
+
 				$scope.know_connections = _.keys(res.channel);
-				console.log($scope);
+
+				$rootScope.breadcrumb[0][0] = res.name;
 			});
 
 		$scope.tab = function(t) {
@@ -66,6 +72,66 @@ angular.module('workbench.device.controllers', [])
 						$scope.alertBody  = "<b>Error:</b> Failed to save device resource";
 			});
 		};
+
+		$scope.sendMessage = function(msg) {
+			msg = $scope.filterMsg(msg.command, msg);
+			msg.$create({container: $scope.container, device: $scope.device})
+				.then(function(res) {
+				}, function(err) {
+					$scope.alertClass = 'danger';
+					$scope.alertBody = "Failed to publish message" + JSON.stringify(err);
+				});
+		};
+
+		$scope.filterMsg = function(cmd, msg_in) {
+			if (undefined === msg_in) {
+				return {};
+			}
+
+			var msg = new Message({
+				uid: msg_in.uid,
+				type: "command",
+				cmd_number: msg_in.cmd_number,
+				command: msg_in.command
+			});
+
+			switch (cmd) {
+				case "set_output": msg.output = msg_in.output; break;
+				case "set_pwm": msg.pwm = msg_in.pwm; break;
+				case "serial": msg.data = msg_in.data; break;
+			}
+
+			return msg;
+		};
+
+		var evCallback = function (resp) {
+            $scope.$apply(function () {
+				var msg = JSON.parse(resp.data);
+				if ($scope.msg.length > 1) {
+					$scope.msg.shift();
+				}
+
+				if ('event' === msg['proto/tm'].type) {
+					$scope.res.counters.msg_event++;
+				} else if ('command' === msg['proto/tm'].type) {
+					$scope.res.counters.msg_command++;
+				}
+
+                $scope.msg.push(msg);
+				setTimeout(function(){
+					$scope.$apply(function() {
+						var i = $scope.msg.indexOf(msg);
+						if (0 === i) {
+							$scope.msg.shift();
+						} else if (1 === i) {
+							$scope.msg.pop();
+						}
+					});
+				}, 7500);
+            });
+        };
+
+		MessageStream.addEventListener('message', evCallback, false);
 	})
 	.controller('Workbench.Device.MessageList', function($scope, $location, Message, MessageList) {
 		$scope.date = {
@@ -108,19 +174,6 @@ angular.module('workbench.device.controllers', [])
 				});
 		};
 
-		$scope.sendMessage = function(msg) {
-			msg = $scope.filter(msg.command, msg);
-			msg.$create({container: $scope.container, device: $scope.device})
-				.then(function(res) {
-					var msgurl = '#/message/' + $scope.container + '/' + $scope.device + res.key;
-					$scope.$parent.alertClass = 'success';
-					$scope.$parent.alertBody = 'Message <i>' + res.key + '</i>was successfully sent.';
-				}, function(err) {
-					$scope.$parent.alertClass = 'danger';
-					$scope.$parent.alertBody = "Failed to publish message" + JSON.stringify(err);
-				});
-		};
-
 		$scope.$on('sync:device', function() {
 			$scope.date.from = $scope.date.from || $scope.getFromOffset(7200);
 			$scope.date.to   = $scope.date.to   || $scope.getToMsgDateTime();
@@ -145,36 +198,22 @@ angular.module('workbench.device.controllers', [])
 			});
 		});
 
-		$scope.filter = function(cmd, msg_in) {
-			if (undefined === msg_in) {
-				return {};
-			}
-
-			var msg = new Message({
-				uid: msg_in.uid,
-				type: "command",
-				cmd_number: msg_in.cmd_number,
-				command: msg_in.command
-			});
-
-			switch (cmd) {
-				case "set_output": msg.output = msg_in.output; break;
-				case "set_pwm": msg.pwm = msg_in.pwm; break;
-				case "serial": msg.data = msg_in.data; break;
-			}
-
-			return msg;
-		};
 	})
 	.controller('Workbench.Device.Config', function($scope) {
 		$scope.$on('sync:device', function() {
-			_.defaults(
-				$scope.res['tm/state']['proto/tm'].config,
-				$scope.cfgDefaults($scope.res['tm/config'].fw, $scope.res['tm/config'].hw));
-			$scope.res['tm/config'] = $scope.res['tm/state']['proto/tm'].config;
+			if (undefined !== $scope.res['tm/state']['proto/tm'].config) {
+				_.defaults(
+					$scope.res['tm/state']['proto/tm'].config,
+					$scope.cfgDefaults($scope.res['tm/config'].fw, $scope.res['tm/config'].hw));
+				$scope.res['tm/config'] = $scope.res['tm/state']['proto/tm'].config;
 
-			$scope.conf = $scope.groupParams();
+				$scope.conf = $scope.groupParams();
+			} else {
+				$scope.conf = {};
+			}
 		});
+
+		$scope.hasConfig = function() { return _.isEmpty($scope.conf); };
 
 		$scope.cfgDefaults = function(fw, hw) {
 			return _.foldr($scope.cfgParams, function(acc, key) {
