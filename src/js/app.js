@@ -14,7 +14,7 @@ angular.module('workbench', ['ngRoute',
                              'workbench.message'])
 	.value('version', '0.1.0')
 	.factory('Cfg', function($rootScope, $location) {
-		$rootScope.breadcrumb = [["Containers", "/containers"]];
+		$rootScope.breadcrumb = [];
 		$rootScope.path = $location.$$path;
 
 		return {

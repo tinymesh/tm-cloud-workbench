@@ -29,7 +29,7 @@ angular.module('workbench.container.controllers', [])
 				});
 		};
 
-		$rootScope.breadcrumb = [["Containers", "/containers"]];
+		$rootScope.breadcrumb = [["Networks", "/containers"]];
 	})
 	.controller('Workbench.Container', function($rootScope, $scope, $route, $location, Container) {
 		$scope.container = $route.current.params.container;

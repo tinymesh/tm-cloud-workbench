@@ -85,16 +85,17 @@ footer .nav li a:hover {
   left: 0px;
   position: absolute;
   top: 0px;
-  width: 96px; }
+  width: 128px; }
   .login-icon > img {
     display: block;
     margin-bottom: 6px;
-    width: 100%; }
+    width: 79%; }
   .login-icon > h4 {
+	margin-top: 4px;
     font-size: 17px;
     font-weight: 200;
     line-height: 34px;
-    opacity: 0.95; }
+    opacity: 0.85; }
     .login-icon > h4 small {
       color: inherit;
       display: block;

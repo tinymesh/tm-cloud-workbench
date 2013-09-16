@@ -28,7 +28,7 @@
 
 	<div ng-show="tab() == 'overview'" class="container">
 		<form>
-		<h2>Overview</h2>
+		<h2>{{res.name}}</h2>
 
 		<dl class="dl-horizontal col-sm-4">
 			<dt>Name</dt>
@@ -96,8 +96,6 @@
 
 	<div ng-show="tab() == 'config'" class="container" ng-controller="Workbench.Device.Config">
 		<form name="config" class="form-horizontal" role="form">
-			<h2>Configuration</h2>
-
 			<div class="col-sm-2 pull-right">
 				<button ng-click="sendMessage({type:'command',command:'get_config', cmd_number:41})"
 					class="btn btn-info">
@@ -120,10 +118,9 @@
 	</div>
 
 	<div ng-show="tab() == 'messages'" class="container" ng-controller="Workbench.Device.MessageList">
-		<h2>Messages</h2>
 		<div class="row">
 			<form ng-submit="sendMessage(message)" class="col-md-12 bs-callout bs-callout-info">
-				<h3>Send Message</h3>
+				<h3>Send Command</h3>
 
 				<div class="row">
 					<div class="form-group col-xs-2">
@@ -200,13 +197,14 @@ class="form-control" id="message-pwm" placeholder="PWM ...">
 				</p>
 
 				<div class="col-md-2 pull-right">
-					<button type="submit" class="btn btn-primary">Send message</button>
+					<button type="submit" class="btn btn-primary">Send</button>
 				</div>
 
 				<div class="clearfix">&nbsp;</div>
 
 			</form>
 
+		<!--
 			<form ng-submit="fetchMessages(date.from, date.to);"
 name="messageSelector" class="form-horizontal bs-callout bs-callout-info" role="form">
 				<h3>Fetch messages</h3>
@@ -261,6 +259,7 @@ name="messageSelector" class="form-horizontal bs-callout bs-callout-info" role="
 					</tr>
 				</tbody>
 		</div>
+		-->
 	</div>
 
 </div>

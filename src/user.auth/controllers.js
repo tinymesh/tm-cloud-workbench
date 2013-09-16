@@ -20,6 +20,8 @@ angular.module('user.auth.controllers', [])
 					if ($location.$$path === "/user/login") {
 						$location.path("/");
 					}
+
+					$rootScope.breadcrumb = [["Networks", "/containers"]];
 				},
 				function() {
 					if ($location.$$path !== "/user/login") {
