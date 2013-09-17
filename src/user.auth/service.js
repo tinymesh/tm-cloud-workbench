@@ -2,40 +2,47 @@
 
 angular.module('user.auth.service', ['ngResource'])
 	.value('version', '0.1.0')
-	.factory('AuthService', function($resource, $location, Cfg) {
+	.factory('AuthService', function($rootScope, $resource, $location, Cfg) {
 		var Res = $resource('http://' + Cfg.api.host + '\\:' + Cfg.api.port + '/auth/:client', {}, {
 			select: {method: "POST"},
 			login: {method: "POST"},
 			logout: {method: "DELETE"}
 		});
 
-		Res.prototype.onAuthentication = function($scope, obj) {
-			console.log("auth-context: authenticated -> ", obj);
+		$rootScope.$on('user:authenticated', function() {
+			$rootScope.authenticated = true;
+			$rootScope.authError     = "";
+		});
 
-			$scope.user.email   = obj.email;
-			$scope.user.client  = obj.client;
-			$scope.user.clients = obj.authentications;
+		$rootScope.$on('user:logout', function() {
+			$rootScope.authenticated = false;
+		});
 
-			$scope.authenticated = true;
-			$scope.authError     = "";
-		};
+		return new Res();
+	})
+	.factory('AuthHelper', function($rootScope, $location, AuthService) {
+		var promise, res = {};
 
-		Res.prototype.onLogout = function($scope, obj) {
-			console.log("auth-context: destructing local session ", $scope.user.email);
+		// Perform authcheck
+		res.tryAuth = AuthService.$get()
+			.then(function(res) {
+				$rootScope.$broadcast('user:authenticated', res);
+			});
 
-			$scope.user.email   = "";
-			$scope.user.client  = "";
-			$scope.user.clients = "";
-
-			$scope.authenticated = false;
+		res.redirectToLogin = function() {
+			console.log("redirect to User.Auth.LoginPage");
+			$rootScope.$broadcast('user:logout');
+			$rootScope.breadcrumb = [];
 			$location.path("/user/login");
 		};
 
-		Res.prototype.removeDefaultRoute = function($routeProvider) {
-			console.log($routeProvider);
+		res.setUser = function(scope, obj) {
+			scope.user.email   = obj.email;
+			scope.user.client  = obj.client;
+			scope.user.clients = obj.authentications;
 		};
 
-		return new Res();
+		return res;
 	})
 	.config(['$httpProvider', function($httpProvider) {
 		$httpProvider.defaults.withCredentials = true;

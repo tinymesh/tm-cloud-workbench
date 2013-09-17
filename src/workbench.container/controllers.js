@@ -1,8 +1,9 @@
 'using strict';
+/*jshint -W024 */ // fix .catch errors
 
 angular.module('workbench.container.controllers', [])
 	.value('version', '0.1.0')
-	.controller('Workbench.Containers', function($rootScope, $scope, $location, Container, Containers) {
+	.controller('Workbench.Containers', function($rootScope, $scope, $location, AuthHelper, Container, Containers) {
 		$scope.containers = [];
 
 		Containers.list()
@@ -21,17 +22,9 @@ angular.module('workbench.container.controllers', [])
 				});
 			});
 
-		$scope.createContainer = function(name) {
-			var res = new Container({name: name});
-			res.$save()
-				.then(function(res) {
-					$scope.containers.push(res);
-				});
-		};
-
 		$rootScope.breadcrumb = [["Networks", "/containers"]];
 	})
-	.controller('Workbench.Container', function($rootScope, $scope, $route, $location, Container) {
+	.controller('Workbench.Container', function($rootScope, $scope, $route, $location, AuthHelper, Container) {
 		$scope.container = $route.current.params.container;
 		$scope._changed  = false;
 

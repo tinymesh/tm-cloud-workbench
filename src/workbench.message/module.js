@@ -29,10 +29,12 @@ angular.module('workbench.message', [
 		cid = $route.current.params.container;
 		dev = $route.current.params.device;
 
-		var token = AuthService.authentications[AuthService.client];
+		return function() {
+			var token = AuthService.authentications[AuthService.client];
 
-		url = 'http://' + Cfg.api.host + ':' + Cfg.api.port +
-			'/stream/' + cid + "/" + dev + "?auth=" +  window.escape(token);
+			url = 'http://' + Cfg.api.host + ':' + Cfg.api.port +
+				'/stream/' + cid + "/" + dev + "?auth=" +  window.escape(token);
 
-		return new EventSource(url, {withCredentials: false});
+			return new EventSource(url, {withCredentials: false});
+		};
 	});

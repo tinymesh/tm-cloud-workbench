@@ -2,35 +2,55 @@
 
 angular.module('user.auth.controllers', [])
 	.value('version', '0.1.0')
-	.controller('User.Auth.Login', function($rootScope, $route, $scope, $location, AuthService) {
-		$scope.authError     = "";
-		$scope.authenticated = false;
+	.controller('User.Auth', function($rootScope, $route, $scope, $location, AuthService, AuthHelper) {
+		$scope.authError = "";
 		$scope.user          = {
 			email:   "",
 			client:  "",
 			clients: ""
 		};
 
-		if (!AuthService.remoteCall) {
-			// Force login
-			AuthService.$get()
+		/*jshint -W024 */
+		// This will resolve failed authentication on page refresh
+		AuthHelper.tryAuth
+			.catch(AuthHelper.redirectToLogin);
+
+		$rootScope.$on('user:authenticated', function(obj,res) {
+			$rootScope.authenticated = true;
+			if (undefined !== res) {
+				AuthHelper.setUser($scope, res);
+			}
+		});
+
+		$rootScope.$on('user:logout', function() {
+			$rootScope.authenticated = false;
+			$scope.user = {email: '', client: '', clients: []};
+			$location.path('/user/login');
+		});
+
+	})
+	.controller('User.Auth.Toolbar', function($rootScope, $scope, $location, AuthService) {
+		$scope.selectClient = function(client) {
+			AuthService.$select({client: client})
 				.then(function(res) {
-					AuthService.onAuthentication($scope, res);
-
-					if ($location.$$path === "/user/login") {
-						$location.path("/");
-					}
-
-					$rootScope.breadcrumb = [["Networks", "/containers"]];
-				},
-				function() {
-					if ($location.$$path !== "/user/login") {
-						$location.path("/user/login");
-					}
+					console.log("auth-context: move -> " + client);
+					$scope.user.client   = res.client;
+					$scope.user.clients  = res.authentications;
+					$rootScope.$broadcast('user:switch', res);
 				});
+		};
 
-			AuthService.remoteCall = true;
-		}
+		$scope.logout = function() {
+			AuthService.$logout()
+				.then(function(res) {
+					$rootScope.$broadcast('user:logout');
+				});
+		};
+	})
+	.controller('User.Auth.LoginPage', function($rootScope, $scope, $location, AuthService) {
+		$rootScope.$on('user:authenticated', function() {
+			$location.path('/');
+		});
 
 		$scope.submit = function(email, password) {
 			var user = AuthService;
@@ -39,38 +59,11 @@ angular.module('user.auth.controllers', [])
 
 			user.$login()
 				.then(function(res)  {
-					AuthService.onAuthentication($scope, res);
-					window.location = window.location.href.replace(/#.*$/, '');
+					$rootScope.$broadcast('user:authenticated', res);
+					$location.path('/');
 				},
 				function(req) {
-					$scope.authenticated = false;
-					$scope.authError = "Incorrect username and/or password";
+					$rootScope.$broadcast('user:logout');
 				});
-		};
-
-		$scope.logout = function() {
-			AuthService.$logout()
-				.then(function(res) {
-					AuthService.onLogout($scope, res);
-				});
-		};
-
-		$scope.selectClient = function(client) {
-			$rootScope.loading = true;
-
-			AuthService.$select({client: client})
-				.then(function(res) {
-					console.log("auth-context: move -> " + client);
-					$scope.user.email    = res.email;
-					$scope.user.client   = res.client;
-					$scope.user.clients  = res.authentications;
-
-					$rootScope.loading = false;
-					window.location = window.location.href.replace(/#.*/, '');
-				});
-		};
-
-		$scope.loginPage = function() {
-			$location.path("/user/login");
 		};
 	});

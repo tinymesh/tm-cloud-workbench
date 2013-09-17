@@ -9,6 +9,6 @@ angular.module('user.auth', [
 	.config(['$routeProvider', function($routeProvider, AuthService) {
 		$routeProvider
 			.when('/user/login',
-				{templateUrl: 'partials/login.html', controller: 'User.Auth.Login'});
+				{templateUrl: 'partials/login.html', controller: 'User.Auth.LoginPage'});
 
 	}]);

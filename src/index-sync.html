@@ -5,9 +5,9 @@
   <title>Tinymesh Cloud &ndash; Workbench</title>
   <link rel="stylesheet" href="dist/style.css">
 </head>
-<body>
+<body ng-controller="User.Auth" ng-cloak>
 
-	<div id="nav" ng-controller="User.Auth.Login">
+	<div id="nav" ng-controller="User.Auth.Toolbar">
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
@@ -42,10 +42,6 @@
 							<li><a ng-click="logout()" href="#">Logout</a></li>
 						</ul>
 					</li>
-
-					<li ng-hide="authenticated" class="submenu-item">
-						<a ng-click="loginPage()" class="top-menu profile"><label>Sign In</label></a>
-					</li>
 				</ul>
 			</div>
 		</nav>
@@ -60,10 +56,8 @@
 -->
 	</div>
 
-	<div id="loading" ng-show="loading" class="container">
-		<div class="text-center"><img src="images/illustrations/time.png" /></div>
-	</div>
-	<div id="view" ng-hide="loading" ng-view></div>
+
+	<div id="view" ng-view></div>
 
 	<footer>
 		<div class="container">

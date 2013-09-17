@@ -2,7 +2,7 @@
 
 angular.module('workbench.device.controllers', [])
 	.value('version', '0.1.0')
-	.controller('Workbench.Device', function($route, $rootScope, $scope, $location, Device, Container, Message, MessageStream) {
+	.controller('Workbench.Device', function($route, $rootScope, $scope, $location, AuthHelper, Device, Container, Message, MessageStream) {
 		$scope.container    = $route.current.params.container;
 		$scope.device       = $route.current.params.device;
 		$scope.res = {
@@ -131,7 +131,10 @@ angular.module('workbench.device.controllers', [])
             });
         };
 
-		MessageStream.addEventListener('message', evCallback, false);
+		AuthHelper.tryAuth
+			.then(function() {
+				new MessageStream().addEventListener('message', evCallback, false);
+			});
 	})
 	.controller('Workbench.Device.MessageList', function($scope, $location, Message, MessageList) {
 		$scope.date = {
