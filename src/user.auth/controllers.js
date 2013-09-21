@@ -37,6 +37,11 @@ angular.module('user.auth.controllers', [])
 					$scope.user.client   = res.client;
 					$scope.user.clients  = res.authentications;
 					$rootScope.$broadcast('user:switch', res);
+					if ('/' === $location.$$path) {
+						window.location.reload();
+					} else {
+						$location.path('/');
+					}
 				});
 		};
 
