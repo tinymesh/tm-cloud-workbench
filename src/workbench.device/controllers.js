@@ -106,7 +106,7 @@ angular.module('workbench.device.controllers', [])
 
 		var evCallback = function (resp) {
             $scope.$apply(function () {
-				var msg = JSON.parse(resp.data);
+				var msg = JSON.parse(resp.data).message;
 				if ($scope.msg.length > 1) {
 					$scope.msg.shift();
 				}
