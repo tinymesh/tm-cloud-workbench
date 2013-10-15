@@ -3,40 +3,25 @@
 			<h1>Networks</h1>
 	</div>
 
-	<div ng-show="containers.length == 0">
+	<div ng-show="networks.length == 0">
 		<div class="bs-callout bs-callout-warning">
 			<h4>You have no networks</h4>
 			<p>
 				It seems you don't have any networks, do you want to create one?
 			</p>
 
-			<form ng-submit="createContainer(new.container)" class="form-horizontal" role="form">
+			<form ng-submit="createNew(new.network)" class="form-horizontal" role="form">
 				<div class="form-group">
-					<label for="io-container-name" class="col-lg-1 control-label">Name</label>
+					<label for="io-network-name" class="col-lg-1 control-label">Name</label>
 					<div class="col-lg-5">
-						<input ng-model="new.container" type="text" class="form-control" id="io-container-name" placeholder="Container Name" />
+						<input ng-model="new.network" type="text" class="form-control" id="io-network-name" placeholder="network Name" />
 					</div>
 					<button type="submit" class="btn btn-primary">Create</button>
 				</div>
 			</form>
 		</div>
 	</div>
-	<div ng-show="containers.length > 0">
-	<!--
-		<div class="bs-callout bs-callout-warning">
-			<h4>Create new contianer</h4>
-
-			<form ng-submit="createContainer(new.container)" class="form-horizontal" role="form">
-				<div class="form-group">
-					<label for="io-container-name" class="col-lg-1 control-label">Name</label>
-					<div class="col-lg-5">
-						<input ng-model="new.container" type="text" class="form-control" id="io-container-name" placeholder="Container Name" />
-					</div>
-					<button type="submit" class="btn btn-primary">Create</button>
-				</div>
-			</form>
-		</div>
-	-->
+	<div ng-show="networks.length > 0">
 
 		<table class="table">
 			<thead>
@@ -48,10 +33,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="item in containers">
+				<tr ng-repeat="item in networks">
 					<td>
-						<a ng-href="#/container/{{item.key}}">{{item.name}} ({{item.key}})</a>
-						<a ng-href="#/channel/{{container}}"
+						<a ng-href="#/{{resource}}/network/{{item.key}}">{{item.name}} ({{item.key}})</a>
+						<a
 					   ng-class="{'label-success': item.connected[0] > 0, 'label-warning': item.connected[1] > 0, 'label-danger': item.connected[0] == 0}"
 					   class="label">{{item.connected[0]}} of {{item.connected[1] + item.connected[0]}} Gateways reachable</a>
 					</td>

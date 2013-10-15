@@ -8,22 +8,22 @@
 	</div>
 
 	<form class="bs-callout bs-callout-info">
-		<h2>Edit network <i>{{res.name}}</i></h2>
+		<h2>Edit network <i>{{net.name}}</i></h2>
 
 		<dl class="dl-horizontal col-md-5">
 			<dt>Network Name</dt>
-			<dd tm-editable="res.name" />
+			<dd tm-editable="net.name" />
 
 			<dt>Location: City</dt>
-			<dd tm-editable="res.location.city" />
+			<dd tm-editable="net.location.city" />
 
 			<dt>Location: Country</dt>
-			<dd tm-editable="res.location.country" />
+			<dd tm-editable="net.location.country" />
 
 			<dt />
 			<dd class="pull-right">
 				<br />
-				<button ng-click="updateResource(res)"  class="btn btn-primary btn-sm" ng-disabled="false == _changed">Save changes</button>
+				<button ng-click="update(net)"  class="btn btn-primary btn-sm" ng-disabled="false == _changed">Save changes</button>
 			</dd>
 		</dl>
 
@@ -42,12 +42,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in res.devices">
+			<tr ng-repeat="item in net.devices">
 				<td>
-					<a ng-href="#/device/{{container}}/{{item.key}}">{{item.name || "Unnamed device (" + item.key + ")"}}</a>
+					<a ng-href="#/{{resource}}/device/{{net.key}}/{{item.key}}">{{item.name || "Unnamed device (" + item.key + ")"}}</a>
+					<!-- using net.channel[item.key] directly causes digest error -->
 					<span
-					   ng-show="{{res.channel[item.key]}}"
-					   ng-class="{'label-success': res.channel[item.key][1], 'label-danger': !res.channel[item.key][1]}"
+					   ng-init="item.gw = net.channel[item.key]"
+					   ng-show="item.gw"
+					   ng-class="{'label-success': net.channel[item.key][1], 'label-danger': !net.channel[item.key][1]}"
 					   class="label">Network connector</a>
 				</td>
 				<td>{{item.type || "device"}}</td>
@@ -56,7 +58,7 @@
 					   {{(item.counters.msg_event || 0) | number}}
 					// {{item.counters.msg_command || 0 | number}}
 					// {{item.counters.msg_fail || 0 | number}}</td>
-				<td><a ng-href="#/message/{{container}}/{{item.key}}/{{item.last_message}}">
+				<td><a ng-href="#/{{resource}}/message/{{net.key}}/{{item.key}}/{{item.last_message}}">
 					{{item.updated || "0" | date:'short'}}</a>
 				</td>
 			</tr>

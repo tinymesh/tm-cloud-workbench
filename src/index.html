@@ -5,31 +5,34 @@
   <title>Tinymesh Cloud &ndash; Workbench</title>
   <link rel="stylesheet" href="dist/style.css">
 </head>
-<body ng-controller="User.Auth" ng-cloak>
+<body ng-controller="wbAuthCtrl" ng-cloak>
 
-	<div id="nav" ng-controller="User.Auth.Toolbar">
+
+	<div id="nav">
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Tinymesh Cloud</a>
+					<a class="navbar-brand" ng-href="#/{{resource}}/network">Tinymesh Cloud Workbench</a>
 				</div>
 
 			  <div class="nav navbar-nav">
 					<ol class="breadcrumb">
-						<li ng-repeat="item in breadcrumb">
-							<a ng-if="item[1] != path" ng-href="#{{item[1]}}">{{item[0]}}</a>
-							<span ng-if="item[1] == path">{{item[0]}}</span>
-						</li>
+            <li ng-repeat="crumb in breadcrumb.getAll()">
+                <ng-switch on="$last">
+                    <span ng-switch-when="true">{{crumb.name}}</span>
+                    <span ng-switch-default><a ng-href="#{{crumb.path}}">{{crumb.name}}</a></span>
+                </ng-switch>
+            </li>
 					</ol>
 				</div>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown" ng-show="authenticated">
-						<a href="#">{{user.email}} &ndash; ({{user.client}})</a>
+					<li class="dropdown" ng-show="session.authenticated">
+						<a href="#">{{user.email}} &ndash; ({{resource}})</a>
 
 						<ul class="dropdown-menu">
-							<li class="client" ng-class="{active: user.client == key}" ng-repeat="(key, item) in user.clients">
-								<a ng-click="selectClient(key)" class="client-selector">
+							<li class="client" ng-class="{active: resource == key}" ng-repeat="(key, item) in user.resources">
+								<a ng-href="#/{{key}}/network" class="client-selector">
 									<span class="avatar"><img /></span>
 									<span class="client-wrap">
 										<span class="client-name">{{ key }}</span>
@@ -39,21 +42,13 @@
 								</a>
 							</li>
 
+							<li><a ng-href="#/user/profile">Profile</a></li>
 							<li><a ng-click="logout()" href="#">Logout</a></li>
 						</ul>
 					</li>
 				</ul>
 			</div>
 		</nav>
-<!--			<div id="upper-menu-container">
-						<li><a href="#/" class="top-menu home"><span aria-hidden="true" class="icn_logo">TinySolution</span></a></li>
-
-						<li ng-show="authenticated" class="submenu-item">
-							<a class="top-menu containers"><label>Containers</label></a>
-						</li>
-
-					</ul>
--->
 	</div>
 
 
@@ -121,13 +116,15 @@
 					&copy; 2012-2013 <a href="https://tiny-mesh.com">Tiny Mesh AS</a>.
 				</p>
 			</div>
-			
 		</div>
 	</footer>
 
   <script src="dist/underscore.js"></script>
   <script src="dist/json3.js"></script>
   <script src="dist/angular.js"></script>
+	<script src="dist/ngStorage.js"></script>
+	<script src="dist/CryptoJS.js"></script>
+	<script src="dist/tm.cloud.client.js"></script>
   <script src="dist/workbench.js"></script>
 </body>
 </html>

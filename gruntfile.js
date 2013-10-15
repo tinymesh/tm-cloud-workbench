@@ -10,8 +10,7 @@ module.exports = function (grunt) {
 	// Default task.
 	grunt.registerTask('default', ['jshint','build']);
 	grunt.registerTask('dev', ['default', 'connect', 'watch']);
-	grunt.registerTask('build', ['clean','concat','local-copy']);
-	grunt.registerTask('local-copy',['copy:assets', 'copy:partials', 'copy:npm']); 
+	grunt.registerTask('build', ['clean','concat','copy']);
 
 	grunt.registerTask('timestamp', function() {
 		grunt.log.subhead(Date());
@@ -27,7 +26,7 @@ module.exports = function (grunt) {
 			' * Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n */\n',
 		src: {
 			js: ['src/**/*.js'],
-			html: ['src/index-sync.html'],
+			html: ['src/index.html'],
 			css: ['src/css/*.css'],
 		},
 		clean: ['<%= distdir %>/*'],
@@ -47,12 +46,22 @@ module.exports = function (grunt) {
 			npm: {
 				files: [ {dest:    '<%= distdir %>/dist/',
 				          src:     [
+				            'ngStorage/ngStorage.js',
 				            'underscore/underscore.js',
 				            'json3/lib/json3.js',
 				          ],
 				          expand:  true,
 				          flatten: true,
 				          cwd:     'node_modules/'}]
+			},
+			vendor: {
+				files: [ {dest:    '<%= distdir %>/dist/',
+				          src:     [
+							'tm-cloud-client-angularjs/src/tm.cloud.client.js'
+				          ],
+				          expand:  true,
+				          flatten: true,
+				          cwd:     'node_modules/'}],
 			}
 		},
 		concat:{
@@ -62,20 +71,25 @@ module.exports = function (grunt) {
 				dest:'<%= distdir %>/dist/<%= pkg.name %>.js'
 			},
 			index: {
-				src: ['src/index-sync.html'],
+				src: ['src/index.html'],
 				dest: '<%= distdir %>/index.html',
 				options: { process: true }
 			},
 			angular: {
-				src: ['vendor/angular/angular.js',
-				      'vendor/angular/angular-route.js',
-				      'vendor/angular/angular-resource.js',
-				      'vendor/angular/angular-underscore.js'],
+				src: ['node_modules/angularjs/build/angular.js',
+				      'node_modules/angularjs/build/angular-route.js',
+				      'node_modules/angularjs/build/angular-resource.js',
+				      'node_modules/angularjs/build/angular-underscore.js'],
 				dest: '<%= distdir %>/dist/angular.js'
 			},
 			css: {
 				src: ['<%= src.css %>'],
 				dest: '<%= distdir %>/dist/style.css',
+			},
+			cryptojs: {
+				src: [ 'vendor/crypto-js-3.1.2/rollups/sha256.js',
+				       'vendor/crypto-js-3.1.2/components/enc-base64.js' ],
+				dest: '<%= distdir %>/dist/CryptoJS.js'
 			}
 		},
 		watch:{
@@ -91,12 +105,11 @@ module.exports = function (grunt) {
 				eqeqeq:  true,
 				immed:   true,
 				latedef: true,
-				newcap:  true,
 				noarg:   true,
 				sub:     true,
 				boss:    true,
 				eqnull:  true,
-				es5:     false,
+				es5:     true,
 				globals: {"angular": false}
 			}
 		},

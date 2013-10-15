@@ -1,0 +1,17 @@
+<div id="res-selector" class="container">
+	<div class="page-header">
+		<h1>Select security context</h1>
+	</div>
+
+	<div class="row">
+		<a ng-href="#/{{k}}/network" ng-repeat="(k, v) in user.resources" class="col-xs-2">
+			<img ng-show="v.img" src="{{v.img}}" class="img-rounded" alt="{{v.name || k}}" height="140" width="140" />
+			<span ng-show="!v.img" class="missing-img">
+				<span class="glyphicon glyphicon-file"> </span><br />
+				<b>No image added</b>
+			</span>
+			<hr/>
+			<b>{{v.name}}</b>
+		</a>
+	</div>
+</div>
