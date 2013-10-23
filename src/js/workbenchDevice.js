@@ -75,7 +75,7 @@ angular.module('workbenchDevice', ['ngRoute'])
 					$scope.esource.close();
 				}
 
-				$scope.esource = new tmStream({network: net.key});
+				$scope.esource = new tmStream({network: net.key, device: $routeParams.device});
 				$scope.esource.addEventListener('message', evCallback, false);
 
 				breadcrumbs.setName(1, net.name || net.key);
