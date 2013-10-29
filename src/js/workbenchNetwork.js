@@ -15,6 +15,9 @@ angular.module('workbenchNetwork', ['ngRoute'])
 			$scope.setResource($routeParams.resource);
 		}
 
+		$scope.net = new tmNet();
+
+		$scope.networks = [];
 		tmNet.list({device: "expand"}).$promise
 			.then(function(networks) {
 				$scope.networks = _.map(networks, function(i) {
@@ -25,6 +28,19 @@ angular.module('workbenchNetwork', ['ngRoute'])
 					return i;
 				});
 			});
+
+		$scope.createNew = function(net) {
+			if (!net.name || 0 === net.name.length) {
+				return;
+			}
+
+			net.$create()
+				.then(function(resp) {
+					$scope.networks.push(resp);
+				}, function(err) {
+					console.log('err', err);
+				});
+		};
 
 		breadcrumbs.assign([
 			{name: tmAuth.resources[$routeParams.resource].name,

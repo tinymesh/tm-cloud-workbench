@@ -10,11 +10,11 @@
 				It seems you don't have any networks, do you want to create one?
 			</p>
 
-			<form ng-submit="createNew(new.network)" class="form-horizontal" role="form">
+			<form ng-submit="createNew(net)" class="form-horizontal" role="form">
 				<div class="form-group">
 					<label for="io-network-name" class="col-lg-1 control-label">Name</label>
 					<div class="col-lg-5">
-						<input ng-model="new.network" type="text" class="form-control" id="io-network-name" placeholder="network Name" />
+						<input ng-model="net.name" type="text" class="form-control" id="io-network-name" placeholder="network Name" />
 					</div>
 					<button type="submit" class="btn btn-primary">Create</button>
 				</div>
