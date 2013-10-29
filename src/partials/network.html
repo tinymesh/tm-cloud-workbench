@@ -7,28 +7,40 @@
 		</div>
 	</div>
 
-	<form class="bs-callout bs-callout-info">
-		<h2>Edit network <i>{{net.name}}</i></h2>
+	<form class="bs-callout bs-callout-info" ng-init="rawMode = true;">
+		<h2>
+			Edit network <i>{{net.name}}</i>
+			<button ng-click="rawMode = !rawMode" class="pull-right btn btn-info btn-sm">Raw mode</button>
+		</h2>
 
-		<dl class="dl-horizontal col-md-5">
-			<dt>Network Name</dt>
-			<dd tm-editable="net.name" />
+		<div class="row">
+			<div ng-hide="rawMode" class="container">
+				<dl class="dl-horizontal col-md-5">
+					<dt>Network Name</dt>
+					<dd tm-editable="net.name" />
 
-			<dt>Location: City</dt>
-			<dd tm-editable="net.location.city" />
+					<dt>Location: City</dt>
+					<dd tm-editable="net.location.city" />
 
-			<dt>Location: Country</dt>
-			<dd tm-editable="net.location.country" />
+					<dt>Location: Country</dt>
+					<dd tm-editable="net.location.country" />
 
-			<dt />
-			<dd class="pull-right">
-				<br />
-				<button ng-click="update(net)"  class="btn btn-primary btn-sm" ng-disabled="false == _changed">Save changes</button>
-			</dd>
-		</dl>
+					<dt />
+				</dl>
+			</div>
+			<div ng-show="rawMode" class="container form-group" ng-class="{'has-error': jsonErr}">
+				<h3>Edit network JSON</h3>
+				 <div id="editor">// loading ...</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="container">
+				<button ng-click="update(net)"  class="pull-right btn btn-primary btn-sm" ng-disabled="jsonErr">Save changes</button>
+			</div>
+		</div>
 
 		<div class="clearfix"></div>
-
 	</form>
 
 	<table class="table">
