@@ -49,19 +49,20 @@ module.exports = function (grunt) {
 				            'ngStorage/ngStorage.js',
 				            'underscore/underscore.js',
 				            'json3/lib/json3.js',
+				            'tm-cloud-client-angularjs/src/tm.cloud.client.js'
 				          ],
 				          expand:  true,
 				          flatten: true,
 				          cwd:     'node_modules/'}]
 			},
 			vendor: {
-				files: [ {dest:    '<%= distdir %>/dist/',
+				files: [ {dest:    '<%= distdir %>/dist/ace',
 				          src:     [
-							'tm-cloud-client-angularjs/src/tm.cloud.client.js'
+				            'ace/src-noconflict/*'
 				          ],
 				          expand:  true,
 				          flatten: true,
-				          cwd:     'node_modules/'}],
+				          cwd:     'vendor/'} ],
 			}
 		},
 		concat:{

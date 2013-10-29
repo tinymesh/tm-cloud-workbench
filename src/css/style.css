@@ -922,3 +922,7 @@ textarea,
 #res-selector a:hover .missing-img {
 	color: #777; }
 
+#editor {
+	background: inherit;
+	position: relative;
+	height: 250px; }
