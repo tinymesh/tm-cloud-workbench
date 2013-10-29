@@ -23,9 +23,7 @@ angular.module('workbench', ['ngRoute',
 				controller: 'wb404Ctrl' });
 	}])
 	.controller('wbResourceCtrl', function($scope) {
-		console.log('abc, easy like 126');
 	})
 	.controller('wb404Ctrl', function($scope, $window) {
 		$scope.$window = $window;
-		console.log($window.history);
 	});
