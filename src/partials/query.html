@@ -1,0 +1,212 @@
+<style type="text/css">
+.clear { clear: both; }
+.frame {
+	padding: 0px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border: 1px solid #e5e5e5;
+	border-right-color: #d5d5d5;
+	border-bottom-color: #d5d5d5;
+	margin-bottom: 15px; }
+.frame > * {
+	padding: 9px 9px 7px;}
+.frame > .title {
+	margin: -1px 0 0 -1px;
+	border-top-left-radius: 3px;
+	background: #f5f5f5;
+	border-top: 1px solid #e5e5e5;
+	border-left: 3px solid #1292c9; }
+	.frame > .title > * {
+		color: #666;
+		margin: 0px; }
+	.frame > .title > *:first-child ~ div {
+		margin-top: 10px; }
+.frame > .title + * {
+	padding-top: 10px;
+	border-top: 1px solid #d5d5d5; }
+
+.row.actions > div {
+	padding: 15px 15px 10px;
+	border-top: 3px solid #e5e5e5;
+	background: #f5f5f5;
+	margin-bottom: 10px; }
+	.row.actions .btn {
+		margin: 0px 5px; }
+
+</style>
+
+<div class="query">
+	<form class="query form-horizontal">
+		<div class="row">
+			<div class="col-sm-9">
+					<div class="frame">
+						<div class="title">
+							<h4>Query Range</h4>
+						</div>
+
+						<div>
+							<div class="input-daterange input-group">
+								<span class="input-group-addon">From</span>
+								<input ng-model="date.from" type="datetime-local" name="date.from" class="form-control" id="dateFrom" placeholder="Date From" />
+								<span class="input-group-addon">To</span>
+								<input ng-model="date.to" type="datetime-local" name="date.to" class="form-control" id="dateTo" placeholder="Date To" />
+							</div>
+						</div>
+					</div>
+
+					<div class="frame">
+						<div class="title">
+							<h4>Conditions</h4>
+						</div>
+
+						<div>
+							<div class="col-sm-8">
+								<bootstrap-tagsinput
+									tagclass="label label-info"
+									ng-model="query">
+								</bootstrap-tagsinput>
+							</div>
+
+							<aside class="col-sm-4">
+								<h5>Query conditions</h5>
+
+								<p>
+									You can reduce the result set by using certain
+									query conditions. The conditions takes a simple form: 
+									<code>&lt;key&gt; &lt;operator&gt; &lt;value&gt;</code>
+									where the <code>&lt;operator&gt;</code> can be one of:
+									<code>: (equality)</code>, <code>!: (non-equality)</code>,
+									<code>&gt;: (greater than or equality)</code>,
+									<code>&gt; (greater than)</code>,
+									<code>:&lt; (less than or equality)</code>,
+									<code>&lt; (less than)</code>
+								</p>
+							</aside>
+
+							<div class="clear"></div>
+						</div>
+					</div>
+			</div>
+
+			<aside class="col-sm-3">
+				<div class="frame">
+					<div class="title">
+						<h4>Sorting</h4>
+					</div>
+
+					<div>
+						<div class="form-group col-sm-12">
+							<label for="sortBy">Sort By</label>
+							<bootstrap-tagsinput
+								tagclass="label label-info"
+								ng-model="sort.by">
+							</bootstrap-tagsinput>
+						</div>
+
+						<div>
+							<div class="form-group col-sm-12">
+								<div class="checkbox">
+									<label>
+										<input ng-model="sort.reverse" type="checkbox"> Reverse results?
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+
+				<div class="frame">
+					<div class="title">
+						<h4>Filter</h4>
+					</div>
+
+					<div>
+						<div class="form-group col-sm-12">
+							<label for="pickKeys">Select keys</label>
+
+							<bootstrap-tagsinput
+								tagclass="label label-info"
+								ng-model="filter.pick">
+							</bootstrap-tagsinput>
+						</div>
+
+						<div class="form-group col-sm-12">
+							<label for="omitKeys">Omit keys</label>
+
+							<bootstrap-tagsinput
+								tagclass="label label-warning"
+								ng-model="filter.omit">
+							</bootstrap-tagsinput>
+						</div>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</aside>
+		</div>
+		<div class="row actions">
+			<div class="col-md-12">
+				<button ng-click="run([network.key, device.key])"
+					class="pull-right btn btn-primary">Query</button>
+				<button class="pull-right btn btn-warning">Clear query</button>
+
+				<button ng-click="prev()" class="btn btn-info">Previous range</button>
+				<button ng-click="next()" class="btn btn-info">Next range</button>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="resultset">
+
+	<hr />
+
+	<div class="meta" ng-show="result.meta">
+		<dl class="dl-horizontal">
+			<dt>Range</dt>
+			<dd>from {{result.meta.date.from}} to {{result.meta.date.to}}</dd>
+
+			<dt>Previous range</dt>
+			<dd>from {{result.meta.query.prev['date.from']}} to {{result.meta.query.prev['date.to']}}</dd>
+
+			<dt>Next range</dt>
+			<dd>from {{result.meta.query.next['date.from']}} to {{result.meta.query.next['date.to']}}</dd>
+
+			<dt>Query Conditions<dt>
+			<dd>
+				<span class="label label-info" ng-repeat="cond in result.meta.conditions">
+					{{cond[0]}} {{cond[1]}} {{cond[2]}}
+				</span>
+			</dd>
+
+			<dt>Number of results</dt>
+			<dd>{{result.meta.objects}}</dd>
+		</dl>
+	</div>
+
+	<hr />
+
+	<div ng-hide="result.meta" class="alert alert-info">
+		You have not performed any queries yet
+	</div>
+	<div ng-show="result.meta && result.result.length == 0" class="alert alert-warning">
+		The query returned an empty result set
+	</div>
+	<table ng-show="result.result" class="table table-border table-zebra">
+		<thead>
+			<tr>
+				<td>Key</td>
+				<td>Datetime</td>
+				<td ng-repeat="(k, v) in result.result[0]['proto/tm']">{{k}}</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="msg in result.result">
+				<td>{{msg['key']}}</td>
+				<td>{{msg['datetime']}}</td>
+				<td ng-repeat="(k, v) in msg['proto/tm']">{{v}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

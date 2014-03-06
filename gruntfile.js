@@ -39,30 +39,25 @@ module.exports = function (grunt) {
 			},
 			partials: {
 				files: [ {dest:    '<%= distdir %>/partials/',
-				          src:     '*.html',
+				          src:     '**/*.html',
 				          expand:  true,
 				          cwd:     'src/partials'} ]
-			},
-			npm: {
-				files: [ {dest:    '<%= distdir %>/dist/',
-				          src:     [
-				            'ngStorage/ngStorage.js',
-				            'underscore/underscore.js',
-				            'json3/lib/json3.js',
-				            'tm-cloud-client-angularjs/src/tm.cloud.client.js'
-				          ],
-				          expand:  true,
-				          flatten: true,
-				          cwd:     'node_modules/'}]
 			},
 			vendor: {
 				files: [ {dest:    '<%= distdir %>/dist/ace',
 				          src:     [
-				            'ace/src-noconflict/*'
+				            'ace-builds-master/src-noconflict/*'
 				          ],
 				          expand:  true,
 				          flatten: true,
-				          cwd:     'vendor/'} ],
+				          cwd:     'vendor/'},
+
+				         {dest: '<%= distdir %>/fonts',
+				          src : 'bootstrap-3.1.1/dist/fonts/*',
+				          expand: true,
+				          flatten: true,
+				          cwd: 'vendor/'}
+				],
 			}
 		},
 		concat:{
@@ -76,26 +71,41 @@ module.exports = function (grunt) {
 				dest: '<%= distdir %>/index.html',
 				options: { process: true }
 			},
-			angular: {
-				src: ['node_modules/angularjs/build/angular.js',
-				      'node_modules/angularjs/build/angular-route.js',
-				      'node_modules/angularjs/build/angular-resource.js',
-				      'node_modules/angularjs/build/angular-underscore.js'],
-				dest: '<%= distdir %>/dist/angular.js'
+			js: {
+				src: ['vendor/jquery-1.11.0.js',
+
+				      'vendor/multiselect/bootstrap-multiselect.js',
+
+
+				      'node_modules/underscore/underscore.js',
+				      'node_modules/json3/lib/json3.js',
+
+					  'vendor/angular-1.2.14/angular.js',
+				      'vendor/angular-1.2.14/angular-route.js',
+				      'vendor/angular-1.2.14/angular-resource.js',
+
+				      'node_modules/ng-storage/ngStorage.min.js',
+				      'node_modules/tm-cloud-client-angularjs/src/tm.cloud.client.js',
+
+				      'vendor/tagsinput/bootstrap-tagsinput.js',
+				      'vendor/tagsinput/bootstrap-tagsinput-angular.js',
+
+				      'vendor/crypto-js-3.1.2/rollups/*.js',
+				      'vendor/crypto-js-3.1.2/components/*.js' ],
+				dest: '<%= distdir %>/dist/vendor.js'
 			},
 			css: {
-				src: ['<%= src.css %>'],
+				src: ["vendor/bootstrap-3.1.1/dist/css/bootstrap.css",
+					"vendor/{multiselect,tagsinput}/*.css",
+					"vendor/{multiselect,tagsinput}/*.css",
+					"<%= src.css %>",
+				],
 				dest: '<%= distdir %>/dist/style.css',
-			},
-			cryptojs: {
-				src: [ 'vendor/crypto-js-3.1.2/rollups/sha256.js',
-				       'vendor/crypto-js-3.1.2/components/enc-base64.js' ],
-				dest: '<%= distdir %>/dist/CryptoJS.js'
 			}
 		},
 		watch:{
 			all: {
-				files: ['<%= src.js %>', '<%= src.html %>', '<%= src.css %>', ['src/partials/*.html']],
+				files: ['<%= src.js %>', '<%= src.html %>', '<%= src.css %>', ['src/partials/**/*.html']],
 				tasks: ['default','timestamp']
 			},
 		},

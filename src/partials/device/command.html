@@ -1,0 +1,87 @@
+
+		<div class="row">
+			<form ng-submit="sendMessage(message)" class="col-md-12 bs-callout bs-callout-info">
+				<h3>Send Command</h3>
+
+				<div class="row">
+					<div class="form-group col-xs-2">
+						<label for="message-cm d">Command Type</label>
+						<select ng-model="message.command" id="message-cmd" class="form-control">
+							<option value="set_output">Set Output</option>
+							<option value="set_pwm">Set PWM</option>
+							<option value="init_gw_config">Set GW config mode</option>
+							<option value="get_cid">Get CID</option>
+							<option value="get_status">Get Status</option>
+							<option value="get_did_status">Get DID status</option>
+							<option value="get_config">Get config</option>
+							<option value="force_reset">Force reset</option>
+							<option value="get_path">Get Path</option>
+							<option value="serial" selected>Serial data</option>
+						</select>
+					</div>
+
+					<div class="form-group col-xs-2">
+						<label for="message-cmd-num">Command Number:</label>
+						<input ng-model="message.cmd_number" type="number" class="form-control" id="message-cmd-num" placeholder="Command Number">
+					</div>
+				</div>
+
+				<div ng-show="message.command === 'serial'" class="form-group">
+					<label for="message-data">ASCII String</label>
+					<input ng-model="message.data" type="text" class="form-control" id="message-data" placeholder="Enter ASCII string">
+				</div>
+
+				<div ng-show="message.command === 'set_pwm'" class="form-group">
+					<label for="message-pwm">Set PWM</label>
+					<input ng-model="message.pwm" type="number" class="form-control" id="message-pwm" placeholder="PWM ...">
+				</div>
+
+				<div ng-show="message.command === 'set_output'" class="form-group">
+					<h4>Set GPIO pins</h4>
+					<label>
+						GPIO 0
+						<input ng-model="message.output.0" type="checkbox" />
+					</label>
+					<label>
+						GPIO 1
+						<input ng-model="message.output.1" type="checkbox" />
+					</label>
+					<label>
+						GPIO 2
+						<input ng-model="message.output.2" type="checkbox" />
+					</label>
+					<label>
+						GPIO 3
+						<input ng-model="message.output.3" type="checkbox" />
+					</label>
+					<label>
+						GPIO 4
+						<input ng-model="message.output.4" type="checkbox" />
+					</label>
+					<label>
+						GPIO 5
+						<input ng-model="message.output.5" type="checkbox" />
+					</label>
+					<label>
+						GPIO 6
+						<input ng-model="message.output.6" type="checkbox" />
+					</label>
+					<label>
+						GPIO 7
+						<input ng-model="message.output.7" type="checkbox" />
+					</label>
+				</div>
+
+				<p>
+					<code>{{filter(message.command, message)}}</code>
+					<pre>{{message}}</pre>
+				</p>
+
+				<div class="col-md-2 pull-right">
+					<button ng-click="sendMessage(message)" type="submit" class="btn btn-primary">Send</button>
+				</div>
+
+				<div class="clearfix">&nbsp;</div>
+
+			</form>
+		</div>

@@ -1,107 +1,41 @@
 	<div class="container">
-			<div ng-show="flash" class="alert alert-{{flash[0]}}">
-				{{flash[1]}}
+		<div class="col-md-9 col-xs-9" role="main">
+			<div ng-switch on="activetab">
+				<div ng-switch-when="profile">
+					<div ng-include="'partials/profile/user.html'"></div>
+				</div>
+				<div ng-switch-when="authentication">
+					<div ng-include="'partials/profile/authentication.html'"></div>
+				</div>
+				<div ng-switch-when="organizations">
+					<div ng-include="'partials/profile/organizations.html'"></div>
+				</div>
+				<div ng-switch-when="audit">
+					<div ng-include="'partials/profile/audit.html'"></div>
+				</div>
+				<div ng-switch-default>
+					<div class="page-title">
+						<h1>Not found ;/</h1>
+					</div>
+
+					<p class="alert alert-danger">
+						The tab '{{activetab}}' could not be found
+					</p>
+				</div>
 			</div>
-			<form name="userForm" class="form-horizontal" role="form">
-				<div class="page-header">
-					<h2 class="form-signin-heading">User information</h2>
-				</div>
+		</div>
 
-				<div class="form-group col-lg-6"  ng-class="{'has-error': userForm.email.$invalid}">
-					<label for="email" class="col-md-4 control-label">Email</label>
-					<div class="col-md-8">
-						<input name="email" ng-model="user.email"
-							type="email" class="form-control" id="email"
-							placeholder="Email" disabled>
-					</div>
-				</div>
+		<div class="col-md-3 col-xs-3">
+				<br /> <br /> <br /> <br /> <br />
 
-				<div class="clearfix"></div>
-
-				<div class="form-group col-lg-6"  ng-class="{'has-error': userForm.first_name.$invalid}">
-					<label for="first_name" class="col-md-4 control-label">First Name</label>
-					<div class="col-md-8">
-						<input name="first_name" ng-model="user.first_name"
-							type="text" class="form-control" id="first_name"
-							placeholder="First name"
-							required>
-					</div>
-				</div>
-
-				<div class="form-group col-lg-6"  ng-class="{'has-error': userForm.last_name.$invalid}">
-					<label for="last_name" class="col-md-4 control-label">Last Name</label>
-					<div class="col-md-8">
-						<input name="last_name" ng-model="user.last_name"
-							type="text" class="form-control" id="last_name"
-							placeholder="Last name"
-							required>
-					</div>
-				</div>
-
-				<div class="form-group col-lg-6" ng-class="{'has-error': userForm.password_a.$invalid}">
-					<label for="password_a" class="col-md-4 control-label">Password</label>
-					<div class="col-md-8">
-						<input name="password_a" ng-model="password.a"
-							type="password" class="form-control" id="password_a"
-							ng-blur="userForm.password_b.$setValidity('password_b', password.a === password.b)"
-							ng-minlength="8"
-							placeholder="Password">
-
-						<p ng-show="userForm.password_a.$invalid" class="help-block">
-							<b>Password must be at least 8 characters</b>
-						</p>
-					</div>
-				</div>
-
-				<div class="form-group col-lg-6" ng-class="{'has-error': userForm.password_b.$invalid}">
-					<div class="col-md-push-4 col-md-8">
-
-						<input name="password_b" ng-model="password.b"
-							type="password" class="form-control" id="password_b"
-							ng-change="userForm.password_b.$setValidity('password_b', password.a === password.b)"
-							placeholder="Confirm Password">
-
-						<p ng-show="userForm.password_b.$invalid" class="help-block">
-							<b>Password do not match</b>
-						</p>
-					</div>
-				</div>
-
-				<div class="clearfix"></div>
-
-				<div class="page-header">
-					<h3>Security</h3>
-				</div>
-
-				<h4>User auth token</h4>
-				<pre>{{token}}</pre>
-
-				<br />
-
-				<h4>Security resource ({{resource}})</h4>
-				<ul class="list-group">
-					<li ng-click="setResource(k)" ng-repeat="(k, i) in user.resources"
-							class="list-group-item">
-						<a>resource:{{k}}
-							<span ng-show="k === resource" class="label label-success">Active</span>
-						</a>
-					</li>
+				<ul class="nav nav-stacked nav-pills">
+					<li ng-class="{active: activetab === 'profile'}"><a ng-href="#/user/profile">Account</a></li>
+					<li ng-class="{active: activetab === 'authentication'}"><a ng-href="#/user/authentication">Authentication</a></li>
+					<li ng-class="{active: activetab === 'organizations'}"><a ng-href="#/user/organizations">Organizations</a></li>
+					<li ng-class="{active: activetab === 'audit'}"><a ng-href="#/user/audit">Audit History</a></li>
 				</ul>
 
 				<br />
-
-				<h4>CORS origins</h4>
-				<ul class="list-group">
-				<li ng-repeat="origin in user.origins" class="list-group-item">{{origin}}</li>
-				</ul>
-
-				<hr />
-
-				<div class="form-group">
-					<div class="col-lg-10">
-						<button ng-click="update(user)" type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid">Submit changes</button>
-						<button ng-click="logout()" class="btn btn-default">Logout</button>
-					</div>
-				</div>
-			</form>
+				<br />
+		</div>
 	</div>

@@ -1,79 +1,37 @@
-<div class="controller-containers container">
+<div class="controller-containers container" ng-init="activetab = activetab || 'view'">
 
-	<div ng-show="alertBody" class="error-container container">
-		<hr />
-		<div class="login-alert alert alert-{{alertClass}}">
-			{{alertBody}}
+	<div class="col-md-9">
+		<div ng-switch on="activetab">
+			<div ng-switch-when="view">
+				<div ng-include="'partials/network/view.html'"></div>
+			</div>
+			<div ng-switch-when="devices">
+				<div ng-include="'partials/network/devices.html'"></div>
+			</div>
+			<div ng-switch-when="provision">
+				<div ng-include="'partials/network/provision.html'" ng-controller="wbNetworkProvisionCtrl"></div>
+			</div>
+			<div ng-switch-default>
+				<div class="page-title">
+					<h1>Not found ;/</h1>
+				</div>
+
+				<p class="alert alert-danger">
+					The tab '{{activetab}}' could not be found
+				</p>
+			</div>
 		</div>
 	</div>
 
-	<form class="bs-callout bs-callout-info" ng-init="rawMode = true;">
-		<h2>
-			Edit network <i>{{net.name}}</i>
-			<button ng-click="rawMode = !rawMode" class="pull-right btn btn-info btn-sm">Raw mode</button>
-		</h2>
+	<div class="col-md-3">
 
-		<div class="row">
-			<div ng-hide="rawMode" class="container">
-				<dl class="dl-horizontal col-md-5">
-					<dt>Network Name</dt>
-					<dd tm-editable="net.name" />
+		<ul style="border-left: 1px solid #eee; padding-top: 10px; padding-left: 5px; margin-top: 90px" class="nav nav-stacked nav-pills">
+			<li ng-class="{active: 'view' == activetab}"><a ng-href="#/network/{{net.key}}">Overview</a></li>
+			<li ng-class="{active: 'devices' == activetab}"><a ng-href="#/network/{{net.key}}/devices">Devices</a></li>
+			<li ng-class="{active: 'provision' == activetab}"><a ng-href="#/network/{{net.key}}/provision">Provisioning</a></li>
+		</ul>
 
-					<dt>Location: City</dt>
-					<dd tm-editable="net.location.city" />
-
-					<dt>Location: Country</dt>
-					<dd tm-editable="net.location.country" />
-
-					<dt />
-				</dl>
-			</div>
-			<div ng-show="rawMode" class="container form-group" ng-class="{'has-error': jsonErr}">
-				<h3>Edit network JSON</h3>
-				 <div id="editor">// loading ...</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="container">
-				<button ng-click="update(net)"  class="pull-right btn btn-primary btn-sm" ng-disabled="jsonErr">Save changes</button>
-			</div>
-		</div>
-
-		<div class="clearfix"></div>
-	</form>
-
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Device Name</th>
-				<th>Type</th>
-				<th>Address</th>
-				<th># messages</th>
-				<th>Last Update</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="item in net.devices">
-				<td>
-					<a ng-href="#/{{resource}}/device/{{net.key}}/{{item.key}}">{{item.name || "Unnamed device (" + item.key + ")"}}</a>
-					<!-- using net.channel[item.key] directly causes digest error -->
-					<span
-					   ng-init="item.gw = net.channel[item.key]"
-					   ng-show="item.gw"
-					   ng-class="{'label-success': net.channel[item.key][1], 'label-danger': !net.channel[item.key][1]}"
-					   class="label">Network connector</a>
-				</td>
-				<td>{{item.type || "device"}}</td>
-				<td>{{item.address}}</td>
-				<td>
-					   {{(item.counters.msg_event || 0) | number}}
-					// {{item.counters.msg_command || 0 | number}}
-					// {{item.counters.msg_fail || 0 | number}}</td>
-				<td><a ng-href="#/{{resource}}/message/{{net.key}}/{{item.key}}/{{item.last_message}}">
-					{{item.updated || "0" | date:'short'}}</a>
-				</td>
-			</tr>
-		</tbody>
-	<table>
+		<br />
+		<br />
+	</div>
 </div>

@@ -4,6 +4,16 @@
   <meta charset="utf-8">
   <title>Tinymesh Cloud &ndash; Workbench</title>
   <link rel="stylesheet" href="dist/style.css">
+	<script>
+	if ("localhost" !== window.location.hostname) {
+			var _rollbarConfig = {
+					accessToken: "4a3760feac944e80813ff411bc828d61",
+					captureUncaught: true,
+					payload: { environment:  "production" }
+			};
+			!function(a,b){function c(b){this.shimId=++h,this.notifier=null,this.parentShim=b,this.logger=function(){},a.console&&void 0===a.console.shimId&&(this.logger=a.console.log)}function d(b,c,d){!d[4]&&a._rollbarWrappedError&&(d[4]=a._rollbarWrappedError,a._rollbarWrappedError=null),b.uncaughtError.apply(b,d),c&&c.apply(a,arguments)}function e(b){var d=c;return g(function(){if(this.notifier)return this.notifier[b].apply(this.notifier,arguments);var c=this,e="scope"===b;e&&(c=new d(this));var f=Array.prototype.slice.call(arguments,0),g={shim:c,method:b,args:f,ts:new Date};return a._rollbarShimQueue.push(g),e?c:void 0})}function f(a,b){if(b.hasOwnProperty&&b.hasOwnProperty("addEventListener")){var c=b.addEventListener;b.addEventListener=function(b,d,e){c.call(this,b,a.wrap(d),e)};var d=b.removeEventListener;b.removeEventListener=function(a,b,c){d.call(this,a,b._wrapped||b,c)}}}function g(a,b){return b=b||this.logger,function(){try{return a.apply(this,arguments)}catch(c){b("Rollbar internal error:",c)}}}var h=0;c.init=function(a,b){var e=b.globalAlias||"Rollbar";if("object"==typeof a[e])return a[e];a._rollbarShimQueue=[],a._rollbarWrappedError=null,b=b||{};var h=new c;return g(function(){if(h.configure(b),b.captureUncaught){var c=a.onerror;a.onerror=function(){var a=Array.prototype.slice.call(arguments,0);d(h,c,a)},["EventTarget","Window","Node","ApplicationCache","AudioTrackList","ChannelMergerNode","CryptoOperation","EventSource","FileReader","HTMLUnknownElement","IDBDatabase","IDBRequest","IDBTransaction","KeyOperation","MediaController","MessagePort","ModalWindow","Notification","SVGElementInstance","Screen","TextTrack","TextTrackCue","TextTrackList","WebSocket","WebSocketWorker","Worker","XMLHttpRequest","XMLHttpRequestEventTarget","XMLHttpRequestUpload"].map(function(b){a[b]&&a[b].prototype&&f(h,a[b].prototype)})}return a[e]=h,h},h.logger)()},c.prototype.loadFull=function(a,b,c,d){var e=g(function(){var a=b.createElement("script"),e=b.getElementsByTagName("script")[0];a.src=d.rollbarJsUrl,a.async=!c,a.onload=f,e.parentNode.insertBefore(a,e)},this.logger),f=g(function(){if(void 0===a._rollbarPayloadQueue)for(var b,c,d,e,f=new Error("rollbar.js did not load");b=a._rollbarShimQueue.shift();)for(d=b.args,e=0;e<d.length;++e)if(c=d[e],"function"==typeof c){c(f);break}},this.logger);g(function(){c?e():a.addEventListener?a.addEventListener("load",e,!1):a.attachEvent("onload",e)},this.logger)()},c.prototype.wrap=function(b){if("function"!=typeof b)return b;if(b._isWrap)return b;if(!b._wrapped){b._wrapped=function(){try{return b.apply(this,arguments)}catch(c){throw a._rollbarWrappedError=c,c}},b._wrapped._isWrap=!0;for(var c in b)b.hasOwnProperty(c)&&(b._wrapped[c]=b[c])}return b._wrapped};for(var i="log,debug,info,warn,warning,error,critical,global,configure,scope,uncaughtError".split(","),j=0;j<i.length;++j)c.prototype[i[j]]=e(i[j]);var k="//d37gvrvc0wt4s1.cloudfront.net/js/v1.0/rollbar.min.js";_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||k;var l=c.init(a,_rollbarConfig);l.loadFull(a,b,!1,_rollbarConfig)}(window,document);
+	}
+	</script>
 </head>
 <body ng-controller="wbAuthCtrl" ng-cloak>
 
@@ -12,7 +22,7 @@
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" ng-href="#/{{resource}}/network">Tinymesh Cloud Workbench</a>
+					<a class="navbar-brand" ng-href="#/">Tinymesh Cloud Workbench</a>
 				</div>
 
 			  <div class="nav navbar-nav">
@@ -27,24 +37,16 @@
 				</div>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown" ng-show="session.authenticated">
-						<a href="#">{{user.email}} &ndash; ({{resource}})</a>
+					<li ng-show="auth !== false">
+						<a ng-href="#/user/profile">Account Settings
+								<i class="glyphicon glyphicon-cog"></i>
+						</a>
+					</li>
 
-						<ul class="dropdown-menu">
-							<li class="client" ng-class="{active: resource == key}" ng-repeat="(key, item) in user.resources">
-								<a ng-href="#/{{key}}/network" class="client-selector">
-									<span class="avatar"><img /></span>
-									<span class="client-wrap">
-										<span class="client-name">{{ key }}</span>
-										<span class="client-meta">
-										</span>
-									</span>
-								</a>
-							</li>
-
-							<li><a ng-href="#/user/profile">Profile</a></li>
-							<li><a ng-click="logout()" href="#">Logout</a></li>
-						</ul>
+					<li ng-show="auth !== false">
+						<a ng-click="logout()" href="#" title="Logout">
+								<i class="glyphicon glyphicon-off"></i>
+						</a>
 					</li>
 				</ul>
 			</div>
@@ -56,75 +58,67 @@
 
 	<footer>
 		<div class="container">
-			<div class="footer-meta">
-				<a href="#">Back to top</a>
-			</div>
-			<div class="col-sm-3">
-				<h5>What we do</h5>
+				<div class="col-sm-3">
+					<h5>What we do</h5>
 
-				<ul class="nav">
-					<li><a href="#">Overview</a></li>
-					<li><a href="#">Case studies</a></li>
-					<li><a href="#">Pricing</a></li>
-					<li><a href="#">The TinySolution Network</a></li>
-				</ul>
-			</div>
+					<ul class="nav">
+						<li><a href="/">Overview</a></li>
+						<li><a href="/">Case studies</a></li>
+						<li><a href="/">Pricing</a></li>
+						<li><a href="/">The TinySolution Network</a></li>
+					</ul>
+				</div>
 
-			<div class="col-sm-3">
-				<h5>Support</h5>
+				<div class="col-sm-3">
+					<h5>Support</h5>
 
-				<ul class="nav">
-					<li><a href="#">Getting Started</a></li>
-					<li><a href="#">Documentation</a></li>
-					<li><a href="#">Hardware integration</a></li>
-					<li><a href="#">TinyMesh protocol</a></li>
-				</ul>
-			</div>
+					<ul class="nav">
+						<li><a href="/docs/cloud/1.0.3/fast-track/">Getting Started</a></li>
+						<li><a href="/docs">Documentation</a></li>
+						<li><a href="/docs/cloud/1.0.3/faq/Terminal-Emulators.html">Hardware integration</a></li>
+						<li><a href="http://tiny-mesh.com/content/download/184/1547/file/TMxxxx(HP)-TM_Data_Sheet_1_38.pdf">TinyMesh protocol</a></li>
+					</ul>
+				</div>
 
-			<div class="col-sm-3">
-				<h5>About Us</h5>
+				<div class="col-sm-3">
+					<h5>About Us</h5>
 
-				<ul class="nav">
-					<li><a href="#">Company</a></li>
-					<li><a href="#">Contact us</a></li>
-				</ul>
+					<ul class="nav">
+						<li><a href="http://tiny-mesh.com">Company</a></li>
+						<li><a href="http://tiny-mesh.com/Contact">Contact us</a></li>
+					</ul>
 
-				<br />
+					<br>
 
-				<h5>Security & Privacy</h5>
+					<h5>Security &amp; Privacy</h5>
 
-				<ul class="nav">
-					<li><a href="#">Information Security</a></li>
-					<li><a href="#">Terms of service</a></li>
-					<li><a href="#">Privacy Policy</a></li>
-				</ul>
-			</div>
+					<ul class="nav">
+						<li><a href="/">Information Security</a></li>
+						<li><a href="http://tiny-mesh.com/Help-support/Legal/Terms-of-Service">Terms of service</a></li>
+						<li><a href="http://tiny-mesh.com/Help-support/Legal/Privacy-Policy">Privacy Policy</a></li>
+					</ul>
+				</div>
 
-			<div class="col-md-3">
-				<h5>Secure, real-time communication</h5>
+				<div class="col-md-3">
+					<h5>Secure, real-time communication</h5>
 
-				<p>
-					Extending the <b>TinyMesh</b> protocol, <b>TinySolution</b>
-					ensures secure and fault-tolerant communication over a real-time
-					network backbone; creating a robust platform tailored for
-					automating industry, office and homes.
-				</p>
+					<p>
+						Extending the <b>TinyMesh</b> protocol, <b>TinySolution</b>
+						ensures secure and fault-tolerant communication over a real-time
+						network backbone; creating a robust platform tailored for
+						automating industry, office and homes.
+					</p>
 
-				<hr />
+					<hr>
 
-				<p>
-					&copy; 2012-2013 <a href="https://tiny-mesh.com">Tiny Mesh AS</a>.
-				</p>
-			</div>
+					<p>
+						&copy; 2012-2013 <a href="https://tiny-mesh.com">Tiny Mesh AS</a>.
+					</p>
+				</div>
 		</div>
 	</footer>
 
-  <script src="dist/underscore.js"></script>
-  <script src="dist/json3.js"></script>
-  <script src="dist/angular.js"></script>
-	<script src="dist/ngStorage.js"></script>
-	<script src="dist/CryptoJS.js"></script>
-	<script src="dist/tm.cloud.client.js"></script>
+  <script src="dist/vendor.js"></script>
   <script src="dist/workbench.js"></script>
   <script src="dist/ace/ace.js"></script>
 </body>

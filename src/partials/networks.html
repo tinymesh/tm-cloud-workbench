@@ -1,56 +1,69 @@
 <div class="controller-containers container">
-	<div class="page-header">
-			<h1>Networks</h1>
-	</div>
-
-	<div ng-show="networks.length == 0">
-		<div class="bs-callout bs-callout-warning">
-			<h4>You have no networks</h4>
-			<p>
-				It seems you don't have any networks, do you want to create one?
-			</p>
-
-			<form ng-submit="createNew(net)" class="form-horizontal" role="form">
-				<div class="form-group">
-					<label for="io-network-name" class="col-lg-1 control-label">Name</label>
-					<div class="col-lg-5">
-						<input ng-model="net.name" type="text" class="form-control" id="io-network-name" placeholder="network Name" />
-					</div>
-					<button type="submit" class="btn btn-primary">Create</button>
+	<div class="row">
+			<div class="col-md-9">
+				<div class="page-header">
+					<h1>Networks</h1>
 				</div>
-			</form>
-		</div>
-	</div>
-	<div ng-show="networks.length > 0">
 
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Location</th>
-					<th>Messages (in / out / fail)</th>
-					<th># devices</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="item in networks">
-					<td>
-						<a ng-href="#/{{resource}}/network/{{item.key}}">{{item.name}} ({{item.key}})</a>
-						<a
-					   ng-class="{'label-success': item.connected[0] > 0, 'label-warning': item.connected[1] > 0, 'label-danger': item.connected[0] == 0}"
-					   class="label">{{item.connected[0]}} of {{item.connected[1] + item.connected[0]}} Gateways reachable</a>
-					</td>
-					<td>
-						<a data-type="city" data-val="{{item.location.city}}">{{item.location.city}}</a>
-						//
-						<a data-type="country" data-val="{{item.location.country}}">{{item.location.country}}</a></td>
-					<td>{{item.counters.msg_event || 0 | number}}
-						// {{item.counters.msg_command || 0 | number}}
-						// {{item.counters.msg_fail || 0 | number}}
-					</td>
-					<td>{{(item.devices || []).length | number}}</td>
-				</tr>
-			</tbody>
-		<table>
+				<div class="table" ng-show="networks.length == 0">
+					<div class="alert alert-notice">
+						You don't have any networks yet
+					</div>
+				</div>
+
+				<table class="table" ng-show="networks.length > 0">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th><!--Location-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+							<th><!--Messages (in / out / fail)-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+							<th><!--# devices -->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+						</tr>
+					</thead>
+					<pre>{{networks}}</pre>
+					<tbody>
+						<tr ng-repeat="item in networks">
+							<td>
+								<a ng-href="#/network/{{item.key}}">{{item.name}} ({{item.key}})</a>
+								<a
+								 ng-class="{'label-success': item.connected[0] > 0, 'label-warning': item.connected[1] > 0, 'label-danger': !item.connected[0]}"
+								 class="label">{{item.connected[0] || 0}} of {{item.connected[1] + item.connected[0] || 0}} Gateways reachable</a>
+							</td>
+<!--
+							<td>
+								<a data-type="city" data-val="{{item.location.city}}">{{item.location.city}}</a>
+								//
+								<a data-type="country" data-val="{{item.location.country}}">{{item.location.country}}</a></td>
+							<td>{{item.counters.msg_event || 0 | number}}
+								// {{item.counters.msg_command || 0 | number}}
+								// {{item.counters.msg_fail || 0 | number}}
+							</td>
+							<td>{{(item.devices || []).length | number}}</td>
+-->
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="col-md-3">
+					<div class="page-header">
+						<h4 style="padding-top: 20px">Create new network</h4>
+					</div>
+
+					<form ng-submit="createNew(net)" class="form-horizontal" role="form">
+						<div>
+							<div class="">
+								<input ng-model="net.name" type="text" class="form-control" id="io-network-name" placeholder="Network Name" />
+							</div>
+							<br />
+							<button type="submit" class="pull-right btn btn-primary">Create</button>
+						</div>
+					</form>
+					<br />
+					<br />
+					<br />
+					<br />
+			</div>
 	</div>
+
 </div>

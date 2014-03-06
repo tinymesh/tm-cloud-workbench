@@ -1,0 +1,68 @@
+	<form>
+		<h2>{{device.name}}</h2>
+
+		<dl class="dl-horizontal col-sm-4">
+			<dt>Name</dt>
+			<dd>{{device.name || ("Unnamed device ("+device.key+")")}}</dd>
+
+			<dt>Type</dt>
+			<dd>{{device.type}}</dd>
+
+			<dt>Address</dt>
+			<dd>{{device.address}}</dd>
+
+			<dt>Hardware Revision</dt>
+			<dd>{{device['tm/state']['proto/tm'].hardware || "Unknown"}}</dd>
+
+			<dt>Firmware revision</dt>
+			<dd>{{device['tm/state']['proto/tm'].firmware || "Unknown"}}</dd>
+		</dl>
+
+		<div class="col-sm-4">
+			<div class="alert alert-warning">Device state information currently unavilable</div>
+			<dl class="dl-horizontal">
+				<dt>State</dt>
+				<dd>
+					<span ng-show="connected" class="label label-success">Communicating</span>
+					<span ng-show="!connected" class="label label-danger">Disconnected</span>
+				</dd>
+
+				<dt>Encryption<dt>
+				<dd><span class="label label-warning">Disabled</span></dd>
+
+				<dt>Current connection(s)</dt>
+				<dd>
+					<a ng-repeat="(k, i) in net.channel"
+						 ng-show="{{i[1]}}"
+						 ng-href="#/{{resource}}/device/{{net.key}}/{{k}}">{{k}}<span ng-show="!$last">, </span></a>
+					<span ng-show="!connected" class="label label-danger">None</span>
+				</dd>
+
+				<dt>Known gateways</dt>
+				<dd>
+					<a ng-repeat="(k, i) in net.channel"
+						 ng-href="#/{{resource}}/device/{{net.key}}/{{k}}">{{k}}<span ng-show="!$last">, </span></a>
+				</dd>
+
+			</dl>
+		</div>
+
+		<dl class="dl-horizontal col-sm-4">
+			<dt>Last Updated</dt>
+			<dd>
+				<a ng-href="#/{{resource}}/message/{{net.key}}/{{device.key}}/{{device['tm/state'].key}}">
+						{{(last_msg.datetime || device.updated) | date:'short'}}
+				</a>
+			</dd>
+
+			<dt>Message Count</dt>
+			<dd>{{device.counters.msg_event || 0 | number}} / {{device.counters.msg_command || 0 | number}} <i>(in / out)</i></dd>
+
+			<dt>Message queue</dt>
+			<dd>{{device.counters.queue_len || 0 | number}} / {{device.counters.queue_out || 0 | number}} <i>(left / sendt)</i></dd>
+		</dl>
+
+		<div class="pull-right">
+			<button ng-click="updateDevice(device)"  class="btn btn-primary" ng-disabled="false == _changed">Save changes</button>
+		</div>
+	</form>

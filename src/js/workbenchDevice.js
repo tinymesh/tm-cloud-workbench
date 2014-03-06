@@ -2,85 +2,21 @@ angular.module('workbenchDevice', ['ngRoute'])
 	.value('version', '0.2.0')
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
-			.when('/:resource/device/:network/:device', {
+			.when('/device/:network/:device/:activetab?', {
 				templateUrl: 'partials/device.html',
 				controller: 'wbDeviceCtrl' });
 	}])
 	.controller('wbDeviceCtrl', function($scope, $location, $route, $routeParams,
-			$timeout, breadcrumbs, tmAuth, tmNet, tmDevice, tmMsg, tmStream) {
+			$timeout, breadcrumbs, tmAuth, tmNet, tmDevice, tmMsg) {
+
 		var evCallback;
 
-		if ($routeParams.resource !== tmAuth.resource) {
-			tmAuth.setResource($routeParams.resource);
-		}
 
 		$scope.msg = [];
+		$scope.message = new tmMsg({});
+		$scope.activetab = $routeParams.activetab || "view";
 
-		breadcrumbs.assign([
-			{name: tmAuth.resources[$routeParams.resource].name,
-				path: "/" + $routeParams.resource + '/network'},
-			{name: $routeParams.network,
-				path: "/" + $routeParams.resource + '/network/' + $routeParams.network},
-			{name: $routeParams.device,
-				path: $location.path()}
-		]);
-
-		evCallback = function(resp) {
-            $scope.$apply(function () {
-				var msg = JSON.parse(resp.data).message;
-				if ($scope.msg.length > 5) {
-					$timeout.cancel($scope.msg.shift().timer);
-				}
-
-				if ('event' === msg['proto/tm'].type) {
-					$scope.device.counters.msg_event++;
-				} else if ('command' === msg['proto/tm'].type) {
-					$scope.device.counters.msg_command++;
-				}
-
-				msg.timer = $timeout(function() {
-					$scope.$apply(function() {
-						$scope.msg.shift();
-					});
-				}, 5500);
-                $scope.msg.push(msg);
-			});
-		};
-
-		$scope.tab = function(t) {
-			if (undefined !== t) {
-				$location.search('tab', t);
-			} else {
-				return $route.current.params.tab || 'overview';
-			}
-		};
-
-		$scope.updateDevice = function(dev) {
-			dev.$update({network: $scope.net.key})
-				.then(function(newdev) {
-					$scope.alertBody  = 'Device ' + (newdev.name || newdev.key) + ' was successfully updated';
-					$scope.alertClass = 'success';
-				});
-		};
-
-		$scope.net = tmNet.get({id: $routeParams.network});
-		$scope.net.$promise.then(function(net) {
-				$scope.connected = _.some(net.channel, function(i) {
-					return i[1];
-				});
-
-				$scope.known_konnections = _.keys(net.channel || {});
-
-				if ($scope.esource) {
-					$scope.esource.close();
-				}
-
-				$scope.esource = new tmStream({network: net.key, device: $routeParams.device});
-				$scope.esource.addEventListener('message', evCallback, false);
-
-				breadcrumbs.setName(1, net.name || net.key);
-			});
-
+		$scope.network = tmNet.get({}, {key: $routeParams.network});
 		$scope.device = tmDevice.get({
 			network: $routeParams.network,
 			key: $routeParams.device
@@ -92,13 +28,11 @@ angular.module('workbenchDevice', ['ngRoute'])
 				command: 'get_status',
 				cmd_number: 0
 			});
-
-			breadcrumbs.setName(2, dev.name || dev.key);
 		});
 
 		$scope.sendMessage = function(msg) {
-			msg2 = $scope.filterMsg(msg.command, msg);
-			msg2.$create({network: $scope.net.key, device: $scope.device.key})
+			var message = new tmMsg(msg);
+			message.$create({network: $routeParams.network, device: $routeParams.device})
 				.catch(function(err) {
 					$scope.alertClass = 'danger';
 					$scope.alertBody = "Failed to publish message" + JSON.stringify(err);

@@ -1,0 +1,33 @@
+		<form name="config" class="form-horizontal" role="form">
+			<div class="alert alert-warning">
+				<b>Info:</b> Device configuration service is currently not available for your plan. Sorry for any inconvenience.
+			</div>
+		<!--
+
+			<div ng-show="conf._numKeys === 0" class="alert alert-info">
+				<b>Notice:</b> The configuration for this device have not been retrieved yet.
+			</div>
+
+			<br />
+			<div class="col-sm-2 pull-right">
+				<button ng-click="sendMessage({type:'command',command:'get_config', cmd_number:41})"
+					class="btn btn-info">
+					<span class="glyphicon glyphicon-refresh"></span>
+					Get configuration</button>
+			</div>
+
+			<div ng-show="conf._numKeys > 0" class="alert alert-info">
+				<div ng-repeat="(key, name) in {dev: 'Device', 'gpio': 'IO functions', net: 'Network', net_cluster: 'Clustering', uart:'UART', 'misc':'General'}">
+					<h3>{{name}}</h3>
+					<div class="form-group">
+						<div ng-repeat="(p, v) in conf[key]" class="col-lg-4 form-group">
+							<label for="cfg-{{p}}" class="col-lg-6 control-label">{{p}}</label>
+							<div class="col-lg-6">
+								<input disabled type="text" class="form-control" id="cfg-{{p}}" value="{{v}}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	-->
+		</form>

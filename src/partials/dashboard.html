@@ -1,0 +1,154 @@
+<div id="res-selector" class="container">
+	<div class="row">
+
+		<div class="col-md-12" ng-init="activetab = 'networks'">
+			<ul class="nav nav-tabs">
+				<li ng-class='{active:activetab == "summary"}'><a ng-click="activetab = 'summary'">Summary</a></li>
+				<li ng-class='{active:activetab == "networks"}'><a ng-click="activetab = 'networks'">Networks</a></li>
+			</ul>
+
+			<div ng-show="activetab == 'summary'">
+				<div class="col-md-4">
+					<div class="page-header">
+						<h4>Welcome {{user.name || user.email}}</h4>
+					</div>
+
+					<ul class="list">
+						<li>Last login at <a>{{(user.last_session||0)*1000|date:'medium'}}</a></li>
+					</ul>
+				</div>
+
+				<div class="col-md-8">
+				</div>
+			</div>
+
+			<div ng-show="activetab == 'networks'">
+				<div class="col-md-4">
+					<div class="page-header">
+						<h4>Connection Summary</h4>
+					</div>
+					<div class="alert alert-info" ng-hide="user.networks.length > 0">
+						You do not have any networks
+					</div>
+					<ul class="list" ng-show="user.networks.length > 0">
+						<li>
+							You have
+								<span class="label" ng-class="{'label-warning': inactiveChans.length > 0,
+								                               'label-success':inactiveChans.length == 0,
+								                               'label-danger':activeChans.length == 0}">
+									{{_.size(activeChans)}} active channel(s)
+								</span>
+								<span ng-show="inactiveChans.length > 0">
+									&nbsp; and <span class="label label-danger">{{inactiveChans.length}} inactive channel(s)</span>
+								</span>
+						    &nbsp; in your <span class="label label-default">{{user.networks.length || 0}} Network(s)</span>
+						</li>
+						<li><b>Message Delivery time</b> <span class="label label-default">{{minDeliveryTime}} ms</span></li>
+						<li><b>Message queue length</b>
+							<span class="label" ng-class="{'label-success': !queueLength, 'label-warning': queueLength}">
+								{{queueLength}}
+							</span>
+						</li>
+						<li><b>Message retries last hour</b> <span class="label label-success">none</span></li>
+
+					</ul>
+				</div>
+				<div class="col-md-8">
+					<div class="page-header">
+						<h4>Network Messages/second</h4>
+					</div>
+					<img src="/target/images/graph.png" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8">
+			<div class="page-header">
+				<h4>Latest updates</h4>
+			</div>
+
+			<div>
+				<div class="alert  alert-warning">
+					Notifications are temporarily unavailable, sorry for any inconvenience.
+				</div>
+				<!--
+				<ul class="list">
+					<li><a><i>dev@nyx</i> added you to the organization <i>Tiny Mesh AS</i></a></li>
+					<li><a>You added new key <i>31:ab:14:22:cc:31:b9:aa:f9</i></a></li>
+					<li><a>Device <i>'1/42e47beaf'</i> was updated</a></li>
+					<li><a>Device <i>'1/32578141f'</i> was automatically provisioned</a></li>
+					<li><a>Device <i>'1/42e47beaf'</i> was automatically provisioned</a></li>
+					<li><a>Device <i>'1/dbb15f739'</i> was automatically provisioned</a></li>
+					<li><a>Device <i>'1/b9a0115cd'</i> was automatically provisioned</a></li>
+					<li><a>Device '1/1d6ta51' with address 1</a></li>
+					<li><a>You created new gateway '1/1d6ta51' with address 1</a></li>
+					<li><a>You created new network '1'</a></li>
+				</ul>
+				-->
+
+				<div>
+					<a class="btn btn-default btn-sm">Open notification center</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="row">
+				<div class="page-header">
+					<h4>Your Networks</h4>
+				</div>
+
+				<div>
+					<div class="alert alert-warning" ng-show="user.networks.length == 0">
+						You don't have any networks yet, <a>would you like to create one?</a>
+					</div>
+
+					<ul class="inline list" ng-show="networks.length > 0">
+						<li ng-repeat="net in networks">
+								<a ng-href="#/network/{{net.key}}">{{net.name || ("Unnamed network (" + net.key + ")")}}</a>
+						</li>
+					</ul>
+				</div>
+
+				<div>
+					<h5>Create new network</h5>
+
+					<form ng-submit="net = createNet(net)" class="form-horizontal">
+						<div class="btn-group input-group pull-right">
+							<span class="input-group-addon"><b class="glyphicon glyphicon-home"></b></span>
+							<div class="col-sm-3" style="padding: 0px">
+								<select ng-model="net.parents" class="form-control">
+									<option value="user/{{user.email}}">User: {{user.email}}</option>
+									<option value="organization/{{c}}" ng-repeat="c in user.organizations">{{c}}</option>
+								</select>
+							</div>
+							<div class="col-sm-6" style="padding: 0px">
+								<input ng-model="net.name" id="netname" type="text" class="form-control" placeholder="Network name" required />
+							</div>
+							<button type="submit" class="btn btn-primary">Create</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="page-header">
+					<h4>Organizations</h4>
+				</div>
+
+				<div>
+					<div class="alert alert-warning" ng-show="user.organizations.length == 0">
+						You are not part of any organizations.
+					</div>
+					<ul class="inline list" ng-show="user.organizations.length > 0">
+						<li ng-repeat="org in user.organizations">
+								<a ng-href="#/organization/{{org}}">{{org}}</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

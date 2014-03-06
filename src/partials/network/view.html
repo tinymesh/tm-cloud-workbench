@@ -1,0 +1,96 @@
+			<div>
+				<div class="page-header">
+					<h2 ng-hide="editMode || rawMode"><b>{{net.name || ("Unnamed network (" + net.key + ")")}}</b></h2>
+
+					<h2 ng-show="editMode"><b>Edit network information</b></h2>
+					<h2 ng-show="rawMode"><b>Edit raw network information</b></h2>
+				</div>
+
+				<div class="meta" style="position:absolute;top:65px;right:40px">
+					<a ng-show="rawMode" title="View json" ng-click="rawMode = false" class="edit-btn" ng-click="editMode = true">Normal mode<i class="glyphicon glyphicon-cog"> </i></a>
+					<a ng-hide="rawMode" title="Edit raw json" ng-click="rawMode = true" class="edit-btn" ng-click="editMode = true">Raw mode<i class="glyphicon glyphicon-cog"> </i></a>
+				</div>
+
+				<div class="row">
+					<div ng-hide="editMode || rawMode" class="col-md-5">
+						<dl class="dl-horizontal">
+							<dt>Network Name</dt>
+							<dd>{{net.name || ("Unnamed network (" + net.key + ")")}}</dd>
+
+							<dt>Types</dt>
+							<dd>
+								<span ng-repeat="(k, v) in net.types">
+									<a title="Edit type">{{v.name || k}}</a>,
+								</span>
+							</dd>
+
+							<dt>Groups</dt>
+							<dd>
+								<span class="label label-info" ng-show="net.groups.length == 0">
+									No groups available
+								</span>
+								<span ng-repeat="(k, v) in net.groups">
+									<a title="View group">{{v.name || k}}</a>,
+								</span>
+							</dd>
+
+							<dt>Default Provision</dt>
+							<dd><b>{{net.provision.default}}</b>, type <a>{{net.provision.type}}</a></dd>
+
+							<dt>Device count</dt>
+							<dd>{{net.meta.device.count}}
+								<span class="hidden tooltip">
+									Active: {{net.meta.device.count.active}}<br />
+									Inactive: {{net.meta.device.count.inactive}}
+								</span>
+							</dd>
+
+							<dt>Message count</dt>
+							<dd>
+								{{net.meta.msg.in.count + net.meta.msg.out.count}}
+								<span class="hidden tooltip">
+									In: {{net.meta.msg.in.count}}<br />
+									Out: {{net.meta.msg.in.count}}<br />
+									Last: {{net.meta.msg.last}}<br />
+								</span>
+							</dd>
+						</dl>
+					</div>
+
+					<div ng-hide="rawMode" class="col-md-4">
+						<div>
+							<h4>Access Information</h4>
+							<dl class="dl-horizontal">
+								<dt>Activated?</dt>
+								<dd>true</dd>
+
+								<dt>ACL resources</dt>
+								<dd>
+										<span ng-repeat="v in net.parents">
+											<a title="View resource: v" ng-href="#{{v}}">{{v}}</a>,
+										</span>
+								</dd>
+							</dl>
+						</div>
+						<div>
+							<h4>Network Overview</h4>
+							<dl class="dl-horizontal">
+								<dt>Channels</dt>
+								<dd>
+									<span class="label" style="margin-right: 10px"
+										ng-class="{'label-danger':!chan.active,'label-success':chan.active}"
+										ng-repeat="(k, chan) in net.channels">
+										<span>{{k}}</span>
+											<span ng-show="!chan.active">(Connection unavailable)</span>
+											<span ng-show="chan.active">(Connected)</span>
+									</span>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div ng-show="rawMode" class="">
+						<div id="editor">Editor is loading</div>
+						<br />
+					</div>
+				</div>
+			</div>

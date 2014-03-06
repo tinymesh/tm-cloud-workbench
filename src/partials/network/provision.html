@@ -1,0 +1,102 @@
+<style type="text/css">
+.nav-box > li.active > a,
+.nav-box > li.active > a:hover,
+.nav-box > li.active > a:focus {
+  color: #ffffff;
+  background-color: #428bca; }
+
+.flat-menu {
+	padding-top: 0px;
+	padding-right: 0px; }
+	.flat-menu > div {
+		background: #efefef; }
+	.flat-menu h4 {
+		padding: 17px 15px 3px;
+		margin-top: 0px; }
+
+.no-bottom-margin { margin-bottom: 0px; }
+.top-margin { margin-top: 15px; }
+</style>
+<div class="page-header no-bottom-margin">
+	<h2 ng-hide="editMode || rawMode">Provisioning <span>({{type}})</h2>
+</div>
+
+<div class="row">
+	<div class="col-sm-8 top-margin" ng-show="type == 'all'">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label for="defaultProvision">Auto activate</label>
+
+				<select ng-model="net.provision.default" class="form-control">
+					<option>active</option>
+					<option>inactive</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="defaultProvision">Auto provision type</label>
+
+				<select ng-model="net.provision.type" class="form-control">
+					<option ng-repeat="(k, v) in net.types">{{k}}</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="provisionConfig">Auto provision config</label>
+
+				<bootstrap-tagsinput
+					tagclass="label label-info"
+					ng-model="net.provision.config"
+					itemValue= 'key'
+					itemText='mapCfgPair'>
+				</bootstrap-tagsinput>
+			</div>
+		</form>
+	</div>
+
+	<div class="col-sm-8" ng-hide="type == 'all'">
+			<div class="form-group">
+				<label for="provisionConfig">Input</label>
+
+				<bootstrap-tagsinput
+					tagclass="label label-info"
+					ng-model="net.types[type].input">
+				</bootstrap-tagsinput>
+			</div>
+
+			<div class="form-group">
+				<label for="provisionConfig">Output</label>
+
+				<bootstrap-tagsinput
+					tagclass="label label-info"
+					ng-model="net.types[type].input">
+				</bootstrap-tagsinput>
+
+			</div>
+			<div class="form-group">
+				<label for="provisionConfig">Auto provision config</label>
+
+				<bootstrap-tagsinput
+					tagclass="label label-info"
+					ng-model="net.types[type].config"
+					itemValue= 'key'
+					itemText='mapCfgPair'>
+				</bootstrap-tagsinput>
+			</div>
+	</div>
+
+	<aside class="col-sm-4 flat-menu">
+		<div>
+			<h4>Types</h4>
+
+			<ul class="nav nav-stacked nav-box">
+				<li ng-class="{active: 'all' === type}">
+					<a ng-click="setType('all')">All Types</a>
+				</li>
+				<li ng-class="{active: k === type}" ng-repeat="(k, v) in net.types">
+					<a ng-click="setType(k)">{{k}}</a>
+				</li>
+			</ul>
+		</div>
+	</aside>
+</div>

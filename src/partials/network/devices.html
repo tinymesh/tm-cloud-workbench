@@ -1,0 +1,52 @@
+<style type="text/css">
+.page-header {
+	display: relative; }
+.encoding {
+	position: absolute;
+	top: 40px;
+	right: 0px; }
+	.encoding span.btn.btn-sm {
+		width: 110px;
+		height: 27px;
+		padding-top: 8px; }
+	.encoding .btn-sm {
+		font-size: 10px; }
+</style>
+			<div class="page-header">
+				<h2><b>Device list</b></h2>
+
+				<div class="encoding" ng-init="encoding = encoding || 'dec'">
+					<div class="btn-group">
+						<span class="btn btn-sm input-group-addon">Address encoding</span>
+						<button ng-class="{active: encoding == 'hex'}" ng-click="encoding = 'hex'"   type="button" class="btn btn-sm btn-default">HEX</button>
+						<button ng-class="{active: encoding == 'bytes'}" ng-click="encoding = 'bytes'" type="button" class="btn btn-sm btn-default">Bytes</button>
+						<button ng-class="{active: encoding == 'dec'}" ng-click="encoding = 'dec'"   type="button" class="btn btn-sm btn-default">Decimal</button>
+					</div>
+				</div>
+			</div>
+
+				<table class="table" ng-show="net.devicemap">
+					<thead>
+						<tr>
+							<th>Device</th>
+							<th>Address</th>
+							<th>Type</th>
+							<th>Provisioned</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="(k, item) in net.devicemap">
+							<td>
+								<a ng-href="#/device/{{net.key}}/{{k}}">{{item.name || k}} ({{k}})</a>
+							</td>
+							<td>{{encode(item.address, encoding)}}</td>
+							<td>{{item.type}}</td>
+							<td>{{item.provisioned}}</td>
+							<td> &nbsp;
+								<a title="Query"     ng-href="#/device/{{net.key}}/{{k}}/query"> <i class="glyphicon glyphicon-stats"></i></a>&nbsp;&nbsp;&nbsp;
+								<a title="Configure" ng-href="#/device/{{net.key}}/{{k}}/configure" style="color: darkgrey"> <i class="glyphicon glyphicon-cog"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>

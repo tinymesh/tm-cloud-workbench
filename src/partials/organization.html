@@ -1,0 +1,63 @@
+<div class="container" ng-init="activetab = activetab || 'overview'">
+	<div class="col-md-9 col-xs-9">
+		<div class="page-header">
+			<h1>Organization</h1>
+		</div>
+
+		<div ng-show="'overview' === activetab">
+			<form ng-submit="org.$update({key: org.key})" class="form-horizontal" role="form" name="orgForm">
+				<div class="form-group col-lg-6" ng-class="{'has-error': orgForm.name.$invalid}">
+					<label for="name" class="col-md-4 control-label">Name</label>
+					<div class="col-md-8">
+						<input name="name" ng-model="org.name" type="text" class="form-control" id="name" placeholder="Organization name" required />
+					</div>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+		<div ng-show="'user' === activetab">
+			<ul class="list-group col-xs-6">
+				<li ng-repeat="item in org.users" class="list-group-item">
+					{{item}}
+					<button ng-click="revokeUserOrg(item, org)" type="button" class="close">&times;</button>
+				</li>
+				<li class="list-group-item">
+					<form ng-submit="assignUserOrg(adduser, org)">
+						<div class="input-group btn-group">
+							<span class="input-group-addon"><b class="glyphicon glyphicon-user"></b></span>
+							<div class="col-xs-10" style="padding:0px;">
+								<input ng-model="adduser" class="form-control" id="username" type="text" placeholder="Email ..." required>
+							</div>
+							<button type="submit" class="btn btn-primary">Add</button>
+						</div>
+					</form>
+				</li>
+			</ul>
+		</div>
+
+		<div ng-show="'network' === activetab">
+			<div class="col-xs-6">
+				<h4>Networks</h4>
+				<div class="list-group">
+					<a ng-repeat="item in org.networks"
+						 ng-href="#/network/{{item}}"
+						 class="list-group-item">
+						{{item}}
+					</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="col-md-3 col-xs-3">
+			<div class="page-header"><h1>&nbsp;</h1></div>
+			<ul class="nav nav-stacked nav-pills">
+				<li ng-class="{active: activetab === 'overview'}"><a ng-href="#/organization/{{org.key}}">Organization</a></li>
+				<li ng-class="{active: activetab === 'user'}"><a ng-href="#/organization/{{org.key}}/user">Manage Users</a></li>
+				<li ng-class="{active: activetab === 'network'}"><a ng-href="#/organization/{{org.key}}/network">Networks</a></li>
+			</ul>
+	</div>
+</div>

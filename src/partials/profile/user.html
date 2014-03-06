@@ -1,0 +1,77 @@
+
+			<div ng-show="flash" class="alert alert-{{flash[0]}}">
+				{{flash[1]}}
+			</div>
+
+			<form name="userForm" ng-submit="user.$update()" class="form-horizontal" role="form">
+				<div class="row">
+					<div class="page-header">
+						<h2 class="form-signin-heading">My Account</h2>
+					</div>
+
+					<div class="form-group col-lg-6"  ng-class="{'has-error': userForm.email.$invalid}">
+						<label for="email" class="col-md-4 control-label">Email</label>
+						<div class="col-md-8">
+							<input name="email" ng-model="user.email"
+								type="email" class="form-control" id="email"
+								placeholder="Email" disabled>
+						</div>
+					</div>
+
+					<div class="clearfix"></div>
+
+					<div class="form-group col-lg-6"  ng-class="{'has-error': userForm.name.$invalid}">
+						<label for="name" class="col-md-4 control-label">Name</label>
+						<div class="col-md-8">
+							<input name="name" ng-model="user.name"
+								type="text" class="form-control" id="name"
+								placeholder="Name"
+								required>
+						</div>
+					</div>
+
+					<div class="form-group col-lg-6"  ng-class="{'has-error': userForm.phone.$invalid}">
+						<label for="phone" class="col-md-4 control-label">Phone</label>
+						<div class="col-md-8">
+							<input name="phone" ng-model="user.phone"
+								type="text" class="form-control" id="phone"
+								placeholder="Phone Number"
+								required>
+						</div>
+					</div>
+
+					<div class="form-group col-lg-6" ng-class="{'has-error': userForm.password_a.$invalid}">
+						<label for="password_a" class="col-md-4 control-label">Password</label>
+						<div class="col-md-8">
+							<input name="password_a" ng-model="password.a"
+								type="password" class="form-control" id="password_a"
+								ng-blur="userForm.password_b.$setValidity('password_b', password.a === password.b)"
+								ng-minlength="8"
+								placeholder="Password">
+
+							<p ng-show="userForm.password_a.$invalid" class="help-block">
+								<b>Password must be at least 8 characters</b>
+							</p>
+						</div>
+					</div>
+
+					<div class="form-group col-lg-6" ng-class="{'has-error': userForm.password_b.$invalid}">
+						<div class="col-md-push-4 col-md-8">
+
+							<input name="password_b" ng-model="password.b"
+								type="password" class="form-control" id="password_b"
+								ng-change="userForm.password_b.$setValidity('password_b', password.a === password.b)"
+								placeholder="Confirm Password">
+
+							<p ng-show="userForm.password_b.$invalid" class="help-block">
+								<b>Password do not match</b>
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row actions">
+					<hr>
+					<button type="submit" class="pull-right btn btn-primary">Submit changes</button>
+				</div>
+			</form>

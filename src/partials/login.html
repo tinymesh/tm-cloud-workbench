@@ -1,9 +1,17 @@
 <div class="login">
 	<div class="palette-info login-screen">
 		<div class="login-container">
-				<div ng-show="authError" class="login-alert alert alert-danger">
-					<b>Error:</b> {{authError}}
-				</div>
+			<div ng-show="authError" class="login-alert alert alert-danger">
+				<b>Error:</b> {{authError}}
+			</div>
+
+			<div ng-show="0 !== status" class="login-alert alert alert-danger">
+				<b>Error:</b>
+				<ng-switch on="status">
+						<span ng-switch-when="401">Invalid credentials</span>
+						<span ng-switch-when="500">An unknown error occured</span>
+				</ng-switch>
+			</div>
 
 			<div class="login-icon">
 				<img src="images/login/icon.png" alt="Welcome to Tinymesh Cloud">
