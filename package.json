@@ -10,7 +10,8 @@
 		"json3": "~3.2.5",
 		"ng-storage": "~0.3.1",
 		"tm-cloud-client-angularjs": "git://github.com/tinymesh/tm-cloud-client-angularjs",
-		"ace": "git://github.com/ajaxorg/ace-builds#v1.1.1"
+		"ace": "git://github.com/ajaxorg/ace-builds#v1.1.1",
+		"rickshaw": "~1.4"
 	},
 	"devDependencies": {
 		"grunt": "~0.4.0",
