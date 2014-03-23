@@ -33,6 +33,193 @@
 	.row.actions .btn {
 		margin: 0px 5px; }
 
+form#side_panel { display: none; }
+.active #side_panel { display: block; }
+
+div, span, p, td {
+	font-family: Arial, sans-serif;
+}
+#content {
+	width: 1200px;
+}
+#chart {
+	display: inline-block;
+}
+#chart path {
+	-webkit-transition: opacity 0.2s linear;
+}
+#preview {
+	margin-top: 10px;
+}
+#legend {
+	display: inline-block;
+	position: relative;
+	left: 8px;
+}
+#legend_container {
+	position: absolute;
+	right: 0;
+	bottom: 26px;
+	width: 0;
+}
+#chart_container {
+	position: relative;
+	display: inline-block;
+}
+#smoother {
+	margin: 0 0 10px 16px;
+	width: 100px;
+}
+.rickshaw_graph .detail {
+	left: -1000;
+}
+#chart {
+	border: 1px solid #f0f0f0;
+}
+#side_panel {
+	padding: 0 20px 20px 0;
+	display: inline-block;
+	vertical-align: top;
+}
+#side_panel section {
+	color: #505050;
+	font-size: 12px;
+}
+#side_panel section h6 {
+	margin: 0 0 1em 0;
+	font-size: 12px;
+	font-weight: normal;
+}
+#side_panel .ui-slider-horizontal {
+	height: 1px !important;
+	border-color: #e0e0e0;
+	margin-bottom: 10px;
+}
+#side_panel .ui-slider-handle {
+	border-color: #a0a0a0;
+	height: 9px !important;
+	width: 9px !important;
+	top: -5px !important;
+	border-radius: 6px;
+	outline: none;
+	cursor: pointer;
+}
+#legend {
+	background-color: white;
+	margin-left: 0;
+	padding: 0;
+	left: 0;
+}
+#legend .label {
+	color: #404040;
+}
+#legend .action {
+	color: black;
+	opacity: 0.5;
+}
+#legend ul {
+	padding: 0;
+}
+h1 {
+	font-family: Franklin Gothic Medium, UnDotum, Helvetica, Arial;
+	font-weight: normal;
+	font-size: 20px;
+}
+section {
+	border: none;
+	border-top: 1px solid #eaeaea;
+	padding: 15px 0;
+}
+#smoother {
+	margin: 5px 0 0 10px;
+	width: 90%;
+}
+label.disabled {
+	opacity: 0.4;
+}
+#renderer_form.toggler {
+	display: block;
+	margin: 0;
+}
+#renderer_form.toggler input[type=radio]:checked {
+	outline: 2px solid steelblue;
+}
+#renderer_form.toggler input[type=radio] {
+	-moz-appearance: button;
+	background: white;
+	margin: 0 7px;
+	width: 39px;
+	height: 26px;
+	position: absolute;
+}
+#renderer_form.toggler label {
+	display: inline-block;
+	padding: 0;
+	width: 39px;
+	padding-top: 27px;
+	text-align: center;
+	font-size: 10px;
+	color: #808080;
+	background-repeat: no-repeat;
+	position: relative;
+	margin: 0 7px;
+	cursor: pointer;
+}
+#interpolation_form,
+#offset_form {
+	vertical-align: top;
+	display: inline-block;
+	width: 45%;
+}
+#interpolation_form label,
+#offset_form label {
+	display: block;
+}
+label[for=area] {
+	background: url(images/rickshaw/om_stack.png);
+}
+label[for=line] {
+	background: url(images/rickshaw/om_lines.png);
+}
+label[for=bar] {
+	background: url(images/rickshaw/om_bar.png);
+}
+label[for=scatter] {
+	background: url(images/rickshaw/om_scatter.png);
+}
+#offset_form label,
+#interpolation_form label {
+	background-repeat: no-repeat;
+	background-position: 2em center;
+	cursor: pointer;
+	cursor: hand;
+}
+#offset_form label span,
+#interpolation_form label span {
+	padding-left: 36px;
+}
+label[for=stack] {
+	background-image: url(images/rickshaw/offset_stack.png);
+}
+label[for=pct] {
+	background-image: url(images/rickshaw/offset_pct.png);
+}
+label[for=stream] {
+	background-image: url(images/rickshaw/offset_stream.png);
+}
+label[for=value] {
+	background-image: url(images/rickshaw/offset_value.png);
+}
+label[for=cardinal] {
+	background-image: url(images/rickshaw/interp_cardinal.png);
+}
+label[for=linear] {
+	background-image: url(images/rickshaw/interp_linear.png);
+}
+label[for=step] {
+	background-image: url(images/rickshaw/interp_step.png);
+}
+
 </style>
 
 <div class="query">
@@ -158,55 +345,140 @@
 		</div>
 	</form>
 </div>
-<div class="resultset">
 
-	<hr />
-
-	<div class="meta" ng-show="result.meta">
-		<dl class="dl-horizontal">
-			<dt>Range</dt>
-			<dd>from {{result.meta.date.from}} to {{result.meta.date.to}}</dd>
-
-			<dt>Previous range</dt>
-			<dd>from {{result.meta.query.prev['date.from']}} to {{result.meta.query.prev['date.to']}}</dd>
-
-			<dt>Next range</dt>
-			<dd>from {{result.meta.query.next['date.from']}} to {{result.meta.query.next['date.to']}}</dd>
-
-			<dt>Query Conditions<dt>
-			<dd>
-				<span class="label label-info" ng-repeat="cond in result.meta.conditions">
-					{{cond[0]}} {{cond[1]}} {{cond[2]}}
-				</span>
-			</dd>
-
-			<dt>Number of results</dt>
-			<dd>{{result.meta.objects}}</dd>
-		</dl>
+<div ng-init="subtab = subtab || 'table'">
+	<div class="col-xs-3">
+		<ul style="border-right: 1px solid #eee" class="nav nav-stacked nav-pills">
+			<li ng-class="{active: 'table' == subtab}"><a ng-href="#/device/{{network.key}}/{{device.key}}/query">Table</a></li>
+			<li ng-class="{active: 'graph' == subtab}">
+				<a ng-href="#/device/{{network.key}}/{{device.key}}/query/graph">Graph</a>
+				<form id="side_panel">
+						<section>
+							<div id="renderer_form" class="toggler">
+								<input type="radio" name="renderer" id="area" value="area">
+								<label for="area">area</label>
+								<input type="radio" name="renderer" id="bar" value="bar">
+								<label for="bar">bar</label>
+								<input type="radio" name="renderer" id="line" value="line" checked>
+								<label for="line">line</label>
+								<input type="radio" name="renderer" id="scatter" value="scatterplot">
+								<label for="scatter">scatter</label>
+							</div>
+						</section>
+						<section>
+							<div id="offset_form">
+								<label for="stack">
+									<input type="radio" name="offset" id="stack" value="zero" checked>
+									<span>stack</span>
+								</label>
+								<label for="stream">
+									<input type="radio" name="offset" id="stream" value="wiggle">
+									<span>stream</span>
+								</label>
+								<label for="pct">
+									<input type="radio" name="offset" id="pct" value="expand">
+									<span>pct</span>
+								</label>
+								<label for="value">
+									<input type="radio" name="offset" id="value" value="value">
+									<span>value</span>
+								</label>
+							</div>
+							<div id="interpolation_form">
+								<label for="cardinal">
+									<input type="radio" name="interpolation" id="cardinal" value="cardinal" checked>
+									<span>cardinal</span>
+								</label>
+								<label for="linear">
+									<input type="radio" name="interpolation" id="linear" value="linear">
+									<span>linear</span>
+								</label>
+								<label for="step">
+									<input type="radio" name="interpolation" id="step" value="step-after">
+									<span>step</span>
+								</label>
+							</div>
+						</section>
+						<!--<section>
+							<h6>Smoothing</h6>
+							<div id="smoother"></div>
+						</section>
+						-->
+						<section><div id="legend"></div></section>
+						<section></section>
+					</form>
+			</li>
+		</ul>
 	</div>
 
-	<hr />
+	<div class="col-xs-9 resultset">
 
-	<div ng-hide="result.meta" class="alert alert-info">
-		You have not performed any queries yet
+
+		<hr ng-show="result.meta" />
+
+		<div class="meta" ng-show="result.meta">
+			<dl class="dl-horizontal">
+				<dt>Range</dt>
+				<dd>from {{result.meta.date.from}} to {{result.meta.date.to}}</dd>
+
+				<dt>Previous range</dt>
+				<dd>from {{result.meta.query.prev['date.from']}} to {{result.meta.query.prev['date.to']}}</dd>
+
+				<dt>Next range</dt>
+				<dd>from {{result.meta.query.next['date.from']}} to {{result.meta.query.next['date.to']}}</dd>
+
+				<dt>Query Conditions<dt>
+				<dd>
+					<span class="label label-info" ng-repeat="cond in result.meta.conditions">
+						{{cond[0]}} {{cond[1]}} {{cond[2]}}
+					</span>
+				</dd>
+
+				<dt>Number of results</dt>
+				<dd>{{result.meta.objects}}</dd>
+			</dl>
+		</div>
+
+		<hr />
+
+		<div ng-show="subtab == 'graph' && filter.pick.length === 0"
+		     class="alert alert-warning">
+			You need to select the keys to use using the filter option.
+		</div>
+
+		<div ng-show="-1 === qstatus" class="alert alert-danger">
+			Query returned no results....
+		</div>
+		<div ng-show="0 === qstatus" class="alert alert-info">
+			You have not performed any queries yet
+		</div>
+		<div ng-show="1 === qstatus" class="alert alert-warning">
+			Waiting for response from server...
+		</div>
+
+		<div ng-show="subtab == 'graph' && filter.pick.length > 0 && result.result">
+					<div id="chart_container">
+						<div id="chart"></div>
+						<div id="timeline"></div>
+						<div id="preview"></div>
+					</div>
+
+		</div>
+
+		<table ng-show="subtab == 'table' && result.result" class="table table-border table-zebra">
+			<thead>
+				<tr>
+					<td>Key</td>
+					<td>Datetime</td>
+					<td ng-repeat="(k, v) in result.result[0]['proto/tm']">{{k}}</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="msg in result.result">
+					<td>{{msg['key']}}</td>
+					<td>{{msg['datetime']}}</td>
+					<td ng-repeat="(k, v) in msg['proto/tm']">{{v}}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
-	<div ng-show="result.meta && result.result.length == 0" class="alert alert-warning">
-		The query returned an empty result set
-	</div>
-	<table ng-show="result.result" class="table table-border table-zebra">
-		<thead>
-			<tr>
-				<td>Key</td>
-				<td>Datetime</td>
-				<td ng-repeat="(k, v) in result.result[0]['proto/tm']">{{k}}</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="msg in result.result">
-				<td>{{msg['key']}}</td>
-				<td>{{msg['datetime']}}</td>
-				<td ng-repeat="(k, v) in msg['proto/tm']">{{v}}</td>
-			</tr>
-		</tbody>
-	</table>
-</div>

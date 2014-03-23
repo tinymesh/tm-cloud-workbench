@@ -1,11 +1,12 @@
 ANGULARVSN ?= 1.2.14
 CRYPTOJSVSN ?= 3.1.2
 JQUERYVSN ?= 1.11.0
+JQUERYUIVSN ?= 1.8.15
 BOOTSTRAPVSN ?= 3.1.1
 
 all: vendor/ace-builds-master vendor/angular-$(ANGULARVSN) \
 	vendor/crypto-js-$(CRYPTOJSVSN) vendor/bootstrap-$(BOOTSTRAPVSN) \
-	vendor/jquery-$(JQUERYVSN).js vendor/tagsinput
+	vendor/jquery-$(JQUERYVSN).js vendor/jquery-ui-$(JQUERYUIVSN).js vendor/tagsinput
 
 vendor/ace-builds-master:
 	mkdir -p vendor
@@ -35,6 +36,10 @@ vendor/bootstrap-$(BOOTSTRAPVSN):
 vendor/jquery-$(JQUERYVSN).js:
 	mkdir -p vendor
 	(cd vendor; curl -LO http://code.jquery.com/jquery-1.11.0.js)
+
+vendor/jquery-ui-$(JQUERYUIVSN).js:
+	mkdir -p vendor
+	(cd vendor; curl -o jquery-ui-$(JQUERYUIVSN).js https://ajax.googleapis.com/ajax/libs/jqueryui/$(JQUERYUIVSN)/jquery-ui.js)
 
 vendor/tagsinput:
 	mkdir -p vendor

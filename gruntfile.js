@@ -73,6 +73,7 @@ module.exports = function (grunt) {
 			},
 			js: {
 				src: ['vendor/jquery-1.11.0.js',
+				      'vendor/jquery-ui-1.8.15.js',
 
 				      'vendor/multiselect/bootstrap-multiselect.js',
 
@@ -90,6 +91,9 @@ module.exports = function (grunt) {
 				      'vendor/tagsinput/bootstrap-tagsinput.js',
 				      'vendor/tagsinput/bootstrap-tagsinput-angular.js',
 
+				      'node_modules/rickshaw/node_modules/d3/d3.js',
+				      'node_modules/rickshaw/rickshaw.js',
+
 				      'vendor/crypto-js-3.1.2/rollups/*.js',
 				      'vendor/crypto-js-3.1.2/components/*.js' ],
 				dest: '<%= distdir %>/dist/vendor.js'
@@ -98,6 +102,7 @@ module.exports = function (grunt) {
 				src: ["vendor/bootstrap-3.1.1/dist/css/bootstrap.css",
 					"vendor/{multiselect,tagsinput}/*.css",
 					"vendor/{multiselect,tagsinput}/*.css",
+					"node_modules/rickshaw/rickshaw.css",
 					"<%= src.css %>",
 				],
 				dest: '<%= distdir %>/dist/style.css',

@@ -2,7 +2,7 @@ angular.module('workbenchDevice', ['ngRoute'])
 	.value('version', '0.2.0')
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
-			.when('/device/:network/:device/:activetab?', {
+			.when('/device/:network/:device/:activetab?/:subtab?', {
 				templateUrl: 'partials/device.html',
 				controller: 'wbDeviceCtrl' });
 	}])
@@ -15,6 +15,7 @@ angular.module('workbenchDevice', ['ngRoute'])
 		$scope.msg = [];
 		$scope.message = new tmMsg({});
 		$scope.activetab = $routeParams.activetab || "view";
+		$scope.subtab = $routeParams.subtab;
 
 		$scope.network = tmNet.get({}, {key: $routeParams.network});
 		$scope.device = tmDevice.get({
