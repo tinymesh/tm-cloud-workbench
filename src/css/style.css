@@ -50,6 +50,21 @@ footer .nav li a:hover {
 .not-found h1 { font-weight: bold; font-size: 4.5em; }
 .not-found a { font-weight: bold; color: #fff; text-decoration: underline; cursor: pointer; }
 
+/**
+ * meta
+ */
+
+.encoding {
+	position: absolute;
+	top: 40px;
+	right: 0px; }
+	.encoding span.btn.btn-sm {
+		width: 110px;
+		height: 27px;
+		padding-top: 8px; }
+	.encoding .btn-sm {
+		font-size: 10px; }
+
 
 /**
  * Login!

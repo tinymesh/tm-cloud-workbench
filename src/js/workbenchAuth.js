@@ -22,6 +22,7 @@ angular.module('workbenchAuth', ['ngRoute', 'ngStorage'])
 				$location.path('/auth/logout');
 			});
 		};
+		$scope.opts = {};
 
 
 		$rootScope.$on('session:new', function(ev, auth) {
