@@ -56,28 +56,28 @@ angular.module('workbenchNetwork', ['ngRoute'])
 			$location.search('type', type);
 		};
 	})
-	.controller('wbNetworkCtrl', function($scope, $routeParams, tmNet) {
+	.controller('wbNetworkCtrl', function($scope, $routeParams, tmNet, tmDevice) {
 		$scope.activetab = $routeParams.tab || "view";
 		$scope.net = tmNet.get({id: $routeParams.network});
 
-		$scope.encode = function(val, enc) {
-			var buf = [];
-			switch (enc) {
-				case "hex":
-					buf.push((val & 255)).toString(16);
-					buf.push((val >> 8)).toString(16);
-					buf.push((val >> 16)).toString(16);
-					buf.push((val >> 24)).toString(16);
-					return buf.join(":");
-				case "bytes":
-					buf.push(val & 255);
-					buf.push(val >> 8);
-					buf.push(val >> 16);
-					buf.push(val >> 24);
-					return buf.join(".");
-				default:
-					return val;
-			}
+		$scope.provisionDevice = function(name, addr) {
+			$scope.provisionMsg = {body: "loading ..."};
+			var dev = tmDevice.create({network: $scope.net.key}, {
+				name:        name,
+				address:     parseInt(addr, 10),
+				type:        'gateway',
+				provisioned: 'active',
+			});
+
+			dev.$promise.then(function(device) {
+				$scope.provisionMsg = undefined;
+				net.$get();
+			}, function(err) {
+				$scope.provisionMsg = {
+					title: "Failed to provision device",
+					body: "HTTP " + err.status + ": " + err.data.error
+				};
+			});
 		};
 
 		//var extendDeep = function extendDeep(target, source) {

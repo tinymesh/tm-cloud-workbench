@@ -30,4 +30,21 @@ angular.module('workbenchFilters', [])
 					return val;
 			}
 		};
+	})
+	.filter('byte', function() {
+		return function(val, i, enc, base) {
+			base = parseInt(base || 10, 10);
+			if (undefined === val) {
+				return "";
+			}
+
+			var ret = parseInt(val, base) >> (parseInt(i, 10)*8) & 255;
+			console.log(val, i, base, parseInt(val, base), ret);
+
+			switch (enc) {
+				case "hex":   return ("0" + ret.toString(16)).substr(-2, 2);
+				case "ascii": return String.fromCharCode(ret);
+				default:      return ret;
+			}
+		};
 	});

@@ -1,12 +1,10 @@
-			<div>
+			<div class="row">
 				<div class="page-header">
 					<h2 ng-hide="editMode || rawMode"><b>{{net.name || ("Unnamed network (" + net.key + ")")}}</b></h2>
 
-					<h2 ng-show="editMode"><b>Edit network information</b></h2>
-					<h2 ng-show="rawMode"><b>Edit raw network information</b></h2>
+					<div class="encoding" workbench-address-encoding-ctrl></div>
 				</div>
 
-				<div class="encoding" workbench-address-encoding-ctrl></div>
 
 				<div class="row">
 					<div ng-hide="editMode || rawMode" class="col-md-5">
