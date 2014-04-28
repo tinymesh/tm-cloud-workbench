@@ -11,18 +11,23 @@ angular.module('workbenchFilters', [])
 
 			switch (opts.encoding || "hex") {
 				case "hex":
-					buf.push(("00" + (val & 255)).toString(16).substr(-2, 2));
-					buf.push(("00" + (val >> 8)).toString(16).substr(-2, 2));
-					buf.push(("00" + (val >> 16)).toString(16).substr(-2, 2));
-					buf.push(("00" + (val >> 24)).toString(16).substr(-2, 2));
+					buf = _.map(
+							_.filter(parseInt(val, 10).toString(16).split(/(..)/),
+							function(x) { return x !== ''; }),
+						function(x) { return ("0" + x).substr(-2); });
 
-					return (bigendian ? buf.reverse() : buf).join(":");
+					if (bigendian) {
+						return (buf.reverse().join(":") + ":00:00:00").substr(11);
+					} else {
+						return ("00:00:00:" + buf.join(":")).substr(-11);
+					}
+					break;
 
 				case "bytes":
-					buf.push(val & 255);
-					buf.push(val >> 8);
-					buf.push(val >> 16);
-					buf.push(val >> 24);
+					buf = _.map(
+							_.filter(parseInt(val, 10).toString(16).split(/(..)/),
+							function(x) { return x !== ''; }),
+						function(x) { return parseInt(x, 16); });
 
 					return (bigendian ? buf.reverse() : buf).join(".");
 
@@ -39,7 +44,6 @@ angular.module('workbenchFilters', [])
 			}
 
 			var ret = parseInt(val, base) >> (parseInt(i, 10)*8) & 255;
-			console.log(val, i, base, parseInt(val, base), ret);
 
 			switch (enc) {
 				case "hex":   return ("0" + ret.toString(16)).substr(-2, 2);
