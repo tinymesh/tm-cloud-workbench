@@ -12,51 +12,37 @@ angular.module('workbench', ['ngRoute',
                              'workbenchDevice',
                              'workbenchMessage',
                              'workbenchQuery',
+                             'angularSpinner',
                              'bootstrap-tagsinput'
 	], function($provide) {
 		//$provide.value('endpoint', 'http://localhost:8080');
 		$provide.value('endpoint', 'https://cloud.tiny-mesh.com/api');
 	})
-	.value('version', '0.3.0')
+	.value('version', '0.3.1')
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
 			.when('/', {
+				templateUrl: 'partials/dashboard.html',
+				controller: 'wbDashboardCtrl' })
+			.when('/dashboard/:entity', {
 				templateUrl: 'partials/dashboard.html',
 				controller: 'wbDashboardCtrl' })
 			.otherwise({
 				templateUrl: 'partials/404.html',
 				controller: 'wb404Ctrl' });
 	}])
-	.controller('wbDashboardCtrl', function($rootScope, $scope, tmNet) {
+	.controller('wbDashboardCtrl', function($routeParams, $scope, tmNet, tmOrganization) {
 		$scope._ = _;
-		$scope.channels = {};
-		$scope.activeChans = [];
-		$scope.inactiveChans = [];
-		$scope.queueLength = 0;
-		$scope.minDeliveryTime = -1;
-		$scope.networks = tmNet.list();
 		$scope.net = new tmNet({parents: []});
+		$scope.entity = ($routeParams.entity || "").replace(/:/, '/');
+		$scope.networks = tmNet.list();
+		$scope.organizations = tmOrganization.list();
+		$scope.orgnets = {};
+		$scope.userloading = true;
+		$scope.netloading = true;
+		$scope.orgloading = true;
 
-
-		$scope.networks.$promise.then(function(data) {
-			_.each(data, function(net) {
-				_.each(net.channels, function(chan) {
-					$scope.queueLength += (parseInt(chan.meta.queue_length, 10) || 0);
-
-					if (-1 === $scope.minDeliveryTime || $scope.minDeliveryTime > chan.meta.socket_rtt) {
-						$scope.minDeliveryTime = chan.meta.socket_rtt;
-					}
-
-					if (chan.active) {
-						$scope.activeChans.push(chan);
-					} else {
-						$scope.inactiveChans.push(chan);
-					}
-				});
-			});
-
-		});
-
+		$scope.net = new tmNet({parents: []});
 		$scope.createNet = function(net) {
 			net.parents = [net.parents];
 
@@ -66,6 +52,49 @@ angular.module('workbench', ['ngRoute',
 
 			return new tmNet({});
 		};
+
+		$scope.networks.$promise.then(function(data) {
+			_.each(data, function(net) {
+				_.each(net.parents, function(parent) {
+					if (!$scope.orgnets[parent]) {
+						$scope.orgnets[parent] = [];
+					}
+
+					$scope.orgnets[parent].push(net);
+				});
+			});
+
+			$scope.netloading = false;
+		});
+
+		$scope.netstats = function(net) {
+			var gws, active = [], inactive = [];
+
+			var groups = _.groupBy(net.devicemap, function(d, k) {
+				var chan, ret = d.provisioned + ':' + d.type;
+				if ('active:gateway' === ret) {
+					chan = net.channels['app/' + net.key + '/' + k] || {};
+					chan.key = chan.key || 'app/' + net.key + '/' + k;
+					(chan.active ? active : inactive).push(chan);
+				}
+
+				return ret;
+			});
+
+			return {
+				gateways: groups['active:gateway'],
+				channels: {
+					active: active,
+					inactive: inactive,
+				},
+			};
+		};
+
+		$scope.organizations.$promise.then(function(data) {
+			$scope.orgloading = false;
+		});
+
+		$scope.ready.then(function() { $scope.userloading = false; });
 
 	})
 	.controller('wb404Ctrl', function($scope, $window) {

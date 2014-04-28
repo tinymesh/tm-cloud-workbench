@@ -232,14 +232,17 @@ ul.list {
 	padding-left: 0px;
 	padding-bottom: 10px;
 	list-style: none; }
-ul.list.inline {
-	padding-left: 15px;
-	padding-right: 15px; }
-ul.list li {
-	padding: 7px 0px 4px 5px;
-	border-bottom: 1px solid #eee; }
+ul.list li { border-bottom: 1px solid #eee; }
+	ul.list li a {
+		padding: 7px 0px 4px 5px;
+		display: inline-block;
+		width: 100%; }
+	ul.list.inline a { padding-left: 15px; padding-right: 15px; }
 ul.list li:last-child {
 	border-bottom: none; }
+
+ul.list.nav-stacked li { margin-top: 0px; }
+ul.list.nav-stacked li.active { border-bottom-color: transparent; }
 
 /**
  * Input

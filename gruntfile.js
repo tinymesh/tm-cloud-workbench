@@ -94,6 +94,9 @@ module.exports = function (grunt) {
 				      'node_modules/rickshaw/node_modules/d3/d3.js',
 				      'node_modules/rickshaw/rickshaw.js',
 
+				      'vendor/spin.js',
+				      'vendor/angular-spinner.js',
+
 				      'vendor/crypto-js-3.1.2/rollups/*.js',
 				      'vendor/crypto-js-3.1.2/components/*.js' ],
 				dest: '<%= distdir %>/dist/vendor.js'
