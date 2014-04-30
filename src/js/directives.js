@@ -39,4 +39,17 @@ angular.module('workbenchDirectives', [])
 				};
 			}
 		};
+	})
+	.directive('workbenchAddressEncodingCtrl', function() {
+		/*jshint multistr: true */
+		var tpl = '<div class="btn-group"> \
+			<span class="btn btn-sm input-group-addon">Address encoding</span> \
+			<button ng-class="{active: opts.encoding == \'hex\' || !opts.encoding}" ng-click="opts.encoding = \'hex\'"   type="button" class="btn btn-sm btn-default">HEX</button> \
+			<button ng-class="{active: opts.encoding == \'bytes\'}" ng-click="opts.encoding = \'bytes\'" type="button" class="btn btn-sm btn-default">Bytes</button> \
+			<button ng-class="{active: opts.encoding == \'dec\'}" ng-click="opts.encoding = \'dec\'"   type="button" class="btn btn-sm btn-default">Decimal</button> \
+		</div>';
+
+		return {
+			template: tpl,
+		};
 	});

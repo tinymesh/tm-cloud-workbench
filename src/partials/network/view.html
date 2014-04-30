@@ -1,21 +1,19 @@
-			<div>
+			<div class="row">
 				<div class="page-header">
 					<h2 ng-hide="editMode || rawMode"><b>{{net.name || ("Unnamed network (" + net.key + ")")}}</b></h2>
 
-					<h2 ng-show="editMode"><b>Edit network information</b></h2>
-					<h2 ng-show="rawMode"><b>Edit raw network information</b></h2>
+					<div class="encoding" workbench-address-encoding-ctrl></div>
 				</div>
 
-				<div class="meta" style="position:absolute;top:65px;right:40px">
-					<a ng-show="rawMode" title="View json" ng-click="rawMode = false" class="edit-btn" ng-click="editMode = true">Normal mode<i class="glyphicon glyphicon-cog"> </i></a>
-					<a ng-hide="rawMode" title="Edit raw json" ng-click="rawMode = true" class="edit-btn" ng-click="editMode = true">Raw mode<i class="glyphicon glyphicon-cog"> </i></a>
-				</div>
 
 				<div class="row">
 					<div ng-hide="editMode || rawMode" class="col-md-5">
 						<dl class="dl-horizontal">
 							<dt>Network Name</dt>
 							<dd>{{net.name || ("Unnamed network (" + net.key + ")")}}</dd>
+
+							<dt>Address</dt>
+							<dd>{{net.address | address:this.opts:true}}</dd>
 
 							<dt>Types</dt>
 							<dd>

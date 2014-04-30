@@ -6,7 +6,8 @@ BOOTSTRAPVSN ?= 3.1.1
 
 all: vendor/ace-builds-master vendor/angular-$(ANGULARVSN) \
 	vendor/crypto-js-$(CRYPTOJSVSN) vendor/bootstrap-$(BOOTSTRAPVSN) \
-	vendor/jquery-$(JQUERYVSN).js vendor/jquery-ui-$(JQUERYUIVSN).js vendor/tagsinput
+	vendor/jquery-$(JQUERYVSN).js vendor/jquery-ui-$(JQUERYUIVSN).js vendor/tagsinput \
+	vendor/angular-spinner.js vendor/spin.js
 
 vendor/ace-builds-master:
 	mkdir -p vendor
@@ -45,6 +46,14 @@ vendor/tagsinput:
 	mkdir -p vendor
 	(cd vendor; curl -LO https://github.com/TimSchlechter/bootstrap-tagsinput/raw/master/build/bootstrap-tagsinput.zip; \
 		unzip -d tagsinput bootstrap-tagsinput.zip)
+
+vendor/angular-spinner.js:
+	mkdir -p vendor
+	(cd vendor; curl -LO https://raw.githubusercontent.com/urish/angular-spinner/master/angular-spinner.js )
+
+vendor/spin.js:
+	mkdir -p vendor
+	(cd vendor; curl -LO http://fgnass.github.io/spin.js/spin.js)
 
 #curl -O https://raw.github.com/bassjobsen/Bootstrap-3-Typeahead/master/bootstrap3-typeahead.js
 #curl -O https://raw.github.com/edudar/bootstrap-multiselect/master/js/bootstrap-multiselect.js
