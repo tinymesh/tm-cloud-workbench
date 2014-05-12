@@ -10,4 +10,17 @@ angular.module('workbenchUser', ['ngRoute', 'ngStorage'])
 			tmOrganizationUsers) {
 		$scope.organizations = tmOrganization.list();
 		$scope.activetab = $routeParams.tab;
+
+		$scope.updateUser = function(passa, passb) {
+			if (passa && passa === passb) {
+				$scope.user.password = passa;
+			} else if ((passa || passb)) {
+				// if either field is non null, it might be previously
+				// synced to user object resulting in a updated
+				// password when the user may not have intended so.
+				return;
+			}
+
+			return $scope.user.$update();
+		};
 	});
