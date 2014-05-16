@@ -34,7 +34,7 @@ angular.module('workbench', ['ngRoute',
 	.controller('wbDashboardCtrl', function($routeParams, $scope, tmNet, tmOrganization) {
 		$scope._ = _;
 		$scope.net = new tmNet({parents: []});
-		$scope.entity = ($routeParams.entity || "").replace(/:/, '/');
+		$scope.entity = ($routeParams.entity || "").split(/:/);
 		$scope.networks = tmNet.list();
 		$scope.organizations = tmOrganization.list();
 		$scope.orgnets = {};
@@ -43,11 +43,12 @@ angular.module('workbench', ['ngRoute',
 		$scope.orgloading = true;
 
 		$scope.net = new tmNet({parents: []});
-		$scope.createNet = function(net) {
-			net.parents = [net.parents];
+		$scope.createNet = function(net, parents) {
+			net.parents = parents;
 
 			net.$create().then(function(newnet) {
 				$scope.networks.push(newnet);
+				_.each(parents, function(p) { $scope.orgnets[p].push(newnet); });
 			});
 
 			return new tmNet({});
@@ -92,9 +93,19 @@ angular.module('workbench', ['ngRoute',
 
 		$scope.organizations.$promise.then(function(data) {
 			$scope.orgloading = false;
+			_.each(data, function(v) {
+				$scope.orgnets['organization/' + v.key] = $scope.orgnets[v.key] || [];
+			});
 		});
 
-		$scope.ready.then(function() { $scope.userloading = false; });
+		$scope.ready.then(function() {
+			$scope.userloading = false;
+			$scope.orgnets['user/' + $scope.user.email] = [];
+
+			if (!$scope.entity) {
+				$scope.entity = angular.copy('user/' + $scope.user.email);
+			}
+		});
 
 	})
 	.controller('wb404Ctrl', function($scope, $window) {

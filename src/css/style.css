@@ -1,3 +1,13 @@
+/**
+ * colors:
+ * 	#fafafa <- event more extremely light grey
+ * 	#eaeaea <- extremely light grey
+ * 	#555555 <- dark grey
+ * 	#428bca <- light blue, links and such
+ * 	#2980b9 <- dark blue, backgrounds
+ */
+
+
 h1,h2,h3,h4,h5 { font-weight: bold; }
 
 #view { background: #FAFAFA;
@@ -30,6 +40,13 @@ footer .nav li a:hover {
 	background: transparent;
 	text-decoration: underline; }
 
+/**
+ * Special pages
+ */
+
+/**
+ * Login!
+ */
 .login-icon {
   color: white;
   position: relative; }
@@ -41,94 +58,6 @@ footer .nav li a:hover {
 .login .login-screen { background-color: #2980b9; padding: 125px 0px 33px 0px; }
 .login .login-alert { position: absolute; top: -100px }
 
-.not-found {
-	color: white;
-	position: relative; }
-
-.not-found .not-found-screen { background-color: #2980b9; padding: 125px 0px 33px 0px; }
-.not-found .not-found-container { position: relative; width: 770px; margin: 0 auto 90px; }
-.not-found h1 { font-weight: bold; font-size: 4.5em; }
-.not-found a { font-weight: bold; color: #fff; text-decoration: underline; cursor: pointer; }
-
-/**
- * meta
- */
-
-.page-header { position: relative; }
-.page-header .encoding {
-	position: absolute;
-	top: 10px;
-	right: 0px; }
-	.encoding span.btn.btn-sm {
-		width: 110px;
-		height: 27px;
-		padding-top: 8px; }
-	.encoding .btn-sm {
-		font-size: 10px; }
-
-.row.actions > div {
-	padding: 15px 15px 10px;
-	border-top: 3px solid #e5e5e5;
-	background: #f5f5f5;
-	margin-bottom: 10px; }
-	.row.actions .btn {
-		margin: 0px 5px; }
-
-
-/**
- * Information messages
- */
-/*
- * Callouts
- *
- * Not quite alerts, but custom and helpful notes for folks reading the docs.
- * Requires a base and modifier class.
- */
-
-/* Common styles for all types */
-.bs-callout {
-  margin: 20px 0;
-  padding: 20px;
-  border-left: 3px solid #eee;
-}
-.bs-callout h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
-}
-.bs-callout p:last-child {
-  margin-bottom: 0;
-}
-.bs-callout code {
-  background-color: #fff;
-  border-radius: 3px;
-}
-
-/* Variations */
-.bs-callout-danger {
-  background-color: #fdf7f7;
-  border-color: #d9534f;
-}
-.bs-callout-danger h4 {
-  color: #d9534f;
-}
-.bs-callout-warning {
-  background-color: #fcf8f2;
-  border-color: #f0ad4e;
-}
-.bs-callout-warning h4 {
-  color: #f0ad4e;
-}
-.bs-callout-info {
-  background-color: #f4f8fa;
-  border-color: #5bc0de;
-}
-.bs-callout-info h4 {
-  color: #5bc0de;
-}
-
-/**
- * Login!
- */
 .login-screen {
   background-color: #1abc9c;
   min-height: 317px;
@@ -202,6 +131,43 @@ footer .nav li a:hover {
   margin-top: 15px;
   text-align: center; }
 
+
+/**
+ * 404 Not found
+ */
+.not-found {
+	color: white;
+	position: relative; }
+
+.not-found .not-found-screen { background-color: #2980b9; padding: 125px 0px 33px 0px; }
+.not-found .not-found-container { position: relative; width: 770px; margin: 0 auto 90px; }
+.not-found h1 { font-weight: bold; font-size: 4.5em; }
+.not-found a { font-weight: bold; color: #fff; text-decoration: underline; cursor: pointer; }
+
+/**
+ * meta
+ */
+
+.page-header { position: relative; }
+.page-header .encoding {
+	position: absolute;
+	top: 10px;
+	right: 0px; }
+	.encoding span.btn.btn-sm {
+		width: 110px;
+		height: 27px;
+		padding-top: 8px; }
+	.encoding .btn-sm {
+		font-size: 10px; }
+
+.row.actions > div {
+	padding: 15px 15px 10px;
+	border-top: 3px solid #e5e5e5;
+	background: #f5f5f5;
+	margin-bottom: 10px; }
+	.row.actions .btn {
+		margin: 0px 5px; }
+
 .nav > li > a { cursor: pointer; }
 
 /**
@@ -226,569 +192,69 @@ footer .nav li a:hover {
 	border-bottom: 3px solid #428bca; }
 
 /**
- * UL lists
+ * Tables
  */
-ul.list {
-	padding-left: 0px;
-	padding-bottom: 10px;
-	list-style: none; }
-ul.list li { border-bottom: 1px solid #eee; }
-	ul.list li a {
-		padding: 7px 0px 4px 5px;
-		display: inline-block;
-		width: 100%; }
-	ul.list.inline a { padding-left: 15px; padding-right: 15px; }
-ul.list li:last-child {
-	border-bottom: none; }
-
-ul.list.nav-stacked li { margin-top: 0px; }
-ul.list.nav-stacked li.active { border-bottom-color: transparent; }
+.table a .glyphicon { color: darkgrey; }
+.table a:hover .glyphicon { color: #555; }
+.table > tbody > tr > th { border-top: none; }
 
 /**
- * Input
+ * Elements
  */
 
 .form-action {
 	margin-top: 10px;
+	margin-bottom: 15px;
 	padding-top: 5px;
 	border-top: 1px solid #eee;
+	background: #f3f3f3;
+	padding: 25px 15px;
 	}
 
+
 /**
- * FlatUI icons
+ * Stacked sidebar navigation
  */
-@import url("http://fonts.googleapis.com/css?family=Lato:400,700,900,400italic");
-@font-face {
-  font-family: "Flat-UI-Icons-16";
-  src: url("../fonts/Flat-UI-Icons-16.eot");
-  src: url("../fonts/Flat-UI-Icons-16.eot?#iefix") format("embedded-opentype"), url("../fonts/Flat-UI-Icons-16.woff") format("woff"), url("../fonts/Flat-UI-Icons-16.ttf") format("truetype"), url("../fonts/Flat-UI-Icons-16.svg#Flat-UI-Icons-16") format("svg");
-  font-weight: normal;
-  font-style: normal; }
 
-/* Use the following CSS code if you want to use data attributes for inserting your icons */
-[data-icon]:before {
-  font-family: "Flat-UI-Icons-16";
-  content: attr(data-icon);
-  speak: none;
-  font-weight: normal;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased; }
-
-/* Use the following CSS code if you want to have a class per icon */
-/*Instead of a list of all class selectors,
- *you can use the generic selector below, but it's slower:
- *[class*="fui-"]:before { */
-.fui-volume-16:before, .fui-video-16:before, .fui-time-16:before, .fui-settings-16:before, .fui-plus-16:before, .fui-new-16:before, .fui-menu-16:before, .fui-man-16:before, .fui-mail-16:before, .fui-lock-16:before, .fui-location-16:before, .fui-heart-16:before, .fui-eye-16:before, .fui-cross-16:before, .fui-cmd-16:before, .fui-checkround-16:before, .fui-checkmark-16:before, .fui-camera-16:before, .fui-calendar-16:before, .fui-bubble-16:before {
-  font-family: "Flat-UI-Icons-16";
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased; }
-
-.fui-volume-16:before {
-  content: "\e000"; }
-
-.fui-video-16:before {
-  content: "\e001"; }
-
-.fui-time-16:before {
-  content: "\e002"; }
-
-.fui-settings-16:before {
-  content: "\e003"; }
-
-.fui-plus-16:before {
-  content: "\e004"; }
-
-.fui-new-16:before {
-  content: "\e005"; }
-
-.fui-menu-16:before {
-  content: "\e006"; }
-
-.fui-man-16:before {
-  content: "\e007"; }
-
-.fui-mail-16:before {
-  content: "\e008"; }
-
-.fui-lock-16:before {
-  content: "\e009"; }
-
-.fui-location-16:before {
-  content: "\e00a"; }
-
-.fui-heart-16:before {
-  content: "\e00b"; }
-
-.fui-eye-16:before {
-  content: "\e00c"; }
-
-.fui-cross-16:before {
-  content: "\e00d"; }
-
-.fui-cmd-16:before {
-  content: "\e00e"; }
-
-.fui-checkround-16:before {
-  content: "\e00f"; }
-
-.fui-checkmark-16:before {
-  content: "\e010"; }
-
-.fui-camera-16:before {
-  content: "\e011"; }
-
-.fui-calendar-16:before {
-  content: "\e012"; }
-
-.fui-bubble-16:before {
-  content: "\e013"; }
-
-@font-face {
-  font-family: "Flat-UI-Icons-24";
-  src: url("../fonts/Flat-UI-Icons-24.eot");
-  src: url("../fonts/Flat-UI-Icons-24.eot?#iefix") format("embedded-opentype"), url("../fonts/Flat-UI-Icons-24.woff") format("woff"), url("../fonts/Flat-UI-Icons-24.ttf") format("truetype"), url("../fonts/Flat-UI-Icons-24.svg#Flat-UI-Icons-24") format("svg");
-  font-weight: normal;
-  font-style: normal; }
-
-/* Use the following CSS code if you want to use data attributes for inserting your icons */
-[data-icon]:before {
-  font-family: "Flat-UI-Icons-24";
-  content: attr(data-icon);
-  speak: none;
-  font-weight: normal;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased; }
-
-/* Use the following CSS code if you want to have a class per icon */
-/*Instead of a list of all class selectors,
- *you can use the generic selector below, but it's slower:
- *[class*="fui-"]:before { */
-.fui-video-24:before, .fui-time-24:before, .fui-settings-24:before, .fui-plus-24:before, .fui-new-24:before, .fui-menu-24:before, .fui-man-24:before, .fui-mail-24:before, .fui-lock-24:before, .fui-location-24:before, .fui-heart-24:before, .fui-eye-24:before, .fui-cross-24:before, .fui-cmd-24:before, .fui-checkround-24:before, .fui-checkmark-24:before, .fui-calendar-24:before, .fui-bubble-24:before, .fui-volume-24:before, .fui-camera-24:before {
-  font-family: "Flat-UI-Icons-24";
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased; }
-
-.fui-video-24:before {
-  content: "\e000"; }
-
-.fui-time-24:before {
-  content: "\e001"; }
-
-.fui-settings-24:before {
-  content: "\e002"; }
-
-.fui-plus-24:before {
-  content: "\e003"; }
-
-.fui-new-24:before {
-  content: "\e005"; }
-
-.fui-menu-24:before {
-  content: "\e006"; }
-
-.fui-man-24:before {
-  content: "\e007"; }
-
-.fui-mail-24:before {
-  content: "\e008"; }
-
-.fui-lock-24:before {
-  content: "\e009"; }
-
-.fui-location-24:before {
-  content: "\e00a"; }
-
-.fui-heart-24:before {
-  content: "\e00b"; }
-
-.fui-eye-24:before {
-  content: "\e00c"; }
-
-.fui-cross-24:before {
-  content: "\e00d"; }
-
-.fui-cmd-24:before {
-  content: "\e00e"; }
-
-.fui-checkround-24:before {
-  content: "\e00f"; }
-
-.fui-checkmark-24:before {
-  content: "\e010"; }
-
-.fui-calendar-24:before {
-  content: "\e011"; }
-
-.fui-bubble-24:before {
-  content: "\e012"; }
-
-.fui-volume-24:before {
-  content: "\e013"; }
-
-.fui-camera-24:before {
-  content: "\e004"; }
-
-
-
-/** rickshaw **/
-/* graph */
-
-.rickshaw_graph {
+.nav-stacked.nav-pills {
+	margin-bottom: 25px; }
+.nav-stacked.nav-pills > li {
 	position: relative;
-}
-.rickshaw_graph svg {
-	display: block;	
-	overflow: hidden;
-}
+	margin-top: 0px; }
+.nav-stacked.nav-pills > li > a {
+	padding-top: 15px;
+	border-radius: 0px;
+	border-bottom: 1px solid #eaeaea; }
+.nav-stacked.nav-pills > li.active {
+	margin:10px 0px;}
+.nav-stacked.nav-pills > li.active > a {
+	font-weight: bold;
+	color: #555;
+	background: inherit;
+	border-bottom: 3px solid #428bca; }
 
-/* ticks */
+	.nav-stacked.nav-pills > li:not(.active):hover > a { background: none; border-color: #ccc;}
+	.nav-stacked.nav-pills > li:hover {
+		background: #f3f3f3;
+	}
+	.nav-stacked.nav-pills > li.active:hover {
+		background: inherit;
+	}
 
-.rickshaw_graph .x_tick {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	width: 0px;
-	border-left: 1px dotted rgba(0, 0, 0, 0.2);
-	pointer-events: none;
-}
-.rickshaw_graph .x_tick .title {
-	position: absolute;
-	font-size: 12px;
-	font-family: Arial, sans-serif;
-	opacity: 0.5;
-	white-space: nowrap;
-	margin-left: 3px;
-	bottom: 1px;
-}
-
-/* annotations */
-
-.rickshaw_annotation_timeline {
-	height: 1px;
-	border-top: 1px solid #e0e0e0;
-	margin-top: 10px;
-	position: relative;
-}
-.rickshaw_annotation_timeline .annotation {
-	position: absolute;
-	height: 6px;
-	width: 6px;
-	margin-left: -2px;
-	top: -3px;
-	border-radius: 5px;
-	background-color: rgba(0, 0, 0, 0.25);
-}
-.rickshaw_graph .annotation_line {
-	position: absolute;
-	top: 0;
-	bottom: -6px;
-	width: 0px;
-	border-left: 2px solid rgba(0, 0, 0, 0.3);
-	display: none;
-}
-.rickshaw_graph .annotation_line.active {
-	display: block;
-}
-
-.rickshaw_graph .annotation_range {
-        background: rgba(0, 0, 0, 0.1);
-        display: none;
-        position: absolute;
-        top: 0;
-        bottom: -6px;
-}
-.rickshaw_graph .annotation_range.active {
-        display: block;
-}
-.rickshaw_graph .annotation_range.active.offscreen {
-        display: none;
-}
-
-.rickshaw_annotation_timeline .annotation .content {
-	background: white;
-	color: black;
-	opacity: 0.9;
-	padding: 5px 5px;
-	box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
-	border-radius: 3px;
-	position: relative;
-	z-index: 20;
-	font-size: 12px;
-	padding: 6px 8px 8px;
-	top: 18px;
-	left: -11px;
-	width: 160px;
-	display: none;
-	cursor: pointer;
-}
-.rickshaw_annotation_timeline .annotation .content:before {
-	content: "\25b2";
-	position: absolute;
-	top: -11px;
-	color: white;
-	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.8);
-}
-.rickshaw_annotation_timeline .annotation.active,
-.rickshaw_annotation_timeline .annotation:hover {
-	background-color: rgba(0, 0, 0, 0.8);
-	cursor: none;
-}
-.rickshaw_annotation_timeline .annotation .content:hover {
-	z-index: 50;
-}
-.rickshaw_annotation_timeline .annotation.active .content {
-	display: block;
-}
-.rickshaw_annotation_timeline .annotation:hover .content {
-	display: block;
-	z-index: 50;
-}
-.rickshaw_graph .y_axis,
-.rickshaw_graph  .x_axis_d3 {
-	fill: none;
-}
-.rickshaw_graph .y_ticks .tick,
-.rickshaw_graph .x_ticks_d3 .tick {
-	stroke: rgba(0, 0, 0, 0.16);
-	stroke-width: 2px;
-	shape-rendering: crisp-edges;
-	pointer-events: none;
-}
-.rickshaw_graph .y_grid .tick,
-.rickshaw_graph .x_grid_d3 .tick {
-	z-index: -1;
-	stroke: rgba(0, 0, 0, 0.20);
-	stroke-width: 1px;
-	stroke-dasharray: 1 1;
-}
-.rickshaw_graph .y_grid .tick[data-y-value="0"] {
-	stroke-dasharray: 1 0;
-}
-.rickshaw_graph .y_grid path,
-.rickshaw_graph .x_grid_d3 path  {
-	fill: none;
-	stroke: none;
-}
-.rickshaw_graph .y_ticks path,
-.rickshaw_graph .x_ticks_d3 path {
-	fill: none;
-	stroke: #808080;
-}
-.rickshaw_graph .y_ticks text,
-.rickshaw_graph .x_ticks_d3 text {
-	opacity: 0.5;
-	font-size: 12px;
-	pointer-events: none;
-}
-.rickshaw_graph .x_tick.glow .title,
-.rickshaw_graph .y_ticks.glow text {
-	fill: black;
-	color: black;
-	text-shadow: 
-		-1px 1px 0 rgba(255, 255, 255, 0.1),
-		1px -1px 0 rgba(255, 255, 255, 0.1),
-		1px 1px 0 rgba(255, 255, 255, 0.1),
-		0px 1px 0 rgba(255, 255, 255, 0.1),
-		0px -1px 0 rgba(255, 255, 255, 0.1),
-		1px 0px 0 rgba(255, 255, 255, 0.1),
-		-1px 0px 0 rgba(255, 255, 255, 0.1),
-		-1px -1px 0 rgba(255, 255, 255, 0.1);
-}
-.rickshaw_graph .x_tick.inverse .title,
-.rickshaw_graph .y_ticks.inverse text {
-	fill: white;
-	color: white;
-	text-shadow: 
-		-1px 1px 0 rgba(0, 0, 0, 0.8),
-		1px -1px 0 rgba(0, 0, 0, 0.8),
-		1px 1px 0 rgba(0, 0, 0, 0.8),
-		0px 1px 0 rgba(0, 0, 0, 0.8),
-		0px -1px 0 rgba(0, 0, 0, 0.8),
-		1px 0px 0 rgba(0, 0, 0, 0.8),
-		-1px 0px 0 rgba(0, 0, 0, 0.8),
-		-1px -1px 0 rgba(0, 0, 0, 0.8);
-}
-
-.rickshaw_graph .detail {
-	pointer-events: none;
-	position: absolute;
-	top: 0;
-	z-index: 2;
-	background: rgba(0, 0, 0, 0.1);
-	bottom: 0;
-	width: 1px;
-	transition: opacity 0.25s linear;
-	-moz-transition: opacity 0.25s linear;
-	-o-transition: opacity 0.25s linear;
-	-webkit-transition: opacity 0.25s linear;
-}
-.rickshaw_graph .detail.inactive {
-	opacity: 0;
-}
-.rickshaw_graph .detail .item.active {
-	opacity: 1;
-}
-.rickshaw_graph .detail .x_label {
-	font-family: Arial, sans-serif;
-	border-radius: 3px;
-	padding: 6px;
-	opacity: 0.5;
-	border: 1px solid #e0e0e0;
-	font-size: 12px;
-	position: absolute;
-	background: white;
-	white-space: nowrap;
-}
-.rickshaw_graph .detail .x_label.left {
-	left: 0;
-}
-.rickshaw_graph .detail .x_label.right {
-	right: 0;
-}
-.rickshaw_graph .detail .item {
-	position: absolute;
-	z-index: 2;
-	border-radius: 3px;
-	padding: 0.25em;
-	font-size: 12px;
-	font-family: Arial, sans-serif;
-	opacity: 0;
-	background: rgba(0, 0, 0, 0.4);
-	color: white;
-	border: 1px solid rgba(0, 0, 0, 0.4);
-	margin-left: 1em;
-	margin-right: 1em;
-	margin-top: -1em;
-	white-space: nowrap;
-}
-.rickshaw_graph .detail .item.left {
-	left: 0;
-}
-.rickshaw_graph .detail .item.right {
-	right: 0;
-}
-.rickshaw_graph .detail .item.active {
-	opacity: 1;
-	background: rgba(0, 0, 0, 0.8);
-}
-.rickshaw_graph .detail .item:after {
-	position: absolute;
-	display: block;
-	width: 0;
-	height: 0;
-
-	content: "";
-
-	border: 5px solid transparent;
-}
-.rickshaw_graph .detail .item.left:after {
-	top: 1em;
-	left: -5px;
-	margin-top: -5px;
-	border-right-color: rgba(0, 0, 0, 0.8);
-	border-left-width: 0;
-}
-.rickshaw_graph .detail .item.right:after {
-	top: 1em;
-	right: -5px;
-	margin-top: -5px;
-	border-left-color: rgba(0, 0, 0, 0.8);
-	border-right-width: 0;
-}
-.rickshaw_graph .detail .dot {
-	width: 4px;
-	height: 4px;
-	margin-left: -2px;
-	margin-top: -2px;
-	border-radius: 5px;
-	position: absolute;
-	box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
-	background: white;
-	border-width: 2px;
-	border-style: solid;
-	display: none;
-	background-clip: padding-box;
-}
-.rickshaw_graph .detail .dot.active {
-	display: block;
-}
-
-.rickshaw_legend {
-	font-family: Arial;
-	font-size: 12px;
-	color: white;
-	background: #404040;
-	display: inline-block;
-	padding: 12px 5px; 
-	border-radius: 2px;
-	position: relative;
-}
-.rickshaw_legend:hover {
-	z-index: 10;
-}
-.rickshaw_legend .swatch {
-	width: 10px;
-	height: 10px;
-	border: 1px solid rgba(0, 0, 0, 0.2);
-}
-.rickshaw_legend .line {
-	clear: both;
-	line-height: 140%;
-	padding-right: 15px;
-}
-.rickshaw_legend .line .swatch {
-	display: inline-block;
-	margin-right: 3px;
-	border-radius: 2px;
-}
-.rickshaw_legend .label {
-	margin: 0;
-	white-space: nowrap;
-	display: inline;
-	font-size: inherit;
-	background-color: transparent;
-	color: inherit;
-	font-weight: normal;
-	line-height: normal;
-	padding: 0px;
-	text-shadow: none;
-}
-.rickshaw_legend .action:hover {
-	opacity: 0.6;
-}
-.rickshaw_legend .action {
-	margin-right: 0.2em;
-	font-size: 10px;
-	opacity: 0.2;
-	cursor: pointer;
-	font-size: 14px;
-}
-.rickshaw_legend .line.disabled {
-	opacity: 0.4;
-}
-.rickshaw_legend ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	margin: 2px;
-	cursor: pointer;
-}
-.rickshaw_legend li {
-	padding: 0 0 0 2px;
-	min-width: 80px;
-	white-space: nowrap;
-}
-.rickshaw_legend li:hover {
-	background: rgba(255, 255, 255, 0.08);
-	border-radius: 3px;
-}
-.rickshaw_legend li:active {
-	background: rgba(255, 255, 255, 0.2);
-	border-radius: 3px;
-}
+	.nav-stacked.nav-pills > li > a.icon {
+		color: #999;
+		width: 50px;
+		z-index: 99;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		text-align:center;
+		}
+	.nav-stacked.nav-pills > li > a.icon:hover {
+		color: #555;
+		border-left: 1px solid #ccc;
+		background: #ccc; }
+	.nav-stacked.nav-pills > li.active > a.icon:hover {
+		color: #fff;
+		border-left: 0px;
+		background: #428bca; }

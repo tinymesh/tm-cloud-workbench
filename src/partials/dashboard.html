@@ -2,10 +2,6 @@
 	<div class="row">
 
 		<div class="col-xs-12" ng-init="activetab = 'summary'">
-			<ul class="nav nav-tabs">
-				<li ng-class='{active:activetab == "summary"}'><a ng-click="activetab = 'summary'">Welcome</a></li>
-			</ul>
-
 
 			<div class="col-xs-4">
 				<div class="page-header">
@@ -14,12 +10,13 @@
 
 				<div>
 					<ul class="inline list nav nav-stacked nav-pills">
-						<li ng-class="{active: entity == 'user/' + user.email}">
+						<li ng-class="{active: entity === ['user', user.email]}">
 							<a ng-href="#/dashboard/user:{{user.email}}">Private Networks</a>
 						</li>
-						<li ng-class="{active: entity === 'organization/' + org.key}"
-						    ng-repeat="org in organizations">
+						<li ng-class="{active: entity === ['organization', org.key]}"
+						    ng-repeat="org in organizations | orderBy:'key'">
 								<a ng-href="#/dashboard/organization:{{org.key}}">{{org.name || org.key}}</a>
+								<a class="icon" ng-href="#/organization/{{org.key}}"><span class="glyphicon glyphicon-cog"></span></a>
 						</li>
 						<li ng-show="userloading">
 								<span us-spinner="{top: '20px', lines: 7, length: 0, width: 2, radius: 10, trail: 79}"></span>
@@ -30,50 +27,103 @@
 			</div>
 
 			<div class="col-xs-8" ng-show="netloading">
-				<span us-spinner="{lines: 7, length: 0, width: 2, radius: 10, trail: 79}"></span>
+				<span us-spinner="{lines: 7, top: '125px', length: 0, width: 2, radius: 10, trail: 79}"></span>
 			</div>
 
-			<div class="col-xs-8" ng-show="orgnets[entity]">
-				<table class="table table-striped table-border">
-					<tr ng-repeat="net in orgnets[entity]">
-						<td><a href="#/network/{{net.key}}">{{net.name || "Unnamed net"}} ({{net.key}})</a></td>
-						<td ng-init="stats = netstats(net)">
-							<span
-								class="label label-warning"
-								ng-show="0 < stats.channels.active.length && stats.channels.inactive.length > 0">
-								{{stats.channels.inactive.length}} inactive gateways ({{stats.gateways.length}} total)
-							</span>
-							<span
-								class="label label-danger"
-								ng-show="0 === stats.channels.active.length && stats.channels.inactive.length > 0">
-								All {{stats.gateways.length}} gateways inactive
-							</span>
-							<span
-								class="label label-info"
-								ng-show="0 === (stats.gateways || []).length">
-								No gateways provisioned
-							</span>
-							<span
-								class="label label-success"
-								ng-show="0 < stats.gateways.length && 0 === stats.channels.inactive.length">
-								All gateways communicating
-							</span>
-						</td>
-						<td>No notifications</td>
-					</tr>
-				</table>
-			</div>
-			<div class="col-xs-8" ng-hide="netloading || orgnets[entity]">
-				<div class="alert alert-warning">
-					<p>
-						<b>Error:</b> No such entity <i>{{entity}}</i>
-					</p>
-
-					<p>
-						Try selecting a entity from the menu on the left side.
-					</p>
+			<div class="col-xs-8">
+				<div class="page-header">
+					<h4 ng-if="entity[0] == 'user'">Your networks</h4>
+					<h4 ng-if="entity[0] != 'user'">{{entity[1]}}'s networks</h4>
 				</div>
-			</div>
+
+				<div ng-hide="netloading || undefined !== orgnets[entity.join('/')]">
+					<div class="alert alert-warning">
+						<p>
+							<b>Error:</b> No such entity <i>{{entity.join('/')}}</i>
+						</p>
+
+						<p>
+							Try selecting a entity from the menu on the left side.
+						</p>
+					</div>
+				</div>
+
+				<div ng-show="orgnets[entity.join('/')].length > 0">
+					<table class="table table-striped table-border">
+						</head>
+							<tr>
+								<th>Name (id)</th>
+								<th>Status</th>
+								<th># Devices</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="net in orgnets[entity.join('/')]">
+								<td><a href="#/network/{{net.key}}">{{net.name || "Unnamed net"}} ({{net.key}})</a></td>
+								<td ng-init="stats = netstats(net)">
+									<span
+										class="label label-warning"
+										ng-show="0 < stats.channels.active.length && stats.channels.inactive.length > 0">
+										{{stats.channels.inactive.length}} inactive gateways ({{stats.gateways.length}} total)
+									</span>
+									<span
+										class="label label-danger"
+										ng-show="0 === stats.channels.active.length && stats.channels.inactive.length > 0">
+										All {{stats.gateways.length}} gateways inactive
+									</span>
+									<span
+										class="label label-info"
+										ng-show="0 === (stats.gateways || []).length">
+										No gateways provisioned
+									</span>
+									<span
+										class="label label-success"
+										ng-show="0 < stats.gateways.length && 0 === stats.channels.inactive.length">
+										All gateways communicating
+									</span>
+								</td>
+								<td>{{net.meta.device.active}}</td>
+								<td>
+									<a title="Network Overview" ng-href="#/network/{{net.key}}"><i class="glyphicon glyphicon-cog"></i></a>
+									&nbsp;
+									<a title="Device list" ng-href="#/network/{{net.key}}/devices"><i class="glyphicon glyphicon-list-alt"></i></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+						<form ng-submit="net = createNet(net, [entity.join('/')])" class="form-horizontal form-action">
+								<label class="col-xs-3 control-label" for="netname">Create network</label>
+								<div class="btn-group input-group">
+									<span class="input-group-addon"><b class="glyphicon glyphicon-th-list"></b></span>
+									<div class="col-xs-6" style="padding: 0px">
+										<input ng-model="net.name" id="netname" type="text" class="form-control" placeholder="Network name" required />
+									</div>
+									<button type="submit" class="btn btn-primary">Create</button>
+								</div>
+						</form>
+				</div>
+
+				<div ng-show="orgnets[entity.join('/')].length === 0">
+					<div class="alert alert-warning">
+						<form ng-submit="net = createNet(net, [entity.join('/')])" class="form-horizontal">
+							<p>
+								There are no networks connected to this entity. You
+								can create one by entering a name in the input field
+								below.
+
+							</p>
+							<div class="btn-group input-group">
+								<span class="input-group-addon"><b class="glyphicon glyphicon-th-list"></b></span>
+								<div class="col-sm-6" style="padding: 0px">
+									<input ng-model="net.name" id="netname" type="text" class="form-control" placeholder="Network name" required />
+								</div>
+								<button type="submit" class="btn btn-primary">Create</button>
+							</div>
+						</form>
+					</div>
+				</div>
+
 		</div>
 
 	</div>
