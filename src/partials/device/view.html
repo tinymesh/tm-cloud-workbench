@@ -1,6 +1,12 @@
 	<form>
 		<h2>{{device.name}}</h2>
 
+
+		<div ng-show="Object.keys(device.state).length <= 1" class="alert alert-warning">
+			Device state is not available for this device. Send a 
+			<code>get_config</code> command to fix the issue.
+		</div>
+
 		<dl class="dl-horizontal col-sm-4">
 			<dt>Name</dt>
 			<dd>{{device.name || ("Unnamed device ("+device.key+")")}}</dd>
@@ -12,14 +18,13 @@
 			<dd>{{device.address}}</dd>
 
 			<dt>Hardware Revision</dt>
-			<dd>{{device['tm/state']['proto/tm'].hardware || "Unknown"}}</dd>
+			<dd>{{device['state'].config.hw_version || "Unknown"}}</dd>
 
 			<dt>Firmware revision</dt>
-			<dd>{{device['tm/state']['proto/tm'].firmware || "Unknown"}}</dd>
+			<dd>{{device['state'].config.fw_version || "Unknown"}}</dd>
 		</dl>
 
 		<div class="col-sm-4">
-			<div class="alert alert-warning">Device state information currently unavilable</div>
 			<dl class="dl-horizontal">
 				<dt>State</dt>
 				<dd>
@@ -66,3 +71,4 @@
 			<button ng-click="updateDevice(device)"  class="btn btn-primary" ng-disabled="false == _changed">Save changes</button>
 		</div>
 	</form>
+
