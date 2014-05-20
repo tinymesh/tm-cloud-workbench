@@ -40,6 +40,10 @@ footer .nav li a:hover {
 	background: transparent;
 	text-decoration: underline; }
 
+a { cursor: pointer; }
+a > .glyphicon { color: darkgrey; }
+a:hover > .glyphicon { color: #555; }
+
 /**
  * Special pages
  */
