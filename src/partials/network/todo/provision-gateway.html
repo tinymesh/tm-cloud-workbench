@@ -1,0 +1,34 @@
+	<a class="title" ng-click="activetodo = tpl">
+		Provision a new gateway
+	</a>
+	<div class="body">
+		<form name="device" role="form" class="form-horizontal">
+				<h4>
+					Provision a new gateway&nbsp;&nbsp;&nbsp;&nbsp;
+						<a ng-click="activetodo = false;" class="small">
+							<span class="glyphicon glyphicon-remove"></span>
+							close
+						</a>
+				</h4>
+
+				<p>
+					Fill in the information below to create your first gateway device.
+				</p>
+
+				<div ng-show="provisionMsg" class="alert alert-danger">
+					<h4 ng-show="provisionMsg.title">{{provisionMsg.title}}</h4>
+
+					<p>{{provisionMsg.body}}</p>
+				</div>
+				<div class="input-group btn-group">
+					<span class="input-group-addon"><b class="glyphicon glyphicon-star"></b></span>
+					<div class="col-xs-5" style="padding: 0px">
+						<input ng-model="device.name" type="text" class="form-control" name="device-name" placeholder="Device name" />
+					</div>
+					<div class="col-xs-4" style="padding: 0px">
+						<input ng-model="device.address" type="text" class="form-control" name="device-addr" placeholder="Device Address" />
+					</div>
+					<button ng-click="provisionDevice(device.name, device.address)" class="col-xs-2 btn btn-warning">Provision</button>
+				</div>
+		</form>
+	</div>

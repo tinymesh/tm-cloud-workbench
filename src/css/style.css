@@ -262,3 +262,11 @@ a:hover > .glyphicon { color: #555; }
 		color: #fff;
 		border-left: 0px;
 		background: #428bca; }
+
+#notifications {
+	margin-top: -10px;
+	color: #8a6d3b;
+	background-color: #fcf8e3;
+	border-bottom: 1px solid #faebcc; }
+#notifications > * {
+	padding: 10px 20px}

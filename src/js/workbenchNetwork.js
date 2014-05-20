@@ -59,6 +59,19 @@ angular.module('workbenchNetwork', ['ngRoute'])
 	.controller('wbNetworkCtrl', function($scope, $routeParams, tmNet, tmDevice) {
 		$scope.activetab = $routeParams.tab || "view";
 		$scope.net = tmNet.get({id: $routeParams.network});
+		$scope.todo = [];
+
+		$scope.net.$promise.then(function(net) {
+			var typecount = _.countBy(net.devicemap, "type");
+
+			if (0 !== typecount.gateway) {
+				$scope.todo.push('partials/network/todo/provision-gateway.html');
+			}
+
+			if (0 === net.channels.length) {
+				$scope.todo.push('partials/network/todo/network-connector.html');
+			}
+		});
 
 		$scope.provisionDevice = function(name, addr) {
 			$scope.provisionMsg = {body: "loading ..."};

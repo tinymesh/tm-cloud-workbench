@@ -1,0 +1,43 @@
+	<a class="title" ng-click="activetodo = tpl">
+		Make the first initial connection
+	</a>
+	<div class="body">
+		<h4>
+			Connect your gateway&nbsp;&nbsp;&nbsp;&nbsp;
+				<a ng-click="activetodo = false" class="small">
+					<span class="glyphicon glyphicon-remove"></span>
+					close
+				</a>
+		</h4>
+      <p>
+      	To connect you need to ensure two steps:
+				<ul>
+					<li>Set the Network ID in the calibration memory off the Tinymesh gateway device</li>
+					<li>Configure your <a href="https://cloud.tiny-mesh.com/docs/cloud/1.0.3/faq/Network-Connectors.html">Network Connector</a> to connect to the Cloud Service at <code>cloud.tiny-mesh.com</code> using port <code>7001</code></li>
+				</ul>
+			</p>
+
+			<p>
+				Connect to the UART of the Tinymesh gateway to your favourite
+				terminal emulator and enter <code>Configuration Mode</code>.
+				You will be presented with a prompt.
+      </p>
+      <pre>
+G            ; Set Tinymesh module to act as Gateway
+
+M            ; Enter memory configuration
+0x03 0x00    ; Set Module to operate in Protocol Mode
+0x07 0x01    ; Enable I'm alive (IMA) status messages
+0xFF         ; Exit memory configuration
+
+M            ; Enter calibration memory configuration
+0x17 0x{{net.key | byte:'3':"hex":'36'}}    ; Set address 0x17 (NID#0) to
+0x18 0x{{net.key | byte:'2':"hex":'36'}}    ; Set address 0x18 (NID#1) to
+0x19 0x{{net.key | byte:'1':"hex":'36'}}    ; Set address 0x19 (NID#2) to
+0x1A 0x{{net.key | byte:'0':"hex":'36'}}    ; Set address 0x1A (NID#3) to
+0xFF         ; Exit calibration memory configuration
+
+X            ; Exit configuration mode
+</pre>
+
+	</div>

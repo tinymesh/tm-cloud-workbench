@@ -1,93 +1,42 @@
+<div id="notifications" ng-show="todo.length > 0">
+	<div class="container">
+		<div class="col-xs-12" ng-init="shownotifications = true">
+			<div ng-hide="shownotifications" ng-click="shownotifications = true">
+				<a style="color:darkgrey;"><span class="glyphicon glyphicon-plus"></span></a>
+				You have <a>{{todo.length}} steps</a> left to configure your network.
+			</div>
+			<div ng-show="shownotifications">
+				<a ng-click="shownotifications = false;" class="pull-right">
+					<span class="glyphicon glyphicon-remove">&nbsp;</span>
+				</a>
+
+				<h4>Complete the following steps</h4>
+				<style type="text/css">
+					.accordation > li > .text,
+					.accordation > li.active > .body { display: block; }
+
+					.accordation > li > .body,
+					.accordation > li.active > .title { display: none; }
+
+					.accordation > li.active {
+						list-style: none;
+						border-bottom: 1px solid #eaeaea;
+						padding-bottom: 10px;
+						margin-bottom: 15px;
+					}
+				</style>
+				<ul class="accordation col-xs-7">
+					<li ng-class="{active: activetodo === tpl}"
+					    ng-repeat="(k, tpl) in todo"
+					    ng-include="tpl" />
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="controller-containers container" ng-init="activetab = activetab || 'view'">
 
 	<div class="col-md-9">
-		<div ng-show="0 === net.meta.device.active" class="row">
-			<div class="col-xs-12">
-				<form name="device" role="form" class="form-horizontal">
-					<div class="bs-callout bs-callout-info">
-						<h4>
-							<span class="glyphicon glyphicon-tags">&nbsp;</span>
-							Provision a new gateway
-						</h4>
-
-   					<p>
-							You are almost done, to finish you just need to provision a
-							gateway and configure it for authenticating with Tinymesh Cloud.
-						</p>
-
-						<p>
-							Fill in the information below to create the gateway.
-						</p>
-
-						<div ng-show="provisionMsg" class="alert alert-danger">
-							<h4 ng-show="provisionMsg.title">{{provisionMsg.title}}</h4>
-
-							<p>{{provisionMsg.body}}</p>
-						</div>
-						<div class="form-group">
-							<div class="col-xs-2">
-								<label class="control-label" for="device-name">Device</label>
-							</div>
-							<div class="col-xs-4">
-								<input ng-model="device.name" type="text" class="form-control" name="device-name" placeholder="Device name" />
-							</div>
-							<div class="col-xs-3">
-								<input ng-model="device.addr" type="text" class="form-control" name="device-addr" placeholder="Device Address" />
-							</div>
-							<button ng-click="provisionDevice(device.name, device.addr)" class="col-xs-2 btn btn-warning">Provision</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-		<div ng-show="0 === net.channels.length" class="row">
-			<div class="col-xs-12">
-				<form name="device" role="form" class="form-horizontal">
-					<div class="bs-callout bs-callout-info">
-						<h4>
-							<span class="glyphicon glyphicon-tags">&nbsp;</span>
-							Configure gateway &amp; connect your gateway
-						</h4>
-
-						<p>
-							To configure you need to set the Network ID in the
-							gateway calibration memory and use a <a href="https://cloud.tiny-mesh.com/docs/cloud/1.0.3/faq/Network-Connectors.html">Network Connector</a>
-							to connect to the Cloud Service at <code>cloud.tiny-mesh.com</code> using port <code>7001</code>.
-
-							Using the <code>Tinymesh Connect</code> software or a terminal emulator you can configure these settings
-							by setting your gateway in <code>Configuraton Mode</code> and issuing these commands:
-						</p>
-						<pre>
-G            ; Set Tinymesh module to act as Gateway
-
-M            ; Enter memory configuration
-0x03 0x00    ; Set Module to operate in Protocol Mode
-0x07 0x01    ; Enable I'm alive (IMA) status messages
-0xFF         ; Exit memory configuration
-
-M            ; Enter calibration memory configuration
-0x17 0x{{net.key | byte:'3':"hex":'36'}}    ; Set address 0x17 (NID#0) to
-0x18 0x{{net.key | byte:'2':"hex":'36'}}    ; Set address 0x18 (NID#1) to
-0x19 0x{{net.key | byte:'1':"hex":'36'}}    ; Set address 0x19 (NID#2) to
-0x1A 0x{{net.key | byte:'0':"hex":'36'}}    ; Set address 0x1A (NID#3) to
-0xFF         ; Exit calibration memory configuration
-
-X            ; Exit configuration mode
-						</pre>
-						<p>
-							More details can be found in the Tinymesh Datasheet.
-						</p>
-
-						<div ng-show="provisionMsg" class="alert alert-danger">
-							<h4 ng-show="provisionMsg.title">{{provisionMsg.title}}</h4>
-
-							<p>{{provisionMsg.body}}</p>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-
 		<div ng-switch on="activetab">
 			<div ng-switch-when="view">
 				<div ng-include="'partials/network/view.html'"></div>
