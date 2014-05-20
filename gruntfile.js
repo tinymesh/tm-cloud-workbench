@@ -113,7 +113,7 @@ module.exports = function (grunt) {
 		},
 		watch:{
 			all: {
-				files: ['<%= src.js %>', '<%= src.html %>', '<%= src.css %>', ['src/partials/**/*.html']],
+				files: ['<%= src.js %>', '<%= src.html %>', '<%= src.css %>', 'src/partials/**/*.html'],
 				tasks: ['default','timestamp']
 			},
 		},
