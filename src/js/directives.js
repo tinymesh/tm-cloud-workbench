@@ -2,17 +2,20 @@
 
 /* Directives */
 
-
 angular.module('workbenchDirectives', [])
 	.directive('tmEditable', function() {
 		var tpl = '<div class="click-to-edit">' +
 			'<div ng-hide="view.enabled">' +
 				'<a ng-model="value" class="editable" ng-click="toggle()">{{value}} <i class="glyphicon glyphicon-pencil pull-right"> </i></a>' +
 			'</div>' +
-			'<div ng-show="view.enabled">' +
-				'<input type="text" ng-model="view.editValue" />' +
-				'<a ng-click="toggle()" class="pull-right glyphicon glyphicon-remove">&nbsp;</a>' +
-				'<a ng-click="save()"   class="pull-right glyphicon glyphicon-ok">&nbsp;</a>&nbsp;' +
+			'<div ng-show="view.enabled" class="form-group row">' +
+				'<div class="col-xs-9">' +
+				'<input type="text" ng-model="view.editValue" class="form-control" />' +
+				'</div>' +
+				'<div style="padding-top:5px;">' +
+				'<a ng-click="save()"   class="col-xs-1 glyphicon glyphicon-ok">&nbsp;</a>' +
+				'<a ng-click="toggle()" class="col-xs-1 glyphicon glyphicon-remove">&nbsp;</a>' +
+				'</div>' +
 			'</div>' +
 			'</div>';
 		return {

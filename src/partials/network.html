@@ -1,6 +1,6 @@
 <div id="notifications" ng-show="todo.length > 0">
 	<div class="container">
-		<div class="col-xs-12" ng-init="shownotifications = true">
+		<div class="col-xs-12" ng-init="shownotifications = false">
 			<div ng-hide="shownotifications" ng-click="shownotifications = true">
 				<a style="color:darkgrey;"><span class="glyphicon glyphicon-plus"></span></a>
 				You have <a>{{todo.length}} steps</a> left to configure your network.
@@ -61,7 +61,7 @@
 
 	<div class="col-md-3">
 
-		<ul style="border-left: 1px solid #eee; padding-top: 10px; padding-left: 5px; margin-top: 90px" class="nav nav-stacked nav-pills">
+		<ul style="padding-top: 10px; padding-left: 5px; margin-top: 90px" class="nav nav-stacked nav-pills">
 			<li ng-class="{active: 'view' == activetab}"><a ng-href="#/network/{{net.key}}">Overview</a></li>
 			<li ng-class="{active: 'devices' == activetab}"><a ng-href="#/network/{{net.key}}/devices">Devices</a></li>
 			<li ng-class="{active: 'provision' == activetab}"><a ng-href="#/network/{{net.key}}/provision">Provisioning</a></li>

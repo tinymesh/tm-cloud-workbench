@@ -1,16 +1,16 @@
 			<div class="row">
 				<div class="page-header">
-					<h2 ng-hide="editMode || rawMode"><b>{{net.name || ("Unnamed network (" + net.key + ")")}}</b></h2>
+					<h2>{{net.name || ("Unnamed network (" + net.key + ")")}}</b></h2>
 
 					<div class="encoding" workbench-address-encoding-ctrl></div>
 				</div>
 
 
 				<div class="row">
-					<div ng-hide="editMode || rawMode" class="col-md-5">
+					<div class="col-md-7">
 						<dl class="dl-horizontal">
 							<dt>Network Name</dt>
-							<dd>{{net.name || ("Unnamed network (" + net.key + ")")}}</dd>
+							<dd tm-editable="net.name">{{net.name || ("Unnamed network (" + net.key + ")")}}</dd>
 
 							<dt>Address</dt>
 							<dd>{{net.address | address:this.opts:true}}</dd>
@@ -33,7 +33,59 @@
 							</dd>
 
 							<dt>Default Provision</dt>
-							<dd><b>{{net.provision.default}}</b>, type <a>{{net.provision.type}}</a></dd>
+							<dd ng-init="deftype = false; picktype = false" class="plug-out-parent">
+								<a ng-click="deftype = !deftype">
+									{{net.provision.default}}
+									<span class="glyphicon glyphicon-pencil" />
+								</a>
+								<span ng-show="net.provision.default == 'active'"> type:
+								<a ng-click="picktype = !picktype">
+									{{net.provision.type || "device"}}
+									<span class="glyphicon glyphicon-pencil" />
+								</a>
+								</span>
+
+								<div class="plug-out" ng-class="{active: deftype}">
+									<form>
+										<div class="col-xs-10">
+											<select class="form-control" ng-model="net.provision.default">
+												<option value="active">Active</option>
+												<option value="inactive">Inactive</option>
+											</select>
+
+											<p>
+												<br />
+												If <code>active</code> new devices can be
+												created automatically when they send data,
+												<code>inactive</code> discards communication
+												from such devices.
+											</p>
+										</div>
+										<div class="col-xs-1 closebtn">
+											<a ng-click="deftype = false" class="glyphicon glyphicon-ok" />
+										</div>
+									</form>
+								</div>
+
+								<div class="plug-out" ng-class="{active: picktype}">
+									<form>
+										<div class="col-xs-10">
+											<select class="form-control" ng-model="net.provision.type">
+												<option ng-repeat="(k,v) in net.types" value="{{k}}">{{v.name || k}}</option>
+											</select>
+
+											<p>
+												<br />
+												The default type which automatically
+												provisioned devices should be set to.
+											</p>
+										</div>
+										<div class="col-xs-1 closebtn">
+											<a ng-click="picktype = false" class="glyphicon glyphicon-ok" />
+										</div>
+									</form>
+								</div >
+							</dd>
 
 							<dt>Device count</dt>
 							<dd>{{net.meta.device.count}}
@@ -48,19 +100,19 @@
 								{{net.meta.msg.in.count + net.meta.msg.out.count}}
 								<span class="hidden tooltip">
 									In: {{net.meta.msg.in.count}}<br />
-									Out: {{net.meta.msg.in.count}}<br />
+									Out: {{net.meta.msg.out.count}}<br />
 									Last: {{net.meta.msg.last}}<br />
 								</span>
 							</dd>
 						</dl>
 					</div>
 
-					<div ng-hide="rawMode" class="col-md-4">
+					<div class="col-xs-5">
 						<div>
 							<h4>Access Information</h4>
 							<dl class="dl-horizontal">
 								<dt>Activated?</dt>
-								<dd>true</dd>
+								<dd><span class="label label-success">Yes</span></dd>
 
 								<dt>ACL resources</dt>
 								<dd>
@@ -75,20 +127,25 @@
 							<dl class="dl-horizontal">
 								<dt>Channels</dt>
 								<dd>
-									<span class="label" style="margin-right: 10px"
+									<span ng-show="net.channels.length > 0"
+										class="label" style="margin-right: 10px"
 										ng-class="{'label-danger':!chan.active,'label-success':chan.active}"
 										ng-repeat="(k, chan) in net.channels">
 										<span>{{k}}</span>
 											<span ng-show="!chan.active">(Connection unavailable)</span>
 											<span ng-show="chan.active">(Connected)</span>
 									</span>
+									<span ng-show="net.channels.length == 0"
+class="label label-danger">
+										No channels in network
+									</span>
 								</dd>
 							</dl>
 						</div>
 					</div>
-					<div ng-show="rawMode" class="">
-						<div id="editor">Editor is loading</div>
-						<br />
-					</div>
+				</div>
+
+				<div class="row actions">
+					<button ng-click="loadbar(net.$update());" class="pull-right btn btn-primary">Save Network Changes</button>
 				</div>
 			</div>

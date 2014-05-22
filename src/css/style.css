@@ -202,6 +202,28 @@ a:hover > .glyphicon { color: #555; }
 .nav > li > a { cursor: pointer; }
 
 /**
+ * Boxes to click on
+ */
+.plug-out-parent {
+	position: relative;
+	z-index: 1; }
+.plug-out {
+	position: absolute;
+	z-index: 2;
+	top: 5px;
+	left: 10px;
+	padding: 15px 0px;
+	border: 1px solid #d9d9d9;
+	border-radius: 3px;
+	background: #fafafa;
+	min-width: 200px;
+	display: none; }
+.plug-out.active { display: inline-block; }
+.plug-out .closebtn { padding: 7px 0px; }
+
+a select, a input { color: #555; }
+
+/**
  * Tabs
  */
 
