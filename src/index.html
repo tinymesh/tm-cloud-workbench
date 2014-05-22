@@ -17,6 +17,36 @@
 </head>
 <body ng-controller="wbAuthCtrl" ng-cloak>
 
+	<div class="backdrop" ng-show="undefined !== loading">
+		<div class="loader">
+			<span us-spinner="{color: '#555', left: '25px', top: '19px',
+				lines: 10, length: 0, width: 2, radius: 8, trail: 79}" />
+			Loading resource
+		</div>
+	</div>
+
+	<div class="backdrop" ng-show="error">
+		<div class="container">
+			<div class="errmodal col-xs-6 col-xs-offset-3">
+				<a class="pull-right">
+					<span ng-click="error = undefined" class="glyphicon glyphicon-remove">&nbsp;</span>
+				</a>
+
+				<div class="page-header">
+					<h4>{{error.title}}</h4>
+				</div>
+
+				<p>
+					{{error.body}}
+				</p>
+
+				<hr />
+				<button
+					ng-click = "error = undefined"
+					class="btn btn-danger">Close</button>
+			</div>
+		</div>
+	</div>
 
 	<div id="nav">
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">

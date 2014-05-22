@@ -1,4 +1,23 @@
 angular.module('utils', [])
+	.factory('loadbar', function($rootScope, $q) {
+		return function(promise, text) {
+				$rootScope.loading = promise || $q.deffer();
+				$rootScope.loading.then(function() {
+					$rootScope.loading = undefined;
+				}, function() { $rootScope.loading = undefined; });
+
+		};
+	})
+	.factory('errorModal', function($rootScope) {
+		return {
+			set: function(title, body) {
+				$rootScope.error = {title: title, body: body};
+			},
+			clear: function() {
+				$rootScope.error = undefined;
+			}
+		};
+	})
 	.factory('breadcrumbs', function($rootScope, $location) {
 
 		var breadcrumbs = [];
