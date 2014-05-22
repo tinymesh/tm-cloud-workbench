@@ -1,10 +1,14 @@
 angular.module('utils', [])
 	.factory('loadbar', function($rootScope, $q) {
 		return function(promise, text) {
-				$rootScope.loading = promise || $q.deffer();
-				$rootScope.loading.then(function() {
+				promise = promise || $q.deffer();
+				if ($rootScope.loading) {
+					promise = $q.all($rootScope.loading, promise);
+				}
+
+				$rootScope.loading = promise.then(function() {
 					$rootScope.loading = undefined;
-				}, function() { $rootScope.loading = undefined; });
+				});
 
 		};
 	})
