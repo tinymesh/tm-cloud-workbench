@@ -1,15 +1,18 @@
 angular.module('utils', [])
 	.factory('loadbar', function($rootScope, $q) {
-		return function(promise, text) {
-				promise = promise || $q.deffer();
-				if ($rootScope.loading) {
-					promise = $q.all($rootScope.loading, promise);
-				}
+		$rootScope.loading = $rootScope.loading || 0;
+		return function(promise) {
+			++$rootScope.loading;
+			$rootScope.promise = ($rootScope.promise) ?
+				$q.all($rootScope.promise, promise) :
+				promise;
 
-				$rootScope.loading = promise.then(function() {
-					$rootScope.loading = undefined;
-				});
-
+			$rootScope.promise.then(function() {
+				--$rootScope.loading;
+			}, function(err) {
+				--$rootScope.loading;
+				console.log("something error", err);
+			});
 		};
 	})
 	.factory('errorModal', function($rootScope) {

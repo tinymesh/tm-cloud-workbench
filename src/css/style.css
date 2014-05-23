@@ -11,7 +11,7 @@
 h1,h2,h3,h4,h5 { font-weight: bold; }
 
 .backdrop {
-	background: rgba(255,255,255,0.7);
+	background: rgba(255,255,255,0.8);
 	z-index: 10;
 	position: fixed;
 	top: 0;
@@ -27,16 +27,25 @@ h1,h2,h3,h4,h5 { font-weight: bold; }
 	background: #fff;
 	border: 1px solid #eaeaea; }
 
-#backdrop .loader {
+.backdrop .loader {
 	margin: 10% auto;
 	position: relative;
 	background: #fff;
 	border-radius: 5px;
+	border: 1px solid #eaeaea;
 	width: 200px;
 	height: 38px;
 	padding: 9px 10px 5px 50px;
 	font-weight: bold;
 	color: #555; }
+
+
+.backdrop .errmodal, .backdrop .loader {
+	border-top-color: #d9d9d9;
+	border-left-color: #d9d9d9;
+	-moz-box-shadow: 3px 3px 5px #aaa;
+	-webkit-box-shadow: 3px 3px 5px #aaa;
+	box-shadow: 3px 3px 5px #aaa; }
 
 #view { background: #FAFAFA;
         border-top: 1px solid #ffffff;
