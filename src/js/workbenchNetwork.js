@@ -69,8 +69,6 @@ angular.module('workbenchNetwork', ['ngRoute'])
 		$scope.net.$promise.then(function(net) {
 			var typecount = _.countBy(net.devicemap, "type");
 
-			console.log(typecount);
-
 			if (!typecount.gateway || 0 === typecount.gateway) {
 				$scope.todo.push('partials/network/todo/provision-gateway.html');
 			}
@@ -92,7 +90,11 @@ angular.module('workbenchNetwork', ['ngRoute'])
 
 			dev.$promise.then(function(device) {
 				$scope.provisionMsg = undefined;
-				net.$get();
+				$scope.net.$get().then(function() {
+					if ($scope.todo[0] === 'partials/network/todo/provision-gateway.html') {
+						delete $scope.todo[0];
+					}
+				});
 			}, function(err) {
 				errorModal.set(
 					"Failed to provision device",
