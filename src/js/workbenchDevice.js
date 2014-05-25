@@ -7,22 +7,26 @@ angular.module('workbenchDevice', ['ngRoute'])
 				controller: 'wbDeviceCtrl' });
 	}])
 	.controller('wbDeviceCtrl', function($scope, $location, $route, $routeParams,
-			$timeout, breadcrumbs, tmAuth, tmNet, tmDevice, tmMsg) {
+			loadbar, errorModal,
+			tmNet, tmDevice, tmMsg) {
 
 		var evCallback;
 
 
 		$scope._ = _;
-		$scope.msg = [];
 		$scope.message = new tmMsg({});
 		$scope.activetab = $routeParams.activetab || "view";
 		$scope.subtab = $routeParams.subtab;
 
-		$scope.network = tmNet.get({}, {key: $routeParams.network});
+		$scope.net = tmNet.get({}, {key: $routeParams.network});
 		$scope.device = tmDevice.get({
-			network: $routeParams.network,
+			network: $routeParams.network
+		}, {
 			key: $routeParams.device
 		});
+
+		loadbar($scope.net.$promise);
+		loadbar($scope.device.$promise);
 
 		$scope.device.$promise.then(function(dev) {
 			$scope.message = new tmMsg({
@@ -34,11 +38,13 @@ angular.module('workbenchDevice', ['ngRoute'])
 
 		$scope.sendMessage = function(msg) {
 			var message = new tmMsg(msg);
-			message.$create({network: $routeParams.network, device: $routeParams.device})
+			var p = message.$create({network: $routeParams.network, device: $routeParams.device})
 				.catch(function(err) {
-					$scope.alertClass = 'danger';
-					$scope.alertBody = "Failed to publish message" + JSON.stringify(err);
+					errorModal.set('Failed to publish message',
+						JSON.stringify(err));
 				});
+
+			loadbar(p.$promise);
 			$scope.message.cmd_number = ($scope.message.cmd_number + 1) % 255;
 		};
 

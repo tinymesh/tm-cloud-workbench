@@ -1,5 +1,9 @@
 	<form>
-		<h2>{{device.name}}</h2>
+		<div class="page-header">
+			<h2>{{device.name || ("Unnamed device (" + device.key + ")")}}</h2>
+
+			<div class="encoding" workbench-address-encoding-ctrl></div>
+		</div>
 
 
 		<div ng-show="Object.keys(device.state).length <= 1" class="alert alert-warning">
@@ -7,52 +11,70 @@
 			<code>get_config</code> command to fix the issue.
 		</div>
 
-		<dl class="dl-horizontal col-sm-4">
+		<dl class="dl-horizontal col-xs-5">
 			<dt>Name</dt>
-			<dd>{{device.name || ("Unnamed device ("+device.key+")")}}</dd>
+			<dd tm-editable="device.name">{{device.name || ("Unnamed device ("+device.key+")")}}</dd>
 
 			<dt>Type</dt>
-			<dd>{{device.type}}</dd>
+			<dd>
+				<a ng-click="picktype = !picktype">
+					{{device.type}}
+					<span class="glyphicon glyphicon-pencil" />
+				</a>
+				<div class="plug-out" ng-class="{active: picktype}">
+					<form>
+						<div class="col-xs-10">
+							<select class="form-control" ng-model="net.provision.type">
+								<option
+									ng-selected="k === device.type"
+									ng-repeat="(k,v) in net.types"
+									value="{{k}}">{{v.name || k}}</option>
+							</select>
+
+							<p>
+								<br />
+								The default type which automatically
+								provisioned devices should be set to.
+							</p>
+						</div>
+						<div class="col-xs-1 closebtn">
+							<a ng-click="picktype = false" class="glyphicon glyphicon-ok" />
+						</div>
+					</form>
+				</div >
+			</dd>
 
 			<dt>Address</dt>
-			<dd>{{device.address}}</dd>
+			<dd>{{device.address | address:this.opts:true}}</dd>
 
 			<dt>Hardware Revision</dt>
-			<dd>{{device['state'].config.hw_version || "Unknown"}}</dd>
+			<dd>
+				<span ng-show="device['state'].config.hw_version">
+						{{device['state'].config.hw_version}}
+				</span>
+				<span ng-hide="device['state'].config.hw_version">
+						Unknown <button style="color: #555;">
+							fetch config
+							<span class="small glyphicon glyphicon-refresh"/>
+						</button>
+				</span>
+			</dd>
 
 			<dt>Firmware revision</dt>
-			<dd>{{device['state'].config.fw_version || "Unknown"}}</dd>
+			<dd>
+				<span ng-show="device['state'].config.fw_version">
+						{{device['state'].config.fw_version}}
+				</span>
+				<span ng-hide="device['state'].config.fw_version">
+						Unknown <button style="color: #555;">
+							fetch config
+							<span class="small glyphicon glyphicon-refresh"/>
+						</button>
+				</span>
+			</dd>
 		</dl>
 
-		<div class="col-sm-4">
-			<dl class="dl-horizontal">
-				<dt>State</dt>
-				<dd>
-					<span ng-show="connected" class="label label-success">Communicating</span>
-					<span ng-show="!connected" class="label label-danger">Disconnected</span>
-				</dd>
-
-				<dt>Encryption<dt>
-				<dd><span class="label label-warning">Disabled</span></dd>
-
-				<dt>Current connection(s)</dt>
-				<dd>
-					<a ng-repeat="(k, i) in net.channel"
-						 ng-show="{{i[1]}}"
-						 ng-href="#/{{resource}}/device/{{net.key}}/{{k}}">{{k}}<span ng-show="!$last">, </span></a>
-					<span ng-show="!connected" class="label label-danger">None</span>
-				</dd>
-
-				<dt>Known gateways</dt>
-				<dd>
-					<a ng-repeat="(k, i) in net.channel"
-						 ng-href="#/{{resource}}/device/{{net.key}}/{{k}}">{{k}}<span ng-show="!$last">, </span></a>
-				</dd>
-
-			</dl>
-		</div>
-
-		<dl class="dl-horizontal col-sm-4">
+		<dl class="dl-horizontal col-xs-5">
 			<dt>Last Updated</dt>
 			<dd>
 				<a ng-href="#/{{resource}}/message/{{net.key}}/{{device.key}}/{{device['tm/state'].key}}">
@@ -67,8 +89,12 @@
 			<dd>{{device.counters.queue_len || 0 | number}} / {{device.counters.queue_out || 0 | number}} <i>(left / sendt)</i></dd>
 		</dl>
 
+		<div class="clearfix">&nbsp;</div>
+
 		<div class="pull-right">
-			<button ng-click="updateDevice(device)"  class="btn btn-primary" ng-disabled="false == _changed">Save changes</button>
+			<button ng-click="device.$update({network: net.key})"  class="btn btn-primary" ng-disabled="false == _changed">Save changes</button>
 		</div>
+
+		<pre>{{device}}</pre>
 	</form>
 
