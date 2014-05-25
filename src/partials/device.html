@@ -3,16 +3,16 @@
 	<div class="col-md-12">
 		<ul class="nav nav-tabs">
 			<li ng-class="{active: activetab == 'view'}">
-				<a ng-href="#/device/{{network.key}}/{{device.key}}">Overview</a>
+				<a ng-href="#/device/{{route.network}}/{{route.device}}">Overview</a>
 			</li>
 			<li ng-class="{active: activetab == 'configure'}">
-				<a ng-href="#/device/{{network.key}}/{{device.key}}/configure">Configuration</a>
+				<a ng-href="#/device/{{route.network}}/{{route.device}}/configure">Configuration</a>
 			</li>
 			<li ng-class="{active: activetab == 'command'}">
-				<a ng-href="#/device/{{network.key}}/{{device.key}}/command">Commands</a>
+				<a ng-href="#/device/{{route.network}}/{{route.device}}/command">Commands</a>
 			</li>
 			<li ng-class="{active: activetab == 'query'}">
-				<a ng-href="#/device/{{network.key}}/{{device.key}}/query">Query</a>
+				<a ng-href="#/device/{{route.network}}/{{route.device}}/query">Query</a>
 			</li>
 		</ul>
 	</div>

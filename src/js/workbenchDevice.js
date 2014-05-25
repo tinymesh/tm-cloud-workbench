@@ -14,6 +14,7 @@ angular.module('workbenchDevice', ['ngRoute'])
 
 
 		$scope._ = _;
+		$scope.route = $routeParams;
 		$scope.message = new tmMsg({});
 		$scope.activetab = $routeParams.activetab || "view";
 		$scope.subtab = $routeParams.subtab;
