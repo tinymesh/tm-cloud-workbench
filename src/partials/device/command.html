@@ -6,7 +6,7 @@
 				<div class="row">
 					<div class="form-group col-xs-2">
 						<label for="message-cm d">Command Type</label>
-						<select ng-model="message.command" id="message-cmd" class="form-control">
+						<select ng-change="resetMsg()" ng-model="message.command" id="message-cmd" class="form-control">
 							<option value="set_output">Set Output</option>
 							<option value="set_pwm">Set PWM</option>
 							<option value="init_gw_config">Set GW config mode</option>

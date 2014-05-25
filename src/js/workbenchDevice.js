@@ -24,6 +24,12 @@ angular.module('workbenchDevice', ['ngRoute'])
 
 		$scope.net = tmNet.get({}, {key: $routeParams.network});
 
+		$scope.resetMsg = function() {
+			delete $scope.message.data;
+			delete $scope.message.pwm;
+			delete $scope.message.output;
+		};
+
 		$scope.update = function(config) {
 			$scope.device.state.config = angular.copy(config);
 
