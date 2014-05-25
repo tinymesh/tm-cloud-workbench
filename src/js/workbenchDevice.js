@@ -15,6 +15,7 @@ angular.module('workbenchDevice', ['ngRoute'])
 		$scope.config = {};
 		$scope.patch = {};
 		$scope.err  = {};
+		$scope.msg  = {};
 
 		$scope._ = _;
 		$scope.route = $routeParams;
@@ -90,9 +91,14 @@ angular.module('workbenchDevice', ['ngRoute'])
 		});
 
 		$scope.updateDevice = function(device) {
-			var p = device.$update();
+			var devup = angular.copy(device);
+			delete devup.state;
+			delete devup.meta;
+			var p = devup.$update({network: $routeParams.network});
 			loadbar(p);
-			p.catch(function(err) {
+			p.then(function() {
+				$scope.msg.success = "Device was successfully updated";
+			}, function(err) {
 				errorModal.set('Failed to update device',
 					JSON.stringify(err));
 			});
@@ -109,6 +115,9 @@ angular.module('workbenchDevice', ['ngRoute'])
 
 			loadbar(p);
 			$scope.message.cmd_number = ($scope.message.cmd_number + 1) % 255;
+			p.then(function() {
+				$scope.msg.success = "Message was successfully sent";
+			});
 
 			return p;
 		};
@@ -119,8 +128,10 @@ angular.module('workbenchDevice', ['ngRoute'])
 				type: 'command', command: 'get_config', 'cmd_number': 123
 			});
 
-			p.then(function() {$scope.cfgpromise = {'$resolved': true};},
-				function() {$scope.cfgpromise = {'$resolved': true};});
+			p.then(function() {
+					$scope.cfgpromise = {'$resolved': true};
+					$scope.msg.success = "Message was sent, waiting for response from device (may take long time).";
+				}, function() {$scope.cfgpromise = {'$resolved': true};});
 
 			return p;
 		};

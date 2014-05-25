@@ -321,10 +321,13 @@ a select, a input { color: #555; }
 		border-left: 0px;
 		background: #428bca; }
 
-#notifications {
-	margin-top: -10px;
+#notifications, .notifications:first-child { margin-top: -10px; }
+#notifications, .notifications {
 	color: #8a6d3b;
 	background-color: #fcf8e3;
 	border-bottom: 1px solid #faebcc; }
-#notifications > * {
+.notifications.success {
+	background-color: #dff0d8;
+	border-color: #d6e9c6; }
+#notifications > *, .notifications .container {
 	padding: 10px 20px}

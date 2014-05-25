@@ -63,6 +63,7 @@ angular.module('workbenchNetwork', ['ngRoute'])
 		$scope.net = tmNet.get({id: $routeParams.network});
 		$scope.todo = [];
 		$scope.loadbar = loadbar;
+		$scope.msg  = {};
 
 		loadbar($scope.net.$promise);
 
@@ -77,6 +78,17 @@ angular.module('workbenchNetwork', ['ngRoute'])
 				$scope.todo.push('partials/network/todo/network-connector.html');
 			}
 		});
+
+		$scope.updateNetwork = function(net) {
+			var p = net.$update();
+			loadbar(p);
+			p.then(function() {
+				$scope.msg.success = "Network was successfully updated";
+			}, function(err) {
+				errorModal.set('Failed to update network',
+					JSON.stringify(err));
+			});
+		};
 
 		$scope.provisionDevice = function(name, addr, type) {
 			var dev = tmDevice.create({network: $scope.net.key}, {
@@ -94,6 +106,7 @@ angular.module('workbenchNetwork', ['ngRoute'])
 					if ($scope.todo[0] === 'partials/network/todo/provision-gateway.html') {
 						delete $scope.todo[0];
 					}
+					$scope.msg.success = "Device was provisioned";
 				});
 			}, function(err) {
 				errorModal.set(

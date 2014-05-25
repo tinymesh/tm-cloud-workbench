@@ -1,3 +1,22 @@
+<div class="notifications success" ng-show="msg.success">
+	<div class="container">
+		<b><span class="glyphicon glyphicon-ok" /></b> &nbsp;
+		{{msg.success}}
+
+		<a ng-click="msg.success = undefined;" class="pull-right">
+			<span class="glyphicon glyphicon-remove">&nbsp;</span>
+		</a>
+	</div>
+</div>
+<div class="notifications" ng-show="msg.info">
+	<div class="container">
+		{{msg.info}}
+
+		<a ng-click="msg.info = undefined;" class="pull-right">
+			<span class="glyphicon glyphicon-remove">&nbsp;</span>
+		</a>
+	</div>
+</div>
 <div id="notifications" ng-show="todo.length > 0">
 	<div class="container">
 		<div class="col-xs-12" ng-init="shownotifications = false">
