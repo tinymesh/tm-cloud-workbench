@@ -6,7 +6,7 @@ angular.module('workbenchDirectives', [])
 	.directive('tmEditable', function() {
 		var tpl = '<div class="click-to-edit">' +
 			'<div ng-hide="view.enabled">' +
-				'<a ng-model="value" class="editable" ng-click="toggle()">{{value}} <i class="glyphicon glyphicon-pencil pull-right"> </i></a>' +
+				'<a ng-model="value" class="editable" ng-click="toggle()">{{value}} <i class="glyphicon glyphicon-pencil"> </i></a>' +
 			'</div>' +
 			'<div ng-show="view.enabled" class="form-group row">' +
 				'<div class="col-xs-9">' +
