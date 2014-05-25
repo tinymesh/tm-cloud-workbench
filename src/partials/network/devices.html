@@ -29,3 +29,27 @@
 						</tr>
 					</tbody>
 				</table>
+
+			<div class="alert alert-info">
+				<form name="device" role="form" class="form-horizontal">
+						<h4>Provision new device</h4>
+
+						<div class="input-group btn-group">
+							<span class="input-group-addon"><b class="glyphicon glyphicon-star"></b></span>
+							<div class="col-xs-4" style="padding: 0px">
+								<input ng-model="device.name" type="text" class="form-control" name="device-name" placeholder="Device name" />
+							</div>
+							<div class="col-xs-3" style="padding: 0px">
+								<input ng-model="device.address" type="text" class="form-control" name="device-addr" placeholder="Device Address" />
+							</div>
+							<div class="col-xs-2" style="padding: 0px">
+								<select class="form-control" ng-model="device.type">
+									<option
+										ng-selected="k === (net.provision.type || 'device')"
+										ng-repeat="(k,v) in net.types" value="{{k}}">{{v.name || k}}</option>
+								</select>
+							</div>
+							<button ng-click="provisionDevice(device.name, device.address, device.type)" class="col-xs-2 btn btn-warning">Provision</button>
+						</div>
+				</form>
+			</div>

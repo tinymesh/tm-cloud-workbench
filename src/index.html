@@ -29,7 +29,7 @@
 		<div class="container">
 			<div class="errmodal col-xs-6 col-xs-offset-3">
 				<a class="pull-right">
-					<span ng-click="error = undefined" class="glyphicon glyphicon-remove">&nbsp;</span>
+					<span ng-click="clearError()" class="glyphicon glyphicon-remove">&nbsp;</span>
 				</a>
 
 				<div class="page-header">
@@ -41,8 +41,9 @@
 				</p>
 
 				<hr />
+
 				<button
-					ng-click = "error = undefined"
+					ng-click="clearError()"
 					class="btn btn-danger">Close</button>
 			</div>
 		</div>

@@ -90,7 +90,7 @@ angular.module('workbenchNetwork', ['ngRoute'])
 
 			dev.$promise.then(function(device) {
 				$scope.provisionMsg = undefined;
-				$scope.net.$get().then(function() {
+				loadbar($scope.net.$get).then(function() {
 					if ($scope.todo[0] === 'partials/network/todo/provision-gateway.html') {
 						delete $scope.todo[0];
 					}

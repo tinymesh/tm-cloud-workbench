@@ -16,13 +16,12 @@ angular.module('utils', [])
 		};
 	})
 	.factory('errorModal', function($rootScope) {
+		$rootScope.clearError = function() { $rootScope.error = undefined; };
 		return {
 			set: function(title, body) {
 				$rootScope.error = {title: title, body: body};
 			},
-			clear: function() {
-				$rootScope.error = undefined;
-			}
+			clear: $rootScope.clearError
 		};
 	})
 	.factory('breadcrumbs', function($rootScope, $location) {
