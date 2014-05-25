@@ -77,9 +77,9 @@
 		<dl class="dl-horizontal col-xs-5">
 			<dt>Last Updated</dt>
 			<dd>
-				<a ng-href="#/{{resource}}/message/{{net.key}}/{{device.key}}/{{device['tm/state'].key}}">
-						{{(last_msg.datetime || device.updated) | date:'short'}}
-				</a>
+<!--				<a ng-href="#/{{resource}}/message/{{net.key}}/{{device.key}}/{{device['tm/state'].key}}"> -->
+						{{((last_msg.datetime || device.updated) | date:'short') || "Unknown"}}
+<!--			</a> -->
 			</dd>
 
 			<dt>Message Count</dt>
