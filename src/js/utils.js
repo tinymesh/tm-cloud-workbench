@@ -7,11 +7,10 @@ angular.module('utils', [])
 				$q.all($rootScope.promise, promise) :
 				promise;
 
-			$rootScope.promise.then(function() {
+			return $rootScope.promise.then(function() {
 				--$rootScope.loading;
 			}, function(err) {
 				--$rootScope.loading;
-				console.log("something error", err);
 			});
 		};
 	})
