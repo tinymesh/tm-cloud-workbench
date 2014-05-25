@@ -12,6 +12,9 @@ angular.module('workbenchDevice', ['ngRoute'])
 
 		var evCallback;
 
+		$scope.config = {};
+		$scope.patch = {};
+		$scope.err  = {};
 
 		$scope._ = _;
 		$scope.route = $routeParams;
@@ -20,6 +23,44 @@ angular.module('workbenchDevice', ['ngRoute'])
 		$scope.subtab = $routeParams.subtab;
 
 		$scope.net = tmNet.get({}, {key: $routeParams.network});
+
+		$scope.update = function(config) {
+			$scope.device.state.config = angular.copy(config);
+
+			var params = {
+				network: $routeParams.network,
+				key: $routeParams.device
+			};
+
+			// now this is a fucking shit way of doing partial updates...
+			var qdev = new tmDevice({state: { config: $scope.patch } });
+			loadbar(qdev.$update(params))
+				.then(function(dev) {
+					$scope.device = angular.copy(dev);
+					$scope.patch = {};
+				}).catch(function(err) {
+					errorModal.set('Failed to update device',
+						JSON.stringify(err));
+				});
+		};
+
+		$scope.reset = function() {
+			$scope.config = angular.copy($scope.device.state.config);
+			$scope.patch = {};
+		};
+
+		$scope.diff = function(cfg) {
+			for (var k in cfg) {
+				/*jslint eqeq: true*/ // allow == equality check
+				if (k.match(/^[a-z]/) && cfg[k] != $scope.device.state.config[k]) {
+					$scope.patch[k] = (+cfg[k]) || cfg[k]; // convert to int
+				} else if ($scope.patch[k]) {
+					delete $scope.patch[k];
+				}
+				/*jslint eqeq: false*/ // allow == equality check
+			}
+		};
+
 		$scope.device = tmDevice.get({
 			network: $routeParams.network
 		}, {
@@ -30,14 +71,29 @@ angular.module('workbenchDevice', ['ngRoute'])
 		loadbar($scope.device.$promise);
 
 		$scope.device.$promise.then(function(dev) {
+			if (undefined === dev.state) { dev.state = {}; }
+			if (undefined === dev.state.config) { dev.state.config = {}; }
+
 			$scope.message = new tmMsg({
 				type: 'command',
 				command: 'get_status',
 				cmd_number: 0
 			});
+
+			$scope.config = angular.copy(dev.state.config || {});
 		});
 
+		$scope.updateDevice = function(device) {
+			var p = device.$update();
+			loadbar(p);
+			p.catch(function(err) {
+				errorModal.set('Failed to update device',
+					JSON.stringify(err));
+			});
+		};
+
 		$scope.sendMessage = function(msg) {
+			$scope.msgPromise = false;
 			var message = new tmMsg(msg);
 			var p = message.$create({network: $routeParams.network, device: $routeParams.device})
 				.catch(function(err) {
@@ -45,8 +101,22 @@ angular.module('workbenchDevice', ['ngRoute'])
 						JSON.stringify(err));
 				});
 
-			loadbar(p.$promise);
+			loadbar(p);
 			$scope.message.cmd_number = ($scope.message.cmd_number + 1) % 255;
+
+			return p;
+		};
+
+		$scope.requestConfig = function() {
+			$scope.cfgpromise = {'$resolved': false};
+			var p = $scope.sendMessage({
+				type: 'command', command: 'get_config', 'cmd_number': 123
+			});
+
+			p.then(function() {$scope.cfgpromise = {'$resolved': true};},
+				function() {$scope.cfgpromise = {'$resolved': true};});
+
+			return p;
 		};
 
 		$scope.filterMsg = function(cmd, msg_in) {

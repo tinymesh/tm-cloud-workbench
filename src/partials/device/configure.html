@@ -1,92 +1,289 @@
-<span ng-init="params = [
-		{key: 'rf_channel',                group: 'rf',      name: 'RF Channel', type: 'enum'},
-		{key: 'rf_power',                  group: 'rf',      name: 'RF Output Power', type: 'enum'},
-		{key: 'rf_data_rate',              group: 'rf',      name: 'RF Data rate', type: 'enum'},
-		{key: 'protocol_mode',             group: 'device',  name: 'Protocol Mode', type: 'enum'},
-		{key: 'rssi_threshold',            group: 'rf',      name: 'RSSI Acceptance Level', type: 'range', range: [160, 210]},
-		{key: 'rssi_assesment',            group: 'rf',      name: 'RSSI Clear Channel Assessment Level', type: 'range', range: [100, 210]},
-		{key: 'hiam_time',                 group: 'device',  name: 'HIAM Time', type: 'range', suffix: 'sec', range: [1, 10]},
-		{key: 'ima_time',                  group: 'device',  name: 'IMA Time', type: 'range', suffix: 'min', range: [1, 255]},
-		{key: 'connect_check_time',        group: 'rf',      name: 'Connect Check Time', type: 'range', suffix: 'sec', range: [4, 20]},
-		{key: 'max_jump_level',            group: 'rf',      name: 'Max Jump Level', type: 'range', range: [1, 255]},
-		{key: 'max_jump_count',            group: 'rf',      name: 'Max Jump Count', type: 'range', range: [1, 255]},
-		{key: 'max_packet_latency',        group: 'rf',      name: 'Max Packet Latency', type: 'range', suffix: 'x25sec', range: [1, 255]},
-		{key: 'rf_retry_limit',            group: 'rf',      name: 'RF Trasmit Retry Limit', type: 'range', range: [1, 255]},
-		{key: 'uart_timeout',              group: 'uart',    name: 'Serial Port Timeout', type: 'range', suffix: 'ms', range: [1, 255]},
-		{key: 'device_type',               group: 'device',  name: 'Device Type', type: 'enum'},
-		{key: 'rssi_excellent_level',      group: 'rf',      name: 'Excllect RSSI Level', type: 'range', range: [1, 255], ro: true},
-		{key: 'gpio_0_config',             group: 'gpio',    name: 'GPIO 0 Config', type: 'enum'},
-		{key: 'gpio_1_config',             group: 'gpio',    name: 'GPIO 1 Config', type: 'enum'},
-		{key: 'gpio_2_config',             group: 'gpio',    name: 'GPIO 2 Config', type: 'enum'},
-		{key: 'gpio_3_config',             group: 'gpio',    name: 'GPIO 3 Config', type: 'enum'},
-		{key: 'gpio_4_config',             group: 'gpio',    name: 'GPIO 4 Config', type: 'enum'},
-		{key: 'gpio_5_config',             group: 'gpio',    name: 'GPIO 5 Config', type: 'enum'},
-		{key: 'gpio_6_config',             group: 'gpio',    name: 'GPIO 6 Config', type: 'enum'},
-		{key: 'gpio_7_config',             group: 'gpio',    name: 'GPIO 7 Config', type: 'enum'},
-		{key: 'gpio_0_trigger',            group: 'gpio',    name: 'GPIO 0 Trigger', type: 'enum'},
-		{key: 'gpio_1_trigger',            group: 'gpio',    name: 'GPIO 1 Trigger', type: 'enum'},
-		{key: 'gpio_2_trigger',            group: 'gpio',    name: 'GPIO 2 Trigger', type: 'enum'},
-		{key: 'gpio_3_trigger',            group: 'gpio',    name: 'GPIO 3 Trigger', type: 'enum'},
-		{key: 'gpio_4_trigger',            group: 'gpio',    name: 'GPIO 4 Trigger', type: 'enum'},
-		{key: 'gpio_5_trigger',            group: 'gpio',    name: 'GPIO 5 Trigger', type: 'enum'},
-		{key: 'gpio_6_trigger',            group: 'gpio',    name: 'GPIO 6 Trigger', type: 'enum'},
-		{key: 'gpio_7_trigger',            group: 'gpio',    name: 'GPIO 7 Trigger', type: 'enum'},
-		{key: 'input_debounce',            group: 'gpio',    name: 'Input De-bounce', type: 'range', range: [0, 255], suffix: 'ms'},
-		{key: 'gpio_0_hi_hi_triggerlevel', group: 'gpio',    name: 'GPIO 0 Analogue High trig High Byte', type: 'range', range: [0, 7]},
-		{key: 'gpio_0_hi_lo_triggerlevel', group: 'gpio',    name: 'GPIO 0 Analogue High trig Low Byte', type: 'range', range: [0, 255]},
-		{key: 'gpio_0_lo_hi_triggerlevel', group: 'gpio',    name: 'GPIO 0 Analogue Low trig High Byte', type: 'range', range: [0, 7]},
-		{key: 'gpio_0_lo_lo_triggerlevel', group: 'gpio',    name: 'GPIO 0 Analogue Low trig Low Byte', type: 'range', range: [0, 255]},
-		{key: 'gpio_0_sample_rate',        group: 'gpio',    name: 'GPIO 0 Analogue Sampling Interval', type: 'range', suffix: 'x10ms', range: [0, 255]},
-		{key: 'gpio_1_hi_hi_triggerlevel', group: 'gpio',    name: 'GPIO 1 Analogue High trig High Byte', type: 'range', range: [0, 7]},
-		{key: 'gpio_1_hi_lo_triggerlevel', group: 'gpio',    name: 'GPIO 1 Analogue High trig Low Byte', type: 'range', range: [0, 255]},
-		{key: 'gpio_1_lo_hi_triggerlevel', group: 'gpio',    name: 'GPIO 1 Analogue Low trig High Byte', type: 'range', range: [0, 7]},
-		{key: 'gpio_1_lo_lo_triggerlevel', group: 'gpio',    name: 'GPIO 1 Analogue Low trig Low Byte', type: 'range', range: [0, 255]},
-		{key: 'gpio_1_sample_rate',        group: 'gpio',    name: 'GPIO 1 Analogue Sampling Interval', type: 'range', suffix: 'x10ms', range: [0, 255]},
-		{key: 'cts_hold_time',             group: 'uart',    name: 'CTS hold time', type: 'range', suffix: 'x10ms', range: [1, 255]},
-		{key: 'locator',                   group: 'device',  name: 'Enable Locator', type: 'switch'},
-		{key: 'uid',                       group: 'device',  name: 'Unique ID', type: 'range', range: [0, 4294967295], ro: true, class: 'address'},
-		{key: 'sid',                       group: 'device',  name: 'System ID', type: 'range', range: [0, 4294967295], ro: true, class: 'address'},
-		{key: 'uart_baud_rate',            group: 'uart',    name: 'UART Baud Rate', type: 'enum'},
-		{key: 'uart_bits',                 group: 'uart',    name: 'UART Bits', type: 'switch'},
-		{key: 'uart_parity',               group: 'uart',    name: 'UART Parity', type: 'switch'},
-		{key: 'uart_stop_bits',            group: 'uart',    name: 'UART Stop Bits', type: 'switch'},
-		{key: 'uart_flow_control',         group: 'uart',    name: 'UART Flow Control', type: 'enum'},
-		{key: 'uart_buffer_margin',        group: 'uart',    name: 'Serial Buffer Full Margin', type: 'range', suffix: 'bytes', range: [0, 100]},
-		{key: 'model',                     group: 'device',  name: 'PART Number', type: 'text', ro: true},
-		{key: 'hw_version',                group: 'device',  name: 'HW Revision', type: 'text', ro: true},
-		{key: 'fw_version',                group: 'device',  name: 'FW Revision', type: 'text', ro: true},
-		{key: 'security_level',            group: 'device',  name: 'Security Level', type: 'enum'},
-		{key: 'ima_step',                  group: 'device',  name: 'IMA time base', type: 'range', suffix: '10sec', range: [1, 255]},
-		{key: 'end_device_keepalive',      group: 'device',  name: 'End Device Wait for Command Time', type: 'range', suffix: '.1sec', range: [0, 255]},
-		{key: 'end_device_wakeon',         group: 'device',  name: 'End Device Wakeup Enable', type: 'mask'},
-		{key: 'indicators_timeout',        group: 'device',  name: 'Indicators On', type: 'range', suffix: 'min', range: [0, 255], on: 255, off: 0},
-		{key: 'receive_neighbour_messages',group: 'device',  name: 'Receive Neighbour Messages', type: 'switch'},
-		{key: 'message_ack',               group: 'device',  name: 'HIACK Enable', type: 'switch'},
-		{key: 'sleep_pin',                 group: 'device',  name: 'Sleep or RTS', type: 'switch'},
-		{key: 'ima_on_connect',            group: 'device',  name: 'IMA On Connect', type: 'switch'},
-		{key: 'pwm_default',               group: 'device',  name: 'PWM Default', type: 'range', suffix: '%', range: [0, 100]},
-		{key: 'pulse_counter_mode',        group: 'device',  name: 'Pulse Counter Mode', type: 'mask'},
-		{key: 'pulse_counter_debounce',    group: 'device',  name: 'Pulse Counter Debounce', type: 'range', suffix: 'ms', range: [0, 255], off: 0},
-		{key: 'rssi_reassess_threshold',   group: 'rf',      name: 'RSSI Change Margin', type: 'range', range: [0, 255]},
-		{key: 'cluster_min_size',          group: 'cluster', name: 'Cluster Node device Limit', type: 'range', range: [5, 100]},
-		{key: 'cluster_rssi_threshold',    group: 'cluster', name: 'Cluster Node RSSI', type: 'range', range: [60, 100]},
-		{key: 'network_busy_detect',       group: 'rf',      name: 'Detect Network Busy', type: 'enum'},
-		{key: 'rf_tamper_detect',          group: 'rf',      name: 'RF Tamper Detect', type: 'range', suffix: '1min', range: [0, 100], off: 0},
-		{key: 'rf_tamper_alarm',           group: 'rf',      name: 'RF Tamper Alarm', type: 'enum'},
-		{key: 'feedback_port',             group: 'device',  name: 'Feedback Port', type: 'enum'},
-		{key: 'feedback',                  group: 'device',  name: 'Feedback', type: 'switch'},
-		{key: 'ima_data_field',            group: 'device',  name: 'IMA Message Data Field Contents', type: 'enum'},
-		{key: 'ima_address_field',         group: 'device',  name: 'IMA Message Address Field Contents', type: 'enum'},
-		{key: 'ima_trig_hold',             group: 'device',  name: 'Trig Hold', type: 'mask'},
-		{key: 'end_device_wakeon_gpio',    group: 'device',  name: 'End Device Wakeup GPIO', type: 'mask'},
-		{key: 'group_table',               group: 'device',  name: 'Group Table', type: 'list'},
-		{key: 'command_accept_timeout',    group: 'device',  name: 'Accept New Command Timeout', type: 'range', suffix: '10ms', range: [0, 255], ro: true},
-		{key: 'command_retry',             group: 'device',  name: 'Command Retry', type: 'range', range: [100, 210]},
-		{key: 'rf_mac_rnd_mask_1',         group: 'rf',      name: 'MAC RndTime1Mask', group: 'rf', type: 'enum', ro: true},
-		{key: 'rf_mac_rnd_mask_2',         group: 'rf',      name: 'MAC RndTime2Mask', group: 'rf', type: 'enum', ro: true},
-		{key: 'reset_force_backup',        group: 'device',  name: 'Backup Firsttime', group: 'rf', type: 'enum', ro: true}
-];">
+<style type="text/css">
+.input-group.range input[type=text] { width: 35% }
+.input-group.range input[type=range] { width: 65% }
+.devconfig input[type="checkbox"] { margin-top: 10px; }
 
+.onoffswitch {
+    position: relative; width: 60px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #CCCCCC; border-radius: 0px;
+}
+.onoffswitch-inner {
+    width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    float: left; width: 50%; height: 34px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+.onoffswitch-inner:before {
+    content: "on";
+    padding-left: 10px;
+    background-color: #428BCA; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "off";
+    padding-right: 10px;
+    background-color: #FFFFFF; color: #555555;
+    text-align: right;
+}
+.onoffswitch-switch {
+    width: 21px; margin: 0px;
+    background: #CCCCCC;
+    position: absolute; top: 0; bottom: 0; right: 39px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
+}
+
+.tip {
+	position: absolute;
+	top: -39px;
+	left: 0px;
+	background: #000;
+	color: #eee;
+	padding: 2px 10px;
+	border-radius: 3px;
+	border: 1px solid #000;
+	font-size: 11px;
+	text-align: center;
+	display: inline-block; }
+</style>
+
+<span ng-init="params = [
+		{key: 'rf_channel',                 default: 4,   group: 'rf',      name: 'RF Channel', type: 'enum'},
+		{key: 'rf_power',                   default: 5,   group: 'rf',      name: 'RF Output Power', type: 'enum'},
+		{key: 'rf_data_rate',               default: 5,   group: 'rf',      name: 'RF Data rate', type: 'enum'},
+		{key: 'protocol_mode',              default: 1,   group: 'device',  name: 'Protocol Mode', type: 'enum'},
+		{key: 'rssi_threshold',             default: 193, group: 'rf',      name: 'RSSI Acceptance Level', type: 'range', range: [160, 210]},
+		{key: 'rssi_assesment',             default: 110, group: 'rf',      name: 'RSSI Clear Channel Assessment Level', type: 'range', range: [100, 210]},
+		{key: 'hiam_time',                  default: 1,   group: 'device',  name: 'HIAM Time', type: 'range', suffix: 'sec', range: [1, 10]},
+		{key: 'ima_time',                   default: 255, group: 'device',  name: 'IMA Time', type: 'range', suffix: 'min', range: [1, 255]},
+		{key: 'connect_check_time',         default: 6,   group: 'rf',      name: 'Connect Check Time', type: 'range', suffix: 'sec', range: [4, 20]},
+		{key: 'max_jump_level',             default: 20,  group: 'rf',      name: 'Max Jump Level', type: 'range', range: [1, 255]},
+		{key: 'max_jump_count',             default: 30,  group: 'rf',      name: 'Max Jump Count', type: 'range', range: [1, 255]},
+		{key: 'max_packet_latency',         default: 5,   group: 'rf',      name: 'Max Packet Latency', type: 'range', suffix: 'x25sec', range: [1, 255]},
+		{key: 'rf_retry_limit',             default: 50,  group: 'rf',      name: 'RF Trasmit Retry Limit', type: 'range', range: [1, 255]},
+		{key: 'uart_timeout',               default: 20,  group: 'uart',    name: 'Serial Port Timeout', type: 'range', suffix: 'ms', range: [1, 255]},
+		{key: 'device_type',                default: 2,   group: 'device',  name: 'Device Type', type: 'enum'},
+		{key: 'rssi_excellent_level',       default: 150, group: 'rf',      name: 'Excllect RSSI Level', type: 'range', range: [1, 255], ro: true},
+		{key: 'gpio_0_config',              default: 1,   group: 'gpio',    name: 'GPIO 0 Config', type: 'enum'},
+		{key: 'gpio_1_config',              default: 1,   group: 'gpio',    name: 'GPIO 1 Config', type: 'enum'},
+		{key: 'gpio_2_config',              default: 1,   group: 'gpio',    name: 'GPIO 2 Config', type: 'enum'},
+		{key: 'gpio_3_config',              default: 1,   group: 'gpio',    name: 'GPIO 3 Config', type: 'enum'},
+		{key: 'gpio_4_config',              default: 1,   group: 'gpio',    name: 'GPIO 4 Config', type: 'enum'},
+		{key: 'gpio_5_config',              default: 1,   group: 'gpio',    name: 'GPIO 5 Config', type: 'enum'},
+		{key: 'gpio_6_config',              default: 1,   group: 'gpio',    name: 'GPIO 6 Config', type: 'enum'},
+		{key: 'gpio_7_config',              default: 1,   group: 'gpio',    name: 'GPIO 7 Config', type: 'enum'},
+		{key: 'gpio_0_trigger',             default: 0,   group: 'gpio',    name: 'GPIO 0 Trigger', type: 'enum'},
+		{key: 'gpio_1_trigger',             default: 0,   group: 'gpio',    name: 'GPIO 1 Trigger', type: 'enum'},
+		{key: 'gpio_2_trigger',             default: 0,   group: 'gpio',    name: 'GPIO 2 Trigger', type: 'enum'},
+		{key: 'gpio_3_trigger',             default: 0,   group: 'gpio',    name: 'GPIO 3 Trigger', type: 'enum'},
+		{key: 'gpio_4_trigger',             default: 0,   group: 'gpio',    name: 'GPIO 4 Trigger', type: 'enum'},
+		{key: 'gpio_5_trigger',             default: 0,   group: 'gpio',    name: 'GPIO 5 Trigger', type: 'enum'},
+		{key: 'gpio_6_trigger',             default: 0,   group: 'gpio',    name: 'GPIO 6 Trigger', type: 'enum'},
+		{key: 'gpio_7_trigger',             default: 0,   group: 'gpio',    name: 'GPIO 7 Trigger', type: 'enum'},
+		{key: 'input_debounce',             default: 10,  group: 'gpio',    name: 'Input De-bounce', type: 'range', range: [0, 255], suffix: 'ms'},
+		{key: 'gpio_0_hi_hi_triggerlevel',  default: 7,   group: 'gpio',    name: 'GPIO 0 Analogue High trig High Byte', type: 'range', range: [0, 7]},
+		{key: 'gpio_0_hi_lo_triggerlevel',  default: 255, group: 'gpio',    name: 'GPIO 0 Analogue High trig Low Byte', type: 'range', range: [0, 255]},
+		{key: 'gpio_0_lo_hi_triggerlevel',  default: 0,   group: 'gpio',    name: 'GPIO 0 Analogue Low trig High Byte', type: 'range', range: [0, 7]},
+		{key: 'gpio_0_lo_lo_triggerlevel',  default: 0,   group: 'gpio',    name: 'GPIO 0 Analogue Low trig Low Byte', type: 'range', range: [0, 255]},
+		{key: 'gpio_0_sample_rate',         default: 100, group: 'gpio',    name: 'GPIO 0 Analogue Sampling Interval', type: 'range', suffix: 'x10ms', range: [0, 255]},
+		{key: 'gpio_1_hi_hi_triggerlevel',  default: 7,   group: 'gpio',    name: 'GPIO 1 Analogue High trig High Byte', type: 'range', range: [0, 7]},
+		{key: 'gpio_1_hi_lo_triggerlevel',  default: 255, group: 'gpio',    name: 'GPIO 1 Analogue High trig Low Byte', type: 'range', range: [0, 255]},
+		{key: 'gpio_1_lo_hi_triggerlevel',  default: 0,   group: 'gpio',    name: 'GPIO 1 Analogue Low trig High Byte', type: 'range', range: [0, 7]},
+		{key: 'gpio_1_lo_lo_triggerlevel',  default: 0,   group: 'gpio',    name: 'GPIO 1 Analogue Low trig Low Byte', type: 'range', range: [0, 255]},
+		{key: 'gpio_1_sample_rate',         default: 6,   group: 'gpio',    name: 'GPIO 1 Analogue Sampling Interval', type: 'range', suffix: 'x10ms', range: [0, 255]},
+		{key: 'cts_hold_time',              default: 0,   group: 'uart',    name: 'CTS hold time', type: 'range', suffix: 'x10ms', range: [1, 255]},
+		{key: 'locator',                    default: 0,   group: 'device',  name: 'Enable Locator', type: 'switch'},
+		{key: 'uid',                        default: 0,   group: 'device', name: 'Unique ID', type: 'address', size: 4, range: [0, 4294967295], ro: true},
+		{key: 'sid',                        default: 1,   group: 'device', name: 'System ID', type: 'address', size: 4, range: [0, 4294967295], ro: true},
+		{key: 'uart_baud_rate',             default: 5,   group: 'uart',    name: 'UART Baud Rate', type: 'enum'},
+		{key: 'uart_bits',                  default: 8,   group: 'uart',    name: 'UART Bits', type: 'switch'},
+		{key: 'uart_parity',                default: 0,   group: 'uart',    name: 'UART Parity', type: 'switch'},
+		{key: 'uart_stop_bits',             default: 1,   group: 'uart',    name: 'UART Stop Bits', type: 'switch'},
+		{key: 'uart_flow_control',          default: 1,   group: 'uart',    name: 'UART Flow Control', type: 'mask'},
+		{key: 'uart_buffer_margin',         default: 18,  group: 'uart',    name: 'Serial Buffer Full Margin', type: 'range', suffix: 'bytes', range: [0, 100]},
+		{key: 'model',                      default: 'RC-TM',group: 'device',  name: 'PART Number', type: 'text', ro: true},
+		{key: 'hw_version',                 default: '0.00', group: 'device',  name: 'HW Revision', type: 'text', ro: true},
+		{key: 'fw_version',                 default: '0.00', group: 'device',  name: 'FW Revision', type: 'text', ro: true},
+		{key: 'security_level',             default: 0,   group: 'device',  name: 'Security Level', type: 'enum'},
+		{key: 'ima_step',                   default: 6,   group: 'device',  name: 'IMA time base', type: 'range', suffix: '10sec', range: [1, 255]},
+		{key: 'end_device_keepalive',       default: 10,  group: 'device',  name: 'End Device Wait for Command Time', type: 'range', suffix: '.1sec', range: [0, 255]},
+		{key: 'end_device_wakeon',          default: 8,   group: 'device',  name: 'End Device Wakeup Enable', type: 'mask'},
+		{key: 'indicators_timeout',         default: 1,   group: 'device',  name: 'Indicators On', type: 'range', suffix: 'min', range: [0, 255], on: 255, off: 0},
+		{key: 'receive_neighbour_messages', default: 0,   group: 'device',  name: 'Receive Neighbour Messages', type: 'switch'},
+		{key: 'message_ack',                default: 1,   group: 'device',  name: 'HIACK Enable', type: 'switch'},
+		{key: 'sleep_pin',                  default: 0,   group: 'device',  name: 'Sleep or RTS', type: 'switch'},
+		{key: 'ima_on_connect',             default: 0,   group: 'device',  name: 'IMA On Connect', type: 'switch'},
+		{key: 'pwm_default',                default: 0,   group: 'device',  name: 'PWM Default', type: 'range', suffix: '%', range: [0, 100]},
+		{key: 'pulse_counter_mode',         default: 0,   group: 'device',  name: 'Pulse Counter Mode', type: 'mask'},
+		{key: 'pulse_counter_debounce',     default: 0,   group: 'device',  name: 'Pulse Counter Debounce', type: 'range', suffix: 'ms', range: [0, 255], off: 0},
+		{key: 'rssi_reassess_threshold',    default: 12,  group: 'rf',      name: 'RSSI Change Margin', type: 'range', range: [0, 255]},
+		{key: 'cluster_min_size',           default: 10,  group: 'cluster', name: 'Cluster Node device Limit', type: 'range', range: [5, 100]},
+		{key: 'cluster_rssi_threshold',     default: 60,  group: 'cluster', name: 'Cluster Node RSSI', type: 'range', range: [60, 100]},
+		{key: 'network_busy_detect',        default: 0,   group: 'rf',      name: 'Detect Network Busy', type: 'enum'},
+		{key: 'rf_tamper_detect',           default: 0,   group: 'rf',      name: 'RF Tamper Detect', type: 'range', suffix: '1min', range: [0, 100], off: 0},
+		{key: 'rf_tamper_alarm_port',       default: 0,   group: 'rf',      name: 'RF Tamper Alarm', type: 'enum'},
+		{key: 'feedback_port',              default: 0,   group: 'device',  name: 'Feedback Port', type: 'enum'},
+		{key: 'feedback',                   default: 0,   group: 'device', name: 'Feedback', type: 'enum'},
+		{key: 'ima_data_field',             default: 0,   group: 'device',  name: 'IMA Message Data Field Contents', type: 'enum'},
+		{key: 'ima_address_field',          default: 2,   group: 'device',  name: 'IMA Message Address Field Contents', type: 'enum'},
+		{key: 'ima_trig_hold',              default: 0,   group: 'device',  name: 'Trig Hold', type: 'mask'},
+		{key: 'end_device_wakeon_gpio',     default: 0,   group: 'device',  name: 'End Device Wakeup GPIO', type: 'mask'},
+		{key: 'group_table',                default: [],  group: 'device',  name: 'Group Table', type: 'list'},
+		{key: 'command_accept_timeout',     default: 10,  group: 'device',  name: 'Accept New Command Timeout', type: 'range', suffix: '10ms', range: [0, 255], ro: true},
+		{key: 'command_retry',              default: 3,   group: 'device',  name: 'Command Retry', type: 'range', range: [100, 210]},
+		{key: 'rf_mac_rnd_mask_1',          default: 63,  group: 'rf',      name: 'MAC RndTime1Mask', group: 'rf', type: 'enum', ro: true},
+		{key: 'rf_mac_rnd_mask_2',          default: 15,  group: 'rf',      name: 'MAC RndTime2Mask', group: 'rf', type: 'enum', ro: true},
+		{key: 'reset_force_backup',         default: 0,   group: 'device',  name: 'Backup Firsttime', group: 'rf', type: 'enum', ro: true}
+];
+enums = {
+'rf_channel': { '01': '1', '02': '2', '03': '3', '04': '4', '05': '5', '06': '6',
+	'07': '7', '08': '8', '09': '9', '10': '10', '11': '11', '12': '12', '13': '13', '14': '14',
+	'15': '15', '16': '16', '17': '17', '18': '18', '19': '19', '20': '20', '21': '21',
+	'22': '22', '23': '23', '24': '24', '25': '25', '26': '26', '27': '27', '28': '28',
+	'29': '29', '30': '30', '31': '31', '32': '32', '33': '33', '34': '34', '35': '35',
+	'36': '36', '37': '37', '38': '38', '39': '39', '40': '40', '41': '41', '42': '42',
+	'43': '43', '44': '44', '45': '45', '46': '46', '47': '47', '48': '48', '49': '49',
+	'50': '50', '51': '51', '52': '52', '53': '53', '54': '54', '55': '55', '56': '56',
+	'57': '57', '58': '58', '59': '59', '60': '60', '61': '61', '62': '62', '63': '63',
+	'64': '64', '65': '65', '66': '66', '67': '67', '68': '68', '69': '69', '70': '70',
+	'71': '71', '72': '72', '73': '73', '74': '74', '75': '75', '76': '76', '77': '77',
+	'78': '78', '79': '79', '80': '80', '81': '81', '82': '82', '83': '83'
+},
+'rf_power': {
+	'1': '1',
+	'2': '2',
+	'3': '3',
+	'4': '4',
+	'5': '5'
+},
+'rf_data_rate': {
+	'1': '1',
+	'2': '2',
+	'3': '3',
+	'4': '4',
+	'5': '5',
+	'6': '6'
+},
+'protocol_mode': {
+	'0': 'Packet Mode',
+	'1': 'Transparent Mode',
+},
+'device_type': {
+	'1': 'Gateway',
+	'2': 'Router',
+	'3': 'End Device',
+},
+'gpio_0_config': {'0': 'Output, default High', '1': 'Input', '2': 'Analogue In', '4': 'Output, default Low'},
+'gpio_1_config': {'0': 'Output, default High', '1': 'Input', '2': 'Analogue In', '4': 'Output, default Low'},
+'gpio_2_config': {'0': 'Output, default High', '1': 'Input', '4': 'Output, default Low'},
+'gpio_3_config': {'0': 'Output, default High', '1': 'Input', '4': 'Output, default Low'},
+'gpio_4_config': {'0': 'Output, default High', '1': 'Input', '4': 'Output, default Low'},
+'gpio_5_config': {'0': 'Output, default High', '1': 'Input', '4': 'Output, default Low'},
+'gpio_6_config': {'0': 'Output, default High', '1': 'Input', '4': 'Output, default Low'},
+'gpio_7_config': {'0': 'Output, default High', '1': 'Input', '3': 'PWM', '4': 'Output, default Low'},
+'gpio_0_trigger': {'0': 'No trigger', '1': 'Rising Edge', '2': 'Faling edge', '3': 'Both Edges'},
+'gpio_1_trigger': {'0': 'No trigger', '1': 'Rising Edge', '2': 'Faling edge', '3': 'Both Edges'},
+'gpio_2_trigger': {'0': 'No trigger', '1': 'Rising Edge', '2': 'Faling edge', '3': 'Both Edges'},
+'gpio_3_trigger': {'0': 'No trigger', '1': 'Rising Edge', '2': 'Faling edge', '3': 'Both Edges'},
+'gpio_4_trigger': {'0': 'No trigger', '1': 'Rising Edge', '2': 'Faling edge', '3': 'Both Edges'},
+'gpio_5_trigger': {'0': 'No trigger', '1': 'Rising Edge', '2': 'Faling edge', '3': 'Both Edges'},
+'gpio_6_trigger': {'0': 'No trigger', '1': 'Rising Edge', '2': 'Faling edge', '3': 'Both Edges'},
+'gpio_7_trigger': {'0': 'No trigger', '1': 'Rising Edge', '2': 'Faling edge', '3': 'Both Edges'},
+'uart_baud_rate': {
+	01:  2400,
+	02:  4800,
+	03:  9600,
+	04:  14400,
+	05:  19200,
+	06:  28800,
+	07:  38400,
+	08:  56700,
+	09:  76800,
+	10: 115200,
+	11: 230400
+},
+'security_level': {
+	0: 'Off',
+	1: 'On',
+	2: 'Compatible'
+},
+'network_busy_detect': {
+	0: 'Ignore',
+	1: 'Halt + Warn',
+	2: 'Warn'
+},
+'rf_tamper_alarm_port':     {
+	0: 'GPIO 0',
+	1: 'GPIO 1',
+	2: 'GPIO 2',
+	3: 'GPIO 3',
+	4: 'GPIO 4',
+	5: 'GPIO 5',
+	6: 'GPIO 6',
+	7: 'GPIO 7'
+},
+'feedback_port': {
+	0: 'GPIO 0',
+	1: 'GPIO 1',
+	2: 'GPIO 2',
+	3: 'GPIO 3',
+	4: 'GPIO 4',
+	5: 'GPIO 5',
+	6: 'GPIO 6',
+	7: 'GPIO 7'
+},
+'feedback': {
+	0: 'No Feedback',
+	2: 'Pulse Count'
+},
+'ima_data_field': {
+	0: 'No Data',
+	1: 'Pulse Counter'
+},
+'ima_address_field': {
+	0: 'No Data',
+	1: 'Pulse Counter',
+	2: 'Locator ID',
+	3: 'Destination ID'
+},
+'rf_mac_rnd_mask_1':   {
+	'0x7F': '0x7F',
+	'0x3F': '0x3F',
+	'0X1F': '0X1F',
+	'0x0F': '0x0F',
+	'0X07': '0X07',
+	'0x03': '0x03'
+},
+'rf_mac_rnd_mask_2': {
+	'0x7F': '0x7F',
+	'0x3F': '0x3F',
+	'0X1F': '0X1F',
+	'0x0F': '0x0F',
+	'0X07': '0X07',
+	'0x03': '0x03'
+}
+};
+">
+
+<!--
 # New things
 ima_step
 end_device_keepalive
@@ -108,68 +305,150 @@ serial_timeout -> uart_timeout
 node_id -> uid
 system_id -> sid
 baud_rate -> uart_baud_rate
-rssi_reassess_threshold, 
+rssi_reassess_threshold,
 cluster_min_size, cluster_rssi_threshold,
 network_busy_detect, command_cooldown, rf_tamper_detect,
 rf_tamper_alarm, rf_mac_rnd_mask_1, rf_mac_rnd_mask_2
-
+-->
 </span>
-		<div ng-show="Object.keys(device.state).length <= 1" class="alert alert-warning">
-			Device state is not available for this device. Send a 
-			<code>get_config</code> command to fix the issue.
+
+		<div ng-show="err.status" class="alert alert-danger">
+			<p><b>An error occurred ({{err.status}})</b></p>
+			<p>
+				<code>{{err.data}}</code>
+			</p>
 		</div>
 
-		<form name="config" class="form-horizontal" role="form"
-			ng-init="conf = _.groupBy(params, 'group')">
-			<div ng-repeat="(key, name) in {device: 'Device',
-			                                gpio: 'IO functions',
-			                                rf: 'Radio network',
-			                                cluster: 'Clustering',
-			                                uart: 'UART',
-			                                misc: 'General'}"
-				   class="row">
-				<h3>{{name}}</h3>
+		<div ng-show="_.size(config) <= 1" class="alert alert-warning">
+			The configuration is not yet available for this device.
+			<button style="position:relative;" class="btn btn-sm btn-primary" ng-click="requestConfig()">
+				<span ng-hide="false !== cfgpromise.$resolved"
+							us-spinner="{color: '#fff', left: '15px', top: '14px', lines: 7, length: 0, width: 2, radius: 5, trail: 79}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				Fetch configuration now
+			</button>
+			to fix the issue.
+		</div>
 
-				<div class="from-group col-xs-4" ng-repeat="p in conf[key]">
-					<label for="cfg-{{p.key}}" class="col-xs-4 control-label">{{p.name}}</label>
-					<div ng-switch on="p.type" class="col-xs-8">
+		<div ng-show="_.size(config) > 1" class="text-right col-xs-3 pull-right" style="margin-right:75px;">
+			<button style="position:relative;" class="btn btn-sm btn-primary" ng-click="requestConfig()">
+				<span ng-hide="false !== cfgpromise.$resolved"
+							us-spinner="{color: '#fff', left: '15px', top: '14px', lines: 7, length: 0, width: 2, radius: 5, trail: 79}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				Fetch configuration now
+			</button>
+		</div>
+
+		<div ng-show="_.size(device.state.config._staged) > 0" class="alert alert-warning">
+			<p>
+				Configuration have not yet propagated to device, the data below
+				does necessarily reflect the state of the device.
+			</p>
+
+			<p>
+				<b>Staged config</b>
+				<ul>
+					<li ng-repeat="(k, newval) in device.state.config._staged">
+						Field <code>{{k}}</code> was set to <code>{{newval}}</code>
+					</li>
+				</ul>
+		</div>
+
+		<form name="configForm" class="devconfig form-horizontal" role="form"
+			ng-submit="update(config)"
+		  ng-hide="_.size(config) <= 1"
+			ng-init="conf = _.groupBy(params, 'group');
+			names = {device: 'Device',
+			         gpio: 'IO functions',
+			         rf: 'Radio network',
+			         cluster: 'Clustering',
+			         uart: 'UART',
+			         misc: 'General'}">
+
+			<div ng-repeat="key in ['device', 'gpio', 'rf', 'cluster', 'uart', 'misc']"
+			     class="row">
+				<h3>{{names[key]}}</h3>
+
+				<div ng-if="undefined !== device.state.config[p.key]"
+				     ng-class="{'has-warning': undefined !== device.state.config._staged[p.key],
+												'has-error': configForm[p.key].$invalid}"
+				     class="form-group col-xs-6" ng-repeat="p in conf[key]">
+					<label for="cfg-{{p.key}}" class="col-xs-5 control-label">{{p.name}}</label>
+					<div ng-switch on="p.type" class="col-xs-7">
 						<div ng-switch-when="enum">
-								<select class="form-control">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
+								<select ng-model="config[p.key]"
+								        ng-change="diff"
+								        class="form-control">
+									<option ng-repeat="(k,v) in enums[p.key]"
+									        ng-selected="k == config[p.key]"
+									        value="{{k}}">{{v}}</option>
 								</select>
 						</div>
 
-						<input ng-switch-when="switch" ng-model="device.state.config[p.key]"
-						       type="checkbox" name="cfg-{{p.key}}" id="cfg-{{p.key}}" />
+						<div ng-switch-when="switch" class="onoffswitch">
+							<input ng-model="config[p.key]"
+							       ng-change="diff(config)"
+							       class="onoffswitch-checkbox"
+							       type="checkbox"
+							       dynamic-name="p.key"
+							       id="cfg-{{p.key}}" />
+							<label class="onoffswitch-label" for="cfg-{{p.key}}">
+									<div class="onoffswitch-inner"></div>
+									<div class="onoffswitch-switch"></div>
+							</label>
+						</div>
 
 						<div ng-switch-when="mask">Mask</div>
 						<div ng-switch-when="list">List</div>
+						<div ng-switch-when="range" ng-class="{'input-group': p.suffix, 'btn-group': p.suffix}"
+						     class="range">
+							<input ng-model="config[p.key]"
+							       ng-change="diff(config)"
+							       type="number"
+							       class="form-control btn-group"
+						         placeholder="{{p.default}}"
+							       dynamic-name="p.key"
+							       id="p.key"
+							       min="{{p.range[0]}}"
+							       max="{{p.range[1]}}"
+							       ng-disabled="p.ro"}} />
+							<span ng-if="p.suffix" class="input-group-addon">{{p.suffix}}</span>
 
-<style type="text/css">
-.input-group.range input[type=text] { width: 35% }
-.input-group.range input[type=range] { width: 65% }
-</style>
-						<div ng-switch-when="range" class="range input-group btn-group">
-							<input ng-model="device.state.config[p.key]"
-							       type="range" class="form-control btn-group"
-							       name="cfg-{{p.key}}" id="cfg-{{p.key}}" {{p.ro && "disabled"}} />
-							<input ng-model="device.state.config[p.key]"
-							       type="text" class="form-control btn-group"
-							       name="cfg-{{p.key}}" id="cfg-{{p.key}}" {{p.ro && "disabled"}} />
-							<span ng-show="p.suffix" class="input-group-addon">{{p.suffix}}</span>
 						</div>
 
-						<input ng-switch-when="text" ng-model="device.state.config[p.key]"
-						       type="text" class="form-control"
-						       name="cfg-{{p.key}}" id="cfg-{{p.key}}" />
+						<input ng-switch-when="text"
+						       ng-model="config[p.key]"
+							     ng-change="diff(config)"
+						       type="text" class="form-control" ng-disabled="p.ro"
+						       dynamic-name="p.key" id="cfg-{{p.key}}"
+						       placeholder="{{p.default}}" />
 
 						<div ng-switch-default>default: {{p.type}}</div>
 					</div>
+					<div ng-if="'range' === p.type && configForm[p.key].$invalid" class="col-xs-7 pull-right help-block">
+						Value must be in range <code>{{p.range[0]}}</code> to <code>{{p.range[1]}}</code>
+						<i>(default <code>{{p.default}}</code>)</i>
+					</div>
+					<div ng-if="device.state.config._staged[p.key]" class="col-xs-7 pull-right help-block">
+						Value changed, but no acknowledgement received
+					</div>
 				</div>
+			</div>
 
+			<hr />
+			<div class="col-md-4 pull-right text-right">
+ 				<button ng-disabled="configForm.$invalid" type="submit" class="btn btn-primary">Update config</button>
+ 				<button ng-click="reset()" type="button" class="btn btn-warning">Reset form</button>
+				<p ng-show="configForm.$invalid" style="display: inline-block; margin-top: 1em;" class="alert alert-danger"><i>Config contains errors, please validate</i></p>
 			</div>
 		</form>
+
+		<div class="alert alert-info col-md-8">
+			<b>The following changes will be applied:</b>
+
+			<p ng-show="0 === _.size(patch)"><i>Nothing to update</i></p>
+
+			<ul ng-show="_.size(patch) > 0">
+				<li ng-repeat="(k, newval) in patch">
+					Updating <code>{{k}}</code> from <code>{{newval}}</code> to <code>{{device.state.config[k]}}</code>
+				</li>
+			</ul>
+		</div>

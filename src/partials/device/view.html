@@ -53,8 +53,8 @@
 						{{device['state'].config.hw_version}}
 				</span>
 				<span ng-hide="device['state'].config.hw_version">
-						Unknown <button style="color: #555;">
-							fetch config
+						Unknown <button style="color: #555;" ng-click="loadbar(requestConfig())">
+							Fetch config
 							<span class="small glyphicon glyphicon-refresh"/>
 						</button>
 				</span>
@@ -66,8 +66,8 @@
 						{{device['state'].config.fw_version}}
 				</span>
 				<span ng-hide="device['state'].config.fw_version">
-						Unknown <button style="color: #555;">
-							fetch config
+						Unknown <button style="color: #555;" ng-click="loadbar(requestConfig())">
+							Fetch config
 							<span class="small glyphicon glyphicon-refresh"/>
 						</button>
 				</span>
@@ -92,9 +92,7 @@
 		<div class="clearfix">&nbsp;</div>
 
 		<div class="pull-right">
-			<button ng-click="device.$update({network: net.key})"  class="btn btn-primary" ng-disabled="false == _changed">Save changes</button>
+			<button ng-click="updateDevice(device)"  class="btn btn-primary" ng-disabled="false == _changed">Save changes</button>
 		</div>
-
-		<pre>{{device}}</pre>
 	</form>
 
