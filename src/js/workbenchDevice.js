@@ -116,7 +116,7 @@ angular.module('workbenchDevice', ['ngRoute'])
 			loadbar(p);
 			$scope.message.cmd_number = ($scope.message.cmd_number + 1) % 255;
 			p.then(function() {
-				$scope.msg.success = "Message was successfully sent";
+				$scope.msg.success = "Message was successfully delivered to the server";
 			});
 
 			return p;
@@ -130,7 +130,7 @@ angular.module('workbenchDevice', ['ngRoute'])
 
 			p.then(function() {
 					$scope.cfgpromise = {'$resolved': true};
-					$scope.msg.success = "Message was sent, waiting for response from device (may take long time).";
+					$scope.msg.success = "Message was delivered to the server, waiting for response from device (may take long time).";
 				}, function() {$scope.cfgpromise = {'$resolved': true};});
 
 			return p;
