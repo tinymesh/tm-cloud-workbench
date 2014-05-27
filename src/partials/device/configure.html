@@ -375,7 +375,7 @@ rf_tamper_alarm, rf_mac_rnd_mask_1, rf_mac_rnd_mask_2
 					<div ng-switch on="p.type" class="col-xs-7">
 						<div ng-switch-when="enum">
 								<select ng-model="config[p.key]"
-								        ng-change="diff"
+								        ng-change="diff(config)"
 								        class="form-control">
 									<option ng-repeat="(k,v) in enums[p.key]"
 									        ng-selected="k == config[p.key]"
