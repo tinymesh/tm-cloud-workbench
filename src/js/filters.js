@@ -9,34 +9,16 @@ angular.module('workbenchFilters', [])
 			var buf;
 			bigendian = bigendian || false;
 
+			addr = _.filter(("00000000" + parseInt(val, 10).toString(16))
+					.substr(-8)
+					.split(/(..)/), function(x) { return x !== ''; });
 			switch (opts.encoding || "hex") {
 				case "hex":
-					buf = ["00", "00", "00", "00"];
-					_.each(_.filter(parseInt(val, 10).toString(16).split(/(..)/),
-							function(x) { return x !== ''; }),
-						function(x) {
-							if (bigendian) {
-								buf.push(("0" + x).substr(-2));
-							} else {
-								buf.unshift(("0" + x).substr(-2));
-							}
-						});
-
-					return (bigendian ? buf.slice(-4, 7) : buf.slice(0, 4)).join(":");
+					return (bigendian ? addr : addr.reverse()).join(":");
 
 				case "bytes":
-					buf = [0, 0, 0, 0];
-					_.each(_.filter(parseInt(val, 10).toString(16).split(/(..)/),
-							function(x) { return x !== ''; }),
-						function(x) {
-							if (bigendian) {
-								buf.push(parseInt(x, 16));
-							} else {
-								buf.unshift(parseInt(x, 16));
-							}
-						});
-
-					return (bigendian ? buf.slice(-4, 7) : buf.slice(0, 4)).join(".");
+					addr = _.map(addr, function(x) { return parseInt(x, 16); });
+					return (bigendian ? addr : addr.reverse()).join('.');
 
 				default:
 					return val;
