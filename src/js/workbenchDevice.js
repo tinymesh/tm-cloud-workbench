@@ -36,7 +36,7 @@ angular.module('workbenchDevice', ['ngRoute'])
 
 			var params = {
 				network: $routeParams.network,
-				key: $routeParams.device
+				id: $routeParams.device
 			};
 
 			// now this is a fucking shit way of doing partial updates...
