@@ -335,7 +335,7 @@ label[for=step] {
 		</div>
 		<div class="row actions">
 			<div class="col-md-12">
-				<button ng-click="run([network.key, device.key])"
+				<button ng-click="run([net.key, device.key])"
 					class="pull-right btn btn-primary">Query</button>
 				<button class="pull-right btn btn-warning">Clear query</button>
 
@@ -349,9 +349,9 @@ label[for=step] {
 <div ng-init="subtab = subtab || 'table'">
 	<div class="col-xs-3">
 		<ul style="border-right: 1px solid #eee" class="nav nav-stacked nav-pills">
-			<li ng-class="{active: 'table' == subtab}"><a ng-href="#/device/{{network.key}}/{{device.key}}/query">Table</a></li>
+			<li ng-class="{active: 'table' == subtab}"><a ng-href="#/device/{{net.key}}/{{device.key}}/query">Table</a></li>
 			<li ng-class="{active: 'graph' == subtab}">
-				<a ng-href="#/device/{{network.key}}/{{device.key}}/query/graph">Graph</a>
+				<a ng-href="#/device/{{net.key}}/{{device.key}}/query/graph">Graph</a>
 				<form id="side_panel">
 						<section>
 							<div id="renderer_form" class="toggler">
